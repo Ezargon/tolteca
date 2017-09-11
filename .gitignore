@@ -528,7 +528,7 @@
 /templates/system/*
 /templates/index.html
 /tmp/*
-/configuration.php
+configuration.php
 /index.php
 /joomla.xml
 /*.txt
