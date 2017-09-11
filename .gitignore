@@ -1,5 +1,6 @@
 /.gitignore
 /.htaccess
+/configuration.php
 /administrator/cache/*
 /administrator/components/com_admin/*
 /administrator/components/com_ajax/*
@@ -524,11 +525,9 @@
 /plugins/user/index.html
 /plugins/index.html
 /templates/beez3/*
-/templates/protostar/*
 /templates/system/*
 /templates/index.html
 /tmp/*
-configuration.php
 /index.php
 /joomla.xml
 /*.txt
