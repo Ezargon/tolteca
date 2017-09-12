@@ -4,7 +4,7 @@
  *
  * @package		Joomla.Plugin
  * @subpackage	Fabrik.visualization.calendar
- * @copyright	Copyright (C) 2005-2013 fabrikar.com - All rights reserved.
+ * @copyright	Copyright (C) 2005-2016  Media A-Team, Inc. - All rights reserved.
  * @license		GNU/GPL http://www.gnu.org/copyleft/gpl.html
  */
 
@@ -28,7 +28,7 @@ $row = $this->row;
 		<?php if ($this->canAdd)
 		{
 		?>
-		<a href="#" class="addEventButton" title="Add an event"><?php echo JText::_('PLG_VISUALIZATION_CALENDAR_ADD') ?></a>
+		<a href="#" class="addEventButton" title="Add an event"><?php echo FText::_('PLG_VISUALIZATION_CALENDAR_ADD') ?></a>
 	<?php }
 	?>
 	<?php if ($row->intro_text != '')

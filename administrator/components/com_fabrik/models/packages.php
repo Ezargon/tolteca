@@ -4,7 +4,7 @@
  *
  * @package     Joomla.Administrator
  * @subpackage  Fabrik
- * @copyright   Copyright (C) 2005-2013 fabrikar.com - All rights reserved.
+ * @copyright   Copyright (C) 2005-2016  Media A-Team, Inc. - All rights reserved.
  * @license     GNU/GPL http://www.gnu.org/copyleft/gpl.html
  * @since       1.6
  */
@@ -174,7 +174,7 @@ class FabrikAdminModelPackages extends FabModelList
 			}
 			else
 			{
-				$i->file = JText::_('COM_FABRIK_EXPORT_PACKAGE_TO_CREATE_ZIP');
+				$i->file = FText::_('COM_FABRIK_EXPORT_PACKAGE_TO_CREATE_ZIP');
 			}
 		}
 

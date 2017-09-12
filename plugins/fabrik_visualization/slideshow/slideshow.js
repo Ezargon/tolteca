@@ -1,7 +1,7 @@
 /**
  * Visualization Slideshow
  *
- * @copyright: Copyright (C) 2005-2013, fabrikar.com - All rights reserved.
+ * @copyright: Copyright (C) 2005-2016  Media A-Team, Inc. - All rights reserved.
  * @license:   GNU/GPL http://www.gnu.org/copyleft/gpl.html
  */
 
@@ -42,6 +42,20 @@ var FbSlideshowViz = new Class({
 		case 4:
 			this.slideshow = new Slideshow.Fold(this.options.html_id, this.options.slideshow_data, opts);
 			break;
+		}
+
+		this.mediaScan();
+	},
+
+	mediaScan: function () {
+		if (typeof(Slimbox) !== 'undefined') {
+			Slimbox.scanPage();
+		}
+		if (typeof(Lightbox) !== 'undefined') {
+			Lightbox.init();
+		}
+		if (typeof(Mediabox) !== 'undefined') {
+			Mediabox.scanPage();
 		}
 	}
 });

@@ -4,7 +4,7 @@
  *
  * @package     Joomla.Plugin
  * @subpackage  Fabrik.list.php
- * @copyright   Copyright (C) 2005-2013 fabrikar.com - All rights reserved.
+ * @copyright   Copyright (C) 2005-2016  Media A-Team, Inc. - All rights reserved.
  * @license     GNU/GPL http://www.gnu.org/copyleft/gpl.html
  */
 
@@ -43,7 +43,7 @@ class PlgFabrik_ListPhp extends plgFabrik_List
 
 		if (!empty($args))
 		{
-			$heading = JArrayHelper::getValue($args[0], 'heading');
+			$heading = FArrayHelper::getValue($args[0], 'heading');
 		}
 
 		if ($heading)
@@ -70,7 +70,7 @@ class PlgFabrik_ListPhp extends plgFabrik_List
 
 		if (FabrikWorker::j3() && $img === 'php.png')
 		{
-			$img = 'lightning.png';
+			$img = 'lightning';
 		}
 
 		return $img;
@@ -128,7 +128,9 @@ class PlgFabrik_ListPhp extends plgFabrik_List
 		if ($file == -1 || $file == '')
 		{
 			$code = $params->get('table_php_code');
-			@eval($code);
+			@trigger_error('');
+			FabrikHelperHTML::isDebug() ? eval($code) : @eval($code);
+			FabrikWorker::logEval(false, 'Eval exception : list php plugin : %s');
 		}
 		else
 		{
@@ -160,7 +162,7 @@ class PlgFabrik_ListPhp extends plgFabrik_List
 		else
 		{
 			$params = $this->getParams();
-			$msg = $params->get('table_php_msg', JText::_('PLG_LIST_PHP_CODE_RUN'));
+			$msg = $params->get('table_php_msg', FText::_('PLG_LIST_PHP_CODE_RUN'));
 
 			return $msg;
 		}
@@ -180,9 +182,20 @@ class PlgFabrik_ListPhp extends plgFabrik_List
 		$opts = $this->getElementJSOptions();
 		$params = $this->getParams();
 		$opts->js_code = $params->get('table_php_js_code', '');
+		$opts->requireChecked = (bool) $params->get('table_php_require_checked', '1');
 		$opts = json_encode($opts);
-		$this->jsInstance = "new FbListPHP($opts)";
+		$this->jsInstance = "new FbListPhp($opts)";
 
 		return true;
+	}
+
+	/**
+	 * Load the AMD module class name
+	 *
+	 * @return string
+	 */
+	public function loadJavascriptClassName_result()
+	{
+		return 'FbListPHP';
 	}
 }

@@ -4,12 +4,14 @@
  *
  * @package     Joomla
  * @subpackage  Fabrik
- * @copyright   Copyright (C) 2005-2013 fabrikar.com - All rights reserved.
+ * @copyright   Copyright (C) 2005-2016  Media A-Team, Inc. - All rights reserved.
  * @license     GNU/GPL http://www.gnu.org/copyleft/gpl.html
  */
 
 // No direct access
 defined('_JEXEC') or die('Restricted access');
+
+use Joomla\Utilities\ArrayHelper;
 
 jimport('joomla.application.component.view');
 
@@ -84,16 +86,16 @@ class FabrikAdminViewPackage extends JViewLegacy
 		}
 
 		$this->addToolbar();
-		$canvas = JArrayHelper::getValue($this->item->params, 'canvas', array());
+		$canvas = FArrayHelper::getValue($this->item->params, 'canvas', array());
 		$blocks = new stdClass;
-		$b = JArrayHelper::getValue($canvas, 'blocks', array());
-		$blocks->form = JArrayHelper::getValue($b, 'form', array());
-		$blocks->list = JArrayHelper::getValue($b, 'list', array());
-		$blocks->visualization = JArrayHelper::getValue($b, 'visualization', array());
+		$b = FArrayHelper::getValue($canvas, 'blocks', array());
+		$blocks->form = FArrayHelper::getValue($b, 'form', array());
+		$blocks->list = FArrayHelper::getValue($b, 'list', array());
+		$blocks->visualization = FArrayHelper::getValue($b, 'visualization', array());
 
-		$opts = JArrayHelper::getvalue($canvas, 'options', array());
+		$opts = ArrayHelper::getvalue($canvas, 'options', array());
 		$d = new stdClass;
-		$layout = JArrayHelper::getValue($canvas, 'layout', $d);
+		$layout = FArrayHelper::getValue($canvas, 'layout', $d);
 		$document = JFactory::getDocument();
 
 		$opts = new stdClass;
@@ -134,7 +136,7 @@ class FabrikAdminViewPackage extends JViewLegacy
 		$isNew = ($this->item->id == 0);
 		$checkedOut	= !($this->item->checked_out == 0 || $this->item->checked_out == $user->get('id'));
 		$canDo = FabrikAdminHelper::getActions($this->state->get('filter.category_id'));
-		JToolBarHelper::title($isNew ? JText::_('COM_FABRIK_MANAGER_PACKAGE_NEW') : JText::_('COM_FABRIK_MANAGER_PACKAGE_EDIT') . ' "' . $this->item->label . '"', 'package.png');
+		JToolBarHelper::title($isNew ? FText::_('COM_FABRIK_MANAGER_PACKAGE_NEW') : FText::_('COM_FABRIK_MANAGER_PACKAGE_EDIT') . ' "' . $this->item->label . '"', 'box-add');
 
 		if ($isNew)
 		{
@@ -176,6 +178,6 @@ class FabrikAdminViewPackage extends JViewLegacy
 		}
 
 		JToolBarHelper::divider();
-		JToolBarHelper::help('JHELP_COMPONENTS_FABRIK_PACKAGE_EDIT', false, JText::_('JHELP_COMPONENTS_FABRIK_PACKAGE_EDIT'));
+		JToolBarHelper::help('JHELP_COMPONENTS_FABRIK_PACKAGE_EDIT', false, FText::_('JHELP_COMPONENTS_FABRIK_PACKAGE_EDIT'));
 	}
 }

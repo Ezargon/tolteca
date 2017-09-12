@@ -4,12 +4,15 @@
  *
  * @package     Joomla
  * @subpackage  Fabrik
- * @copyright   Copyright (C) 2005-2013 fabrikar.com - All rights reserved.
+ * @copyright   Copyright (C) 2005-2016  Media A-Team, Inc. - All rights reserved.
  * @license     GNU/GPL http://www.gnu.org/copyleft/gpl.html
  */
 
 // No direct access
 defined('_JEXEC') or die('Restricted access');
+
+use Joomla\Registry\Registry;
+use Joomla\Utilities\ArrayHelper;
 
 jimport('joomla.application.component.model');
 
@@ -21,7 +24,6 @@ require_once JPATH_SITE . '/components/com_fabrik/models/plugin.php';
  * @package  Fabrik
  * @since    3.0
  */
-
 class PlgFabrik_Validationrule extends FabrikPlugin
 {
 	/**
@@ -34,7 +36,7 @@ class PlgFabrik_Validationrule extends FabrikPlugin
 	/**
 	 * Validation rule's element model
 	 *
-	 * @var JModel
+	 * @var PlgFabrik_Element
 	 */
 	public $elementModel = null;
 
@@ -53,7 +55,6 @@ class PlgFabrik_Validationrule extends FabrikPlugin
 	 *
 	 * @return  bool  true if validation passes, false if fails
 	 */
-
 	public function validate($data, $repeatCounter)
 	{
 		return true;
@@ -68,7 +69,6 @@ class PlgFabrik_Validationrule extends FabrikPlugin
 	 *
 	 * @return  string	original or replaced data
 	 */
-
 	public function replace($data, $repeatCounter)
 	{
 		return $data;
@@ -79,11 +79,11 @@ class PlgFabrik_Validationrule extends FabrikPlugin
 	 * if evaluation is true then the validation rule is applied
 	 *
 	 * @param   string  $data  Elements data
+	 * @param   int     $repeatCounter  Repeat group counter
 	 *
 	 * @return  bool	apply validation
 	 */
-
-	public function shouldValidate($data)
+	public function shouldValidate($data, $repeatCounter = 0)
 	{
 		if (!$this->shouldValidateIn())
 		{
@@ -96,7 +96,7 @@ class PlgFabrik_Validationrule extends FabrikPlugin
 		}
 
 		$params = $this->getParams();
-		$condition = $params->get($this->pluginName . '-validation_condition');
+		$condition = trim($params->get($this->pluginName . '-validation_condition'));
 
 		if ($condition == '')
 		{
@@ -104,9 +104,45 @@ class PlgFabrik_Validationrule extends FabrikPlugin
 		}
 
 		$w = new FabrikWorker;
-		$condition = trim($w->parseMessageForPlaceHolder($condition));
+		$groupModel = $this->elementModel->getGroupModel();
+		$inRepeat = $groupModel->canRepeat();
+
+		if ($inRepeat)
+		{
+			// Replace repeat data array with current repeatCounter value to ensure placeholders work.
+			// E.g. return {'table___field}' == '1';
+			$f = JFilterInput::getInstance();
+			$post = $f->clean($_REQUEST, 'array');
+			$groupElements = $groupModel->getMyElements();
+
+			foreach ($groupElements as $element)
+			{
+				$name = $element->getFullName(true, false);
+				$elementData = ArrayHelper::getValue($post, $name, array());
+				// things like buttons don't submit data, so check for empty
+				if (!empty($elementData))
+				{
+					$post[$name]          = ArrayHelper::getValue($elementData, $repeatCounter, '');
+					$rawData              = ArrayHelper::getValue($post, $name . '_raw', array());
+					$post[$name . '_raw'] = ArrayHelper::getValue($rawData, $repeatCounter, '');
+				}
+				else{
+					$post[$name] = '';
+					$post[$name . '_raw'] = '';
+				}
+			}
+		}
+		else
+		{
+			$post = null;
+		}
+
+		// unused by us, but available for user's to use
 		$formModel = $this->elementModel->getFormModel();
+		$condition = trim($w->parseMessageForPlaceHolder($condition, $post));
+		FabrikWorker::clearEval();
 		$res = @eval($condition);
+		FabrikWorker::logEval($res, 'Caught exception on eval in validation condition : %s');
 
 		if (is_null($res))
 		{
@@ -117,6 +153,26 @@ class PlgFabrik_Validationrule extends FabrikPlugin
 	}
 
 	/**
+	 * Checks in/on to see if this validation is applicable
+	 *
+	 * @return  bool	apply validation
+	 */
+	public function canValidate()
+	{
+		if (!$this->shouldValidateIn())
+		{
+			return false;
+		}
+
+		if (!$this->shouldValidateOn())
+		{
+			return false;
+		}
+
+		return true;
+	}
+
+	/**
 	 * Should the validation be run - based on whether in admin/front end
 	 *
 	 * @return boolean
@@ -124,12 +180,9 @@ class PlgFabrik_Validationrule extends FabrikPlugin
 	protected function shouldValidateIn()
 	{
 		$params = $this->getParams();
-		$name = $this->elementModel->getFullName();
-
-		$app = JFactory::getApplication();
 		$in = $params->get('validate_in', 'both');
 
-		$admin = $app->isAdmin();
+		$admin = $this->app->isAdmin();
 
 		if ($in === 'both')
 		{
@@ -157,21 +210,20 @@ class PlgFabrik_Validationrule extends FabrikPlugin
 	protected function shouldValidateOn()
 	{
 		$params = $this->getParams();
-		$app = JFactory::getApplication();
 		$on = $params->get('validation_on', 'both');
-		$rowid = $this->elementModel->getFormModel()->getRowId();
+		$rowId = $this->elementModel->getFormModel()->getRowId();
 
 		if ($on === 'both')
 		{
 			return true;
 		}
 
-		if ($rowid === '' && $on === 'new')
+		if ($rowId === '' && $on === 'new')
 		{
 			return true;
 		}
 
-		if ($rowid !== '' && $on === 'edit')
+		if ($rowId !== '' && $on === 'edit')
 		{
 			return true;
 		}
@@ -184,7 +236,6 @@ class PlgFabrik_Validationrule extends FabrikPlugin
 	 *
 	 * @return  string
 	 */
-
 	public function getMessage()
 	{
 		if (isset($this->errorMsg))
@@ -200,7 +251,7 @@ class PlgFabrik_Validationrule extends FabrikPlugin
 			$v = 'COM_FABRIK_FAILED_VALIDATION';
 		}
 
-		$this->errorMsg = JText::_($v);
+		$this->errorMsg = FText::_($v);
 
 		return $this->errorMsg;
 	}
@@ -214,7 +265,6 @@ class PlgFabrik_Validationrule extends FabrikPlugin
 	 *
 	 * @return  void
 	 */
-
 	public function setMessage($msg)
 	{
 		$this->errorMsg = $msg;
@@ -231,11 +281,10 @@ class PlgFabrik_Validationrule extends FabrikPlugin
 	 *
 	 * @return  string
 	 */
-
 	public function getIcon($c = 0, $tmpl = '')
 	{
 		$name = $this->elementModel->validator->getIcon($c);
-		$i = FabrikHelperHTML::image($name, 'form', $tmpl, array('class' => $this->pluginName));
+		FabrikHelperHTML::image($name, 'form', $tmpl, array('class' => $this->pluginName));
 	}
 
 	/**
@@ -245,10 +294,10 @@ class PlgFabrik_Validationrule extends FabrikPlugin
 	 *
 	 * @return  string
 	 */
-
 	public function iconImage()
 	{
 		$plugin = JPluginHelper::getPlugin('fabrik_validationrule', $this->pluginName);
+		$elIcon = $this->params->get('icon', '');
 
 		/**
 		 * $$$ hugh - this code doesn't belong here, but am working on an issue whereby if a validation rule plugin
@@ -268,9 +317,13 @@ class PlgFabrik_Validationrule extends FabrikPlugin
 		}
 		*/
 
-		$params = new JRegistry($plugin->params);
+		if (empty($elIcon))
+		{
+			$params = new Registry($plugin->params);
+			$elIcon = $params->get('icon', 'star');
+		}
 
-		return $params->get('icon', 'star');
+		return $elIcon;
 	}
 
 	/**
@@ -281,11 +334,14 @@ class PlgFabrik_Validationrule extends FabrikPlugin
 	 *
 	 * @return  string
 	 */
-
 	public function getHoverText($c = null, $tmpl = '')
 	{
-		$name = $this->elementModel->validator->getIcon($c);
-		$i = FabrikHelperHTML::image($name, 'form', $tmpl, array('class' => $this->pluginName));
+		$i = '';
+		if ($this->params->get('show_icon', '1') === '1')
+		{
+			$name = $this->elementModel->validator->getIcon($c);
+			$i    = FabrikHelperHTML::image($name, 'form', $tmpl, array('class' => $this->pluginName));
+		}
 
 		return $i . ' ' . $this->getLabel();
 	}
@@ -295,7 +351,6 @@ class PlgFabrik_Validationrule extends FabrikPlugin
 	 *
 	 * @return  string	label
 	 */
-
 	protected function getLabel()
 	{
 		$params = $this->getParams();
@@ -303,16 +358,16 @@ class PlgFabrik_Validationrule extends FabrikPlugin
 
 		if ($tipText !== '')
 		{
-			return JText::_($tipText);
+			return FText::_($tipText);
 		}
 
 		if ($this->allowEmpty())
 		{
-			return JText::_('PLG_VALIDATIONRULE_' . JString::strtoupper($this->pluginName) . '_ALLOWEMPTY_LABEL');
+			return FText::_('PLG_VALIDATIONRULE_' . JString::strtoupper($this->pluginName) . '_ALLOWEMPTY_LABEL');
 		}
 		else
 		{
-			return JText::_('PLG_VALIDATIONRULE_' . JString::strtoupper($this->pluginName) . '_LABEL');
+			return FText::_('PLG_VALIDATIONRULE_' . JString::strtoupper($this->pluginName) . '_LABEL');
 		}
 	}
 
@@ -322,9 +377,15 @@ class PlgFabrik_Validationrule extends FabrikPlugin
 	 *
 	 * @return  bool
 	 */
-
 	protected function allowEmpty()
 	{
 		return false;
+	}
+
+	/**
+	 * Attach js validation code - runs in addition to the main validation code.
+	 */
+	public function js()
+	{
 	}
 }

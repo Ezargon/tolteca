@@ -4,7 +4,7 @@
  *
  * @package     Joomla.Plugin
  * @subpackage  Fabrik.element.dropdown
- * @copyright   Copyright (C) 2005-2013 fabrikar.com - All rights reserved.
+ * @copyright   Copyright (C) 2005-2016  Media A-Team, Inc. - All rights reserved.
  * @license     GNU/GPL http://www.gnu.org/copyleft/gpl.html
  */
 
@@ -33,7 +33,7 @@ class PlgFabrik_ElementDropdown extends PlgFabrik_ElementList
 		parent::setId($id);
 		$params = $this->getParams();
 
-		// Set elementlist params from dropdown params
+		// Set elementlist params from drop-down params
 		$params->set('allow_frontend_addto', (bool) $params->get('allow_frontend_addtodropdown', false));
 		$params->set('allowadd-onlylabel', (bool) $params->get('dd-allowadd-onlylabel', true));
 		$params->set('savenewadditions', (bool) $params->get('dd-savenewadditions', false));
@@ -48,48 +48,53 @@ class PlgFabrik_ElementDropdown extends PlgFabrik_ElementList
 	 *
 	 * @return  string	elements html
 	 */
-
 	public function render($data, $repeatCounter = 0)
 	{
 		$name = $this->getHTMLName($repeatCounter);
 		$id = $this->getHTMLId($repeatCounter);
-		$element = $this->getElement();
 		$params = $this->getParams();
 		$values = $this->getSubOptionValues();
 		$labels = $this->getSubOptionLabels();
+		$endIs = $this->getSubOptionEnDis();
 		$multiple = $params->get('multiple', 0);
-		$multisize = $params->get('dropdown_multisize', 3);
+		$multiSize = $params->get('dropdown_multisize', 3);
 		$selected = (array) $this->getValue($data, $repeatCounter);
-		$errorCSS = $this->elementError != '' ? " elementErrorHighlight" : '';
-		$boostrapClass = $params->get('bootstrap_class', '');
-		$attribs = 'class="fabrikinput inputbox input ' . $errorCSS . ' ' . $boostrapClass . '"';
 
-		if ($multiple == "1")
+		$errorCSS = $this->elementError != '' ? " elementErrorHighlight" : '';
+		$bootstrapClass = $params->get('bootstrap_class', '');
+		$advancedClass = $this->getAdvancedSelectClass();
+
+		$attributes = 'class="fabrikinput form-control inputbox input ' . $advancedClass . ' ' . $errorCSS . ' ' . $bootstrapClass . '"';
+
+		if ($multiple == '1')
 		{
-			$attribs .= ' multiple="multiple" size="' . $multisize . '" ';
+			$attributes .= ' multiple="multiple" size="' . $multiSize . '" ';
 		}
 
 		$i = 0;
 		$aRoValues = array();
 		$opts = array();
-		$optgroup = false;
+		$optGroup = false;
 
-		foreach ($values as $tmpval)
+		foreach ($values as $tmpVal)
 		{
-			if ($tmpval === '<optgroup>')
+			if ($tmpVal === '<optgroup>')
 			{
-				$optgroup = true;
+				$optGroup = true;
 			}
 
-			$tmpLabel = JArrayHelper::getValue($labels, $i);
+			$tmpLabel = FArrayHelper::getValue($labels, $i);
+			$disable = FArrayHelper::getValue($endIs, $i, false);
 
 			// For values like '1"'
-			$tmpval = htmlspecialchars($tmpval, ENT_QUOTES);
-			$opts[] = JHTML::_('select.option', $tmpval, $tmpLabel);
+			$tmpVal = htmlspecialchars($tmpVal, ENT_QUOTES);
+			$opt = JHTML::_('select.option', $tmpVal, $tmpLabel);
+			$opt->disable = $disable;
+			$opts[] = $opt;
 
-			if (in_array($tmpval, $selected))
+			if (in_array($tmpVal, $selected))
 			{
-				$aRoValues[] = $this->getReadOnlyOutput($tmpval, $tmpLabel);
+				$aRoValues[] = $this->getReadOnlyOutput($tmpVal, $tmpLabel);
 			}
 
 			$i++;
@@ -104,7 +109,7 @@ class PlgFabrik_ElementDropdown extends PlgFabrik_ElementList
 			{
 				if (!in_array($sel, $values) && $sel !== '')
 				{
-					$opts[] = JHTML::_('select.option', $sel, $sel);
+					$opts[] = JHTML::_('select.option', htmlspecialchars($sel, ENT_QUOTES), $sel);
 					$aRoValues[] = $this->getReadOnlyOutput($sel, $sel);
 				}
 			}
@@ -119,11 +124,10 @@ class PlgFabrik_ElementDropdown extends PlgFabrik_ElementList
 		$settings['list.select'] = $selected;
 		$settings['option.id'] = $id;
 		$settings['id'] = $id;
-		$settings['list.attr'] = $attribs;
+		$settings['list.attr'] = $attributes;
 		$settings['group.items'] = null;
 
-
-		if ($optgroup)
+		if ($optGroup)
 		{
 			$groupedOpts = array();
 			$groupOptLabel = '';
@@ -139,11 +143,29 @@ class PlgFabrik_ElementDropdown extends PlgFabrik_ElementList
 				$groupedOpts[$groupOptLabel][] = $opt;
 			}
 
+			// @todo JLayout list
 			$str = JHTML::_('select.groupedlist', $groupedOpts, $name, $settings);
 		}
 		else
 		{
-			$str = JHTML::_('select.genericlist', $opts, $name, $settings);
+			$layout = $this->getLayout('form');
+			$displayData = new stdClass;
+			$displayData->options = $opts;
+			$displayData->name = $name;
+
+			foreach ($selected as &$sel)
+			{
+				$sel = htmlspecialchars($sel, ENT_QUOTES);
+			}
+
+			$displayData->selected = $selected;
+			$displayData->id = $id;
+			$displayData->errorCSS = $errorCSS;
+			$displayData->multiple = $multiple;
+			$displayData->attribs = $attributes;
+			$displayData->multisize = $multiple ? $multiSize : '';
+
+			$str = $layout->render($displayData);
 		}
 
 		$str .= $this->getAddOptionFields($repeatCounter);
@@ -158,21 +180,21 @@ class PlgFabrik_ElementDropdown extends PlgFabrik_ElementList
 	 *
 	 * @return  array
 	 */
-
 	public function elementJavascript($repeatCounter)
 	{
+		$params = $this->getParams();
 		$id = $this->getHTMLId($repeatCounter);
-		$element = $this->getElement();
 		$data = $this->getFormModel()->data;
 		$arSelected = $this->getValue($data, $repeatCounter);
 		$values = $this->getSubOptionValues();
 		$labels = $this->getSubOptionLabels();
-		$params = $this->getParams();
 		$opts = $this->getElementJSOptions($repeatCounter);
 		$opts->allowadd = $params->get('allow_frontend_addtodropdown', false) ? true : false;
 		$opts->value = $arSelected;
 		$opts->defaultVal = $this->getDefaultValue($data);
 		$opts->data = (empty($values) && empty($labels)) ? array() : array_combine($values, $labels);
+		$opts->multiple = (bool) $params->get('multiple', '0') == '1';
+		$opts->advanced = $this->getAdvancedSelectClass() != '';
 		JText::script('PLG_ELEMENT_DROPDOWN_ENTER_VALUE_LABEL');
 
 		return array('FbDropdown', $id, $opts);
@@ -185,10 +207,8 @@ class PlgFabrik_ElementDropdown extends PlgFabrik_ElementList
 	 *
 	 * @return mixed
 	 */
-
 	public function getDefaultValue($data = array())
 	{
-		$params = $this->getParams();
 		$element = $this->getElement();
 
 		if (!isset($this->default))
@@ -241,20 +261,49 @@ class PlgFabrik_ElementDropdown extends PlgFabrik_ElementList
 
 	/**
 	 * Does the element consider the data to be empty
-	 * Used in isempty validation rule
+	 * Used in rendering for adding fabrikEmpty class, etc
 	 *
 	 * @param   array  $data           data to test against
 	 * @param   int    $repeatCounter  repeat group #
 	 *
 	 * @return  bool
 	 */
-
 	public function dataConsideredEmpty($data, $repeatCounter)
 	{
-		// $$$ hugh - $data seems to be an array now?
+		$data = $this->replaceLabelWithValue($data);
+
 		if (is_array($data))
 		{
-			if (empty($data[0]))
+			if (empty($data[0]) || $data[0] == "-1")
+			{
+				return true;
+			}
+		}
+		else
+		{
+			if ($data == '' || $data == '-1')
+			{
+				return true;
+			}
+		}
+
+		return false;
+	}
+
+	/**
+	 * Does the element consider the data to be empty
+	 * Used during form submission, eg. for isEmpty validation rule
+	 *
+	 * @param   array  $data           data to test against
+	 * @param   int    $repeatCounter  repeat group #
+	 *
+	 * @return  bool
+	 */
+	public function dataConsideredEmptyForValidation($data, $repeatCounter)
+	{
+		if (is_array($data))
+		{
+			if (empty($data[0]) || $data[0] == "-1")
 			{
 				return true;
 			}
@@ -277,7 +326,6 @@ class PlgFabrik_ElementDropdown extends PlgFabrik_ElementList
 	 *
 	 * @return  string	label
 	 */
-
 	protected function replaceLabelWithValue($selected)
 	{
 		$selected = (array) $selected;
@@ -287,19 +335,16 @@ class PlgFabrik_ElementDropdown extends PlgFabrik_ElementList
 			$s = str_replace("'", "", $s);
 		}
 
-		$element = $this->getElement();
-		$vals = $this->getSubOptionValues();
+		$values = $this->getSubOptionValues();
 		$labels = $this->getSubOptionLabels();
 		$return = array();
-		$aRoValues = array();
-		$opts = array();
 		$i = 0;
 
 		foreach ($labels as $label)
 		{
 			if (in_array($label, $selected))
 			{
-				$return[] = $vals[$i];
+				$return[] = $values[$i];
 			}
 
 			$i++;
@@ -317,7 +362,6 @@ class PlgFabrik_ElementDropdown extends PlgFabrik_ElementList
 	 *
 	 * @return  string
 	 */
-
 	protected function prepareFilterVal($value)
 	{
 		$values = $this->getSubOptionValues();
@@ -337,18 +381,50 @@ class PlgFabrik_ElementDropdown extends PlgFabrik_ElementList
 	/**
 	 * Get an array of element html ids and their corresponding
 	 * js events which trigger a validation.
-	 * Examples of where this would be overwritten include timedate element with time field enabled
+	 * Examples of where this would be overwritten include time date element with time field enabled
 	 *
 	 * @param   int  $repeatCounter  repeat group counter
 	 *
 	 * @return  array  html ids to watch for validation
 	 */
-
 	public function getValidationWatchElements($repeatCounter)
 	{
 		$id = $this->getHTMLId($repeatCounter);
 		$ar = array('id' => $id, 'triggerEvent' => 'change');
 
 		return array($ar);
+	}
+
+	/**
+	 * Build the filter query for the given element.
+	 * Can be overwritten in plugin - e.g. see checkbox element which checks for partial matches
+	 *
+	 * @param   string  $key            Element name in format `tablename`.`elementname`
+	 * @param   string  $condition      =/like etc.
+	 * @param   string  $value          Search string - already quoted if specified in filter array options
+	 * @param   string  $originalValue  Original filter value without quotes or %'s applied
+	 * @param   string  $type           Filter type advanced/normal/prefilter/search/querystring/searchall
+	 * @param   string  $evalFilter     evaled
+	 *
+	 * @return  string	sql query part e,g, "key = value"
+	 */
+	public function getFilterQuery($key, $condition, $value, $originalValue, $type = 'normal', $evalFilter = '0')
+	{
+		$params = $this->getParams();
+		$condition = JString::strtoupper($condition);
+		$this->encryptFieldName($key);
+
+		if ((bool) $params->get('multiple', false))
+		{
+			// Multiple select options need to be treated specially (regardless of filter type?)
+			// see http://fabrikar.com/forums/index.php?threads/how-filter-a-dropdown-element-in-the-plug-fabrik-content.42089/
+			$str = $this->filterQueryMultiValues($key, $condition, $originalValue, $evalFilter, $type);
+		}
+		else
+		{
+			$str = parent::getFilterQuery($key, $condition, $value, $originalValue, $type, $evalFilter);
+		}
+
+		return $str;
 	}
 }

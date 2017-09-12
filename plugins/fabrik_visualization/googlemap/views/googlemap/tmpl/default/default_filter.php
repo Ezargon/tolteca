@@ -4,7 +4,7 @@
  *
  * @package     Joomla.Plugin
  * @subpackage  Fabrik.visualization.googlemap
- * @copyright   Copyright (C) 2005-2013 fabrikar.com - All rights reserved.
+ * @copyright   Copyright (C) 2005-2016  Media A-Team, Inc. - All rights reserved.
  * @license     GNU/GPL http://www.gnu.org/copyleft/gpl.html
  */
 
@@ -22,14 +22,14 @@ if ($this->showFilters) : ?>
 	   <thead>
 	  	<tr>
 	  		<th><?php echo $table ?></th>
-	  		<th style="text-align:right"><a href="#" class="clearFilters"><?php echo JText::_('PLG_VISUALIZATION_GOOGLEMAP_CLEAR'); ?></a></th>
+	  		<th style="text-align:right"><a href="#" class="clearFilters"><?php echo FText::_('PLG_VISUALIZATION_GOOGLEMAP_CLEAR'); ?></a></th>
 	  	</tr>
 	  </thead>
 
 	  <tfoot>
 	  	<tr>
 	  		<th colspan="2" style="text-align:right;">
-	  			<input type="submit" class="fabrik_filter_submit button" value="<?php echo JText::_('PLG_VISUALIZATION_GOOGLEMAP_GO') ?>" />
+	  			<input type="submit" class="fabrik_filter_submit button" value="<?php echo FText::_('PLG_VISUALIZATION_GOOGLEMAP_GO') ?>" />
 	  		</th>
 	  	</tr>
 	  </tfoot>

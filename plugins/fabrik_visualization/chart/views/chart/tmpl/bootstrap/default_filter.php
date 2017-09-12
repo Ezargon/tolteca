@@ -4,7 +4,7 @@
  *
  * @package     Joomla.Plugin
  * @subpackage  Fabrik.visualization.chart
- * @copyright   Copyright (C) 2005-2013 fabrikar.com - All rights reserved.
+ * @copyright   Copyright (C) 2005-2016  Media A-Team, Inc. - All rights reserved.
  * @license     GNU/GPL http://www.gnu.org/copyleft/gpl.html
  */
 
@@ -38,9 +38,9 @@ if ($this->showFilters) : ?>
 	<tfoot>
 		<tr>
 			<th colspan="2" style="text-align:right;">
-  				<i class="icon-filter"></i>
+				<?php echo FabrikHelperHTML::icon('icon-filter'); ?>
   				<button type="submit" class="btn btn-primary">
-  					<?php echo JText::_('GO') ?>
+  					<?php echo FText::_('GO') ?>
   				</button>
 			</th>
 		</tr>

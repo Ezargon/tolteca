@@ -4,7 +4,7 @@
  *
  * @package     Joomla.Administrator
  * @subpackage  Fabrik
- * @copyright   Copyright (C) 2005-2013 fabrikar.com - All rights reserved.
+ * @copyright   Copyright (C) 2005-2016  Media A-Team, Inc. - All rights reserved.
  * @license     GNU/GPL http://www.gnu.org/copyleft/gpl.html
  * @since       3.0
  */
@@ -22,11 +22,4 @@ defined('_JEXEC') or die('Restricted access');
 		<?php endforeach; ?>
 	</ul>
 
-	<ul class="adminformlist">
-		<?php foreach ($this->form->getFieldset('cck') as $field) :?>
-		<li>
-			<?php echo $field->label; ?><?php echo $field->input; ?>
-		</li>
-		<?php endforeach; ?>
-	</ul>
 </fieldset>

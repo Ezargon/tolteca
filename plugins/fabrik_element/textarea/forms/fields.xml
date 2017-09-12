@@ -93,6 +93,15 @@
 					<option value="1">JYES</option>
 			</field>
 
+			<field name="textarea_field_type"
+			       type="list"
+			       default="TEXT"
+			       description="PLG_ELEMENT_TEXTAREA_FIELD_TYPE_DESC"
+			       label="PLG_ELEMENT_TEXTAREA_FIELD_TYPE_LABEL" >
+				<option value="TEXT">PLG_ELEMENT_TEXTAREA_FIELD_TYPE_TEXT</option>
+				<option value="MEDIUMTEXT">PLG_ELEMENT_TEXTAREA_FIELD_TYPE_MEDIUMTEXT</option>
+			</field>
+
 		</fieldset>
 
 		<fieldset label="PLG_ELEMENT_TEXTAREA_LIMIT" name="plt-textarea-limit">
@@ -158,6 +167,28 @@
 			<field type="helplink"
 				url="PLG_ELEMENT_TEXTAREA_HELP_SERVER" />
 
+			<field name="textarea-truncate-where"
+				type="radio"
+				default="0"
+				class="btn-group"
+				description="PLG_ELEMENT_TEXTAREA_TRUNCATE_WHERE_DESC"
+				label="PLG_ELEMENT_TEXTAREA_TRUNCATE_WHERE_LABEL">
+					<option value="0">JNO</option>
+					<option value="1">PLG_ELEMENT_TEXTAREA_TRUNCATE_WHERE_LIST</option>
+					<option value="2">PLG_ELEMENT_TEXTAREA_TRUNCATE_WHERE_DETAILS</option>
+					<option value="3">PLG_ELEMENT_TEXTAREA_TRUNCATE_WHERE_BOTH</option>
+			</field>
+			
+			<field name="textarea-truncate-html"
+				type="radio"
+				default="0"
+				class="btn-group"
+				description="PLG_ELEMENT_TEXTAREA_TRUNCATE_HTML_DESC"
+				label="PLG_ELEMENT_TEXTAREA_TRUNCATE_HTML_LABEL">
+					<option value="0">JNO</option>
+					<option value="1">JYES</option>
+			</field>
+			
 			<field name="textarea-truncate"
 				type="text"
 				class="input-mini"

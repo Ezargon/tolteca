@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<extension type="file" version="2.5" method="upgrade">
+	<name>JCE - Spanish</name>
+	<version>2.6.19</version>
+	<creationDate>2017-09-12</creationDate>
+	<author>JCE Transifex Spanish Team</author>
+	<authorEmail>info@joomlacontenteditor.net</authorEmail>
+	<authorUrl>https://www.transifex.com/projects/p/jce/language/es-ES/</authorUrl>
+	<copyright>© 2017 Widget Factory Limited</copyright>
+	<license>http://www.gnu.org/licenses/gpl-2.0.html GNU/GPL</license>
+	<url>https://www.transifex.com/projects/p/jce/language/es-ES/</url>
+	<description>Spanish Language Pack for JCE 2.6.19</description>
+	<fileset>
+		<files folder="administrator/language/es-ES" target="administrator/language/es-ES">
+				<file>es-ES.com_jce.ini</file>
+		<file>es-ES.com_jce.menu.ini</file>
+		<file>es-ES.com_jce_pro.sys.ini</file>
+		<file>es-ES.com_jce.sys.ini</file>
+		<file>es-ES.mod_jce_quickicon.ini</file>
+		<file>es-ES.pkg_jce_pro.sys.ini</file>
+		<file>es-ES.pkg_jce.sys.ini</file>
+		<file>es-ES.plg_content_jce.ini</file>
+		<file>es-ES.plg_content_jce.sys.ini</file>
+		<file>es-ES.plg_editors_jce.ini</file>
+		<file>es-ES.plg_editors_jce.sys.ini</file>
+		<file>es-ES.plg_extension_jce.ini</file>
+		<file>es-ES.plg_extension_jce.sys.ini</file>
+		<file>es-ES.plg_installer_jce.ini</file>
+		<file>es-ES.plg_installer_jce.sys.ini</file>
+		<file>es-ES.plg_quickicon_jce.ini</file>
+		<file>es-ES.plg_quickicon_jce.sys.ini</file>
+		<file>es-ES.plg_system_jce.ini</file>
+		<file>es-ES.plg_system_jcemediabox.ini</file>
+		<file>es-ES.plg_system_jcemediabox.sys.ini</file>
+		<file>es-ES.plg_system_jce.sys.ini</file>
+		</files>
+		<files folder="language/es-ES" target="language/es-ES">
+				<file>es-ES.com_jce.ini</file>
+		<file>es-ES.com_jce_pro.ini</file>
+		</files>
+  	</fileset>
+</extension>

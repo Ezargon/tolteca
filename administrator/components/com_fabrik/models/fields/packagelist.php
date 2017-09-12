@@ -4,7 +4,7 @@
  *
  * @package     Joomla
  * @subpackage  Form
- * @copyright   Copyright (C) 2005-2013 fabrikar.com - All rights reserved.
+ * @copyright   Copyright (C) 2005-2016  Media A-Team, Inc. - All rights reserved.
  * @license     GNU/GPL http://www.gnu.org/copyleft/gpl.html
  */
 
@@ -53,7 +53,7 @@ class JFormFieldPackageList extends JFormFieldList
 		$rows = $db->loadObjectList();
 		$o = new stdClass;
 		$o->value = 0;
-		$o->text = JText::_('COM_FABRIK_NO_PACKAGE');
+		$o->text = FText::_('COM_FABRIK_NO_PACKAGE');
 		array_unshift($rows, $o);
 
 		return $rows;

@@ -36,7 +36,7 @@
 
 			<field name="link_target"
 				type="list"
-				default="0" description="PLG_ELEMENT_LINK_TARGET_DESC"
+				default="_self" description="PLG_ELEMENT_LINK_TARGET_DESC"
 				label="PLG_ELEMENT_LINK_TARGET_LABEL" >
 					<option value="_self">PLG_ELEMENT_LINK_SELF</option>
 					<option value="_blank">PLG_ELEMENT_LINK_BLANK</option>
@@ -68,8 +68,8 @@
 			<field name="link_title"
 				type="text"
 				default=""
-				description="PLG_LINK_FIELD_LINK_TITLE_DESC"
-				label="PLG_LINK_FIELD_LINK_TITLE_LABEL" />
+				description="PLG_ELEMENT_LINK_TITLE_DESC"
+				label="PLG_ELEMENT_LINK_TITLE_LABEL" />
 
 			<field name="link_smart_link"
 				type="radio"
@@ -78,6 +78,15 @@
 				label="PLG_ELEMENT_LINK_SMART_LINK_LABEL" >
 					<option value="0">JNO</option>
 					<option value="1">JYES</option>
+			</field>
+
+			<field name="link_normalize"
+			       type="radio"
+			       class="btn-group"
+			       default="0" description="PLG_ELEMENT_LINK_NORMALIZE_DESC"
+			       label="PLG_ELEMENT_LINK_NORMALIZE_LABEL" >
+				<option value="0">JNO</option>
+				<option value="1">JYES</option>
 			</field>
 
 			<field name="maxlength"

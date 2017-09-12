@@ -4,7 +4,7 @@
  *
  * @package     Joomla.Administrator
  * @subpackage  Fabrik
- * @copyright   Copyright (C) 2005-2013 fabrikar.com - All rights reserved.
+ * @copyright   Copyright (C) 2005-2016  Media A-Team, Inc. - All rights reserved.
  * @license     GNU/GPL http://www.gnu.org/copyleft/gpl.html
  * @since       1.6
  */
@@ -21,7 +21,6 @@ require_once 'fabcontrolleradmin.php';
  * @subpackage  Fabrik
  * @since       1.6
  */
-
 class FabrikAdminControllerConnections extends FabControllerAdmin
 {
 	/**
@@ -47,7 +46,6 @@ class FabrikAdminControllerConnections extends FabControllerAdmin
 	 *
 	 * @since	1.6
 	 */
-
 	public function __construct($config = array())
 	{
 		parent::__construct($config);
@@ -64,7 +62,6 @@ class FabrikAdminControllerConnections extends FabControllerAdmin
 	 *
 	 * @return  J model
 	 */
-
 	public function &getModel($name = 'Connection', $prefix = 'FabrikAdminModel')
 	{
 		$model = parent::getModel($name, $prefix, array('ignore_request' => true));
@@ -79,11 +76,10 @@ class FabrikAdminControllerConnections extends FabControllerAdmin
 	 *
 	 * @return null
 	 */
-
 	public function setDefault()
 	{
 		// Check for request forgeries
-		JSession::checkToken() or die(JText::_('JINVALID_TOKEN'));
+		JSession::checkToken() or die(FText::_('JINVALID_TOKEN'));
 		$app = JFactory::getApplication();
 		$input = $app->input;
 
@@ -91,16 +87,16 @@ class FabrikAdminControllerConnections extends FabControllerAdmin
 		$cid = $input->get('cid', array(), 'array');
 		$data = array('setDefault' => 1, 'unsetDefault' => 0);
 		$task = $this->getTask();
-		$value = JArrayHelper::getValue($data, $task, 0, 'int');
+		$value = FArrayHelper::getValue($data, $task, 0, 'int');
 
 		if ($value == 0)
 		{
-			$this->setMessage(JText::_('COM_FABRIK_CONNECTION_CANT_UNSET_DEFAULT'));
+			$this->setMessage(FText::_('COM_FABRIK_CONNECTION_CANT_UNSET_DEFAULT'));
 		}
 
 		if (empty($cid))
 		{
-			JError::raiseWarning(500, JText::_($this->text_prefix . '_NO_ITEM_SELECTED'));
+			JError::raiseWarning(500, FText::_($this->text_prefix . '_NO_ITEM_SELECTED'));
 		}
 		else
 		{
@@ -118,7 +114,7 @@ class FabrikAdminControllerConnections extends FabControllerAdmin
 				}
 				else
 				{
-					$this->setMessage(JText::_('COM_FABRIK_CONNECTION_SET_DEFAULT'));
+					$this->setMessage(FText::_('COM_FABRIK_CONNECTION_SET_DEFAULT'));
 				}
 			}
 		}

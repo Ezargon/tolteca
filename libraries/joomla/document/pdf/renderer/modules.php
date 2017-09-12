@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  Document
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -12,9 +12,7 @@ defined('JPATH_PLATFORM') or die;
 /**
  * JDocument Modules renderer
  *
- * @package     Joomla.Platform
- * @subpackage  Document
- * @since       11.1
+ * @since  3.5
  */
 class JDocumentRendererModules extends JDocumentRenderer
 {
@@ -27,25 +25,23 @@ class JDocumentRendererModules extends JDocumentRenderer
 	 *
 	 * @return  string  The output of the script
 	 *
-	 * @since   11.1
+	 * @since   3.5
 	 */
 	public function render($position, $params = array(), $content = null)
 	{
 		$renderer = $this->_doc->loadRenderer('module');
-		$buffer = '';
+		$buffer   = '';
 
-		$app = JFactory::getApplication();
-		$frontediting = $app->get('frontediting', 1);
-		$user = JFactory::getUser();
-
-		$canEdit = $user->id && $frontediting && !($app->isAdmin() && $frontediting < 2) && $user->authorise('core.edit', 'com_modules');
-		$menusEditing = ($frontediting == 2) && $user->authorise('core.edit', 'com_menus');
+		$app          = JFactory::getApplication();
+		$user         = JFactory::getUser();
+		$frontediting = ($app->isClient('site') && $app->get('frontediting', 1) && !$user->guest);
+		$menusEditing = ($app->get('frontediting', 1) == 2) && $user->authorise('core.edit', 'com_menus');
 
 		foreach (JModuleHelper::getModules($position) as $mod)
 		{
 			$moduleHtml = $renderer->render($mod, $params, $content);
 
-			if ($app->isSite() && $canEdit && trim($moduleHtml) != '' && $user->authorise('core.edit', 'com_modules.module.' . $mod->id))
+			if ($frontediting && trim($moduleHtml) != '' && $user->authorise('module.edit.frontend', 'com_modules.module.' . $mod->id))
 			{
 				$displayData = array('moduleHtml' => &$moduleHtml, 'module' => $mod, 'position' => $position, 'menusediting' => $menusEditing);
 				JLayoutHelper::render('joomla.edit.frontediting_modules', $displayData);
@@ -53,6 +49,8 @@ class JDocumentRendererModules extends JDocumentRenderer
 
 			$buffer .= $moduleHtml;
 		}
+
+		JEventDispatcher::getInstance()->trigger('onAfterRenderModules', array(&$buffer, &$params));
 
 		return $buffer;
 	}

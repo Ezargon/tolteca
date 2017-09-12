@@ -4,7 +4,7 @@
  *
  * @package     Joomla
  * @subpackage  Fabrik
- * @copyright   Copyright (C) 2005-2013 fabrikar.com - All rights reserved.
+ * @copyright   Copyright (C) 2005-2016  Media A-Team, Inc. - All rights reserved.
  * @license     GNU/GPL http://www.gnu.org/copyleft/gpl.html
  * @since       3.0
  */
@@ -14,11 +14,19 @@
  * template, you can create a custom_css.php file, which will be loaded after
  * the main template_css.php for the template.
  *
- * This file will be invoked as a PHP file, so the view type and form ID
- * can be used in order to narrow the scope of any style changes.  You do
- * this by prepending #{$view}_$c to any selectors you use.  This will become
- * (say) #form_12, or #details_11, which will be the HTML ID of your form
- * on the page.
+ * This file will be invoked as a PHP file, so the view type, form ID and row ID
+ * can be used in order to narrow the scope of any style changes.  A new form will
+ * have an ID of "form_X" (where X is the form's numeric ID), while edit forms (for existing
+ * rows) will have an ID of "form_X_Y" (where Y is the rowid).  Detail views will always
+ * be of the format "details_X_Y".
+ *
+ * So to apply styles for (say) form ID 123, you would use ...
+ *
+ * #form_123, #form_123_$rowid { ... }
+ *
+ * Or to style for any form / row, it would just be ...
+ *
+ * #$form { ... }
  *
  * See examples below, which you should remove if you copy this file.
  *
@@ -44,7 +52,7 @@ if ($rowid !== '')
 {
 	$form .= '_' . $rowid;
 }
-echo "
+echo <<<EOT
 
 /* BEGIN - Your CSS styling starts here */
 
@@ -52,7 +60,10 @@ echo "
 	display: none;
 }
 
+#form_123 .foobar, #form_123_$rowid .foobar {
+	display: none;
+}
+
 /* END - Your CSS styling ends here */
 
-";
-?>
+EOT;

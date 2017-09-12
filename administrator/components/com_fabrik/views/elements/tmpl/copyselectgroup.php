@@ -4,7 +4,7 @@
  *
  * @package     Joomla.Administrator
  * @subpackage  Fabrik
- * @copyright   Copyright (C) 2005-2013 fabrikar.com - All rights reserved.
+ * @copyright   Copyright (C) 2005-2016  Media A-Team, Inc. - All rights reserved.
  * @license     GNU/GPL http://www.gnu.org/copyleft/gpl.html
  * @since       3.0
  */
@@ -40,8 +40,8 @@ JHtml::_('behavior.framework', true);
 	</tbody>
 	<thead>
 	<tr>
-		<th><?php echo JText::_('COM_FABRIK_NAME')?></th>
-		<th><?php echo JText::_('COM_FABRIK_COPY_TO_GROUP')?></th>
+		<th><?php echo FText::_('COM_FABRIK_NAME')?></th>
+		<th><?php echo FText::_('COM_FABRIK_COPY_TO_GROUP')?></th>
 	</tr>
 	</thead>
 	</table>

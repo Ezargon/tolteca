@@ -4,7 +4,7 @@
  *
  * @package     Joomla
  * @subpackage  Fabrik
- * @copyright   Copyright (C) 2005-2013 fabrikar.com - All rights reserved.
+ * @copyright   Copyright (C) 2005-2016  Media A-Team, Inc. - All rights reserved.
  * @license     GNU/GPL http://www.gnu.org/copyleft/gpl.html
  * @since       3.1
  */
@@ -21,7 +21,6 @@ $element = $this->element;
 <?php endif ?>
 
 <div class="fabrikElement">
-
 	<?php echo $element->element;?>
 </div><!-- end fabrikElement -->
 

@@ -4,7 +4,7 @@
  *
  * @package     Joomla.Plugin
  * @subpackage  Fabrik.element.fileupload
- * @copyright   Copyright (C) 2005-2013 fabrikar.com - All rights reserved.
+ * @copyright   Copyright (C) 2005-2016  Media A-Team, Inc. - All rights reserved.
  * @license     GNU/GPL http://www.gnu.org/copyleft/gpl.html
  */
 
@@ -18,8 +18,7 @@ defined('_JEXEC') or die('Restricted access');
  * @subpackage  Fabrik.element.fileupload
  * @since       3.0
  */
-
-class VideoRender
+class VideoRenderModel extends FabModel
 {
 	/**
 	 * Render output
@@ -38,7 +37,6 @@ class VideoRender
 	 *
 	 * @return  void
 	 */
-
 	public function renderListData(&$model, &$params, $file, $thisRow)
 	{
 		$this->render($model, $params, $file);
@@ -53,21 +51,18 @@ class VideoRender
 	 *
 	 * @return  void
 	 */
-
 	public function render(&$model, &$params, $file)
 	{
-		$src = str_replace("\\", "/", COM_FABRIK_LIVESITE . $file);
-		ini_set('display_errors', true);
-		require_once COM_FABRIK_FRONTEND . '/libs/getid3/getid3/getid3.php';
-		require_once COM_FABRIK_FRONTEND . '/libs/getid3/getid3/getid3.lib.php';
+		$getID3 = FabrikWorker::getID3Instance();
 
-		getid3_lib::IncludeDependency(COM_FABRIK_FRONTEND . '/libs/getid3/getid3/extension.cache.mysql.php', __FILE__, true);
-		$config = JFactory::getConfig();
-		$host = $config->get('host');
-		$database = $config->get('db');
-		$username = $config->get('user');
-		$password = $config->get('password');
-		$getID3 = new getID3_cached_mysql($host, $database, $username, $password);
+		if ($getID3 === false)
+		{
+			$this->output = FText::_('COM_FABRIK_LIBRARY_NOT_INSTALLED');
+
+			return;
+		}
+
+		$src = $model->getStorage()->getFileUrl($file);
 
 		// Analyse file and store returned data in $ThisFileInfo
 		$relPath = JPATH_SITE . $file;
@@ -98,38 +93,22 @@ class VideoRender
 			}
 		}
 
-		$file = str_replace("\\", "/", COM_FABRIK_LIVESITE . $file);
+		$displayData = new stdClass;
+		$displayData->width = $w;
+		$displayData->height = $h;
+		$displayData->src = $src;
 
 		switch ($thisFileInfo['fileformat'])
 		{
 			case 'asf':
-				$this->output = '<object id="MediaPlayer" width=' . $w . ' height=' . $h
-				. ' classid="CLSID:22D6f312-B0F6-11D0-94AB-0080C74C7E95" standby="Loading Windows Media Player components"
-					type="application/x-oleobject" codebase="http://activex.microsoft.com/activex/controls/mplayer/en/nsmp2inf.cab#Version=6,4,7,1112">
-
-<param name="filename" value="http://yourdomain/yourmovie.wmv">
-<param name="Showcontrols" value="true">
-<param name="autoStart" value="false">
-
-<embed type="application/x-mplayer2" src="' . $src . '" name="MediaPlayer" width=' . $w . ' height=' . $h . '></embed>
-
-</object>';
+				$layout = $model->getLayout('video-asf');
 				break;
 			default:
-				$this->output = "<object width=\"$w\" height=\"$h\"
-			classid=\"clsid:02BF25D5-8C17-4B23-BC80-D3488ABDDC6B\"
-			codebase=\"http://www.apple.com/qtactivex/qtplugin.cab\">
-			<param name=\"src\" value=\"$src\">
-			<param name=\"autoplay\" value=\"false\">
-			<param name=\"controller\" value=\"true\">
-			<embed src=\"$src\" width=\"$w\" height=\"$h\"
-			autoplay=\"false\" controller=\"true\"
-			pluginspage=\"http://www.apple.com/quicktime/download/\">
-			</embed>
-
-			</object>";
+				$layout = $model->getLayout('video');
 				break;
 		}
+
+		$this->output = $layout->render($displayData);
 	}
 
 	/**
@@ -154,8 +133,8 @@ class VideoRender
 			$rendered = '
 			<div id="' . $id . '"></div>
 			';
-			$app = JFactory::getApplication();
-			$input = $app->input;
+			$input = $this->pp->input;
+
 			if ($input->get('format') != 'raw')
 			{
 				$js = '

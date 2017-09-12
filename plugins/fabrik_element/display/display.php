@@ -4,12 +4,14 @@
  *
  * @package     Joomla.Plugin
  * @subpackage  Fabrik.element.display
- * @copyright   Copyright (C) 2005-2013 fabrikar.com - All rights reserved.
+ * @copyright   Copyright (C) 2005-2016  Media A-Team, Inc. - All rights reserved.
  * @license     GNU/GPL http://www.gnu.org/copyleft/gpl.html
  */
 
 // No direct access
 defined('_JEXEC') or die('Restricted access');
+
+use Joomla\Utilities\ArrayHelper;
 
 /**
  * Plugin element to render plain text/HTML
@@ -89,18 +91,21 @@ class PlgFabrik_ElementDisplay extends PlgFabrik_Element
 	/**
 	 * Shows the data formatted for the list view
 	 *
-	 * @param   string    $data      elements data
-	 * @param   stdClass  &$thisRow  all the data in the lists current row
+	 * @param   string    $data      Elements data
+	 * @param   stdClass  &$thisRow  All the data in the lists current row
+	 * @param   array     $opts      Rendering options
 	 *
 	 * @return  string	formatted value
 	 */
-
-	public function renderListData($data, stdClass &$thisRow)
+	public function renderListData($data, stdClass &$thisRow, $opts = array())
 	{
-		unset($this->default);
-		$value = $this->getValue(JArrayHelper::fromObject($thisRow));
+        $profiler = JProfiler::getInstance('Application');
+        JDEBUG ? $profiler->mark("renderListData: {$this->element->plugin}: start: {$this->element->name}") : null;
 
-		return parent::renderListData($value, $thisRow);
+        unset($this->default);
+		$value = $this->getValue(ArrayHelper::fromObject($thisRow));
+
+		return parent::renderListData($value, $thisRow, $opts);
 	}
 
 	/**
@@ -115,10 +120,12 @@ class PlgFabrik_ElementDisplay extends PlgFabrik_Element
 	public function render($data, $repeatCounter = 0)
 	{
 		$params = $this->getParams();
-		$id = $this->getHTMLId($repeatCounter);
-		$value = $params->get('display_showlabel', true) ? $this->getValue($data, $repeatCounter) : '';
+		$layout = $this->getLayout('form');
+		$displayData = new stdClass;
+		$displayData->id = $this->getHTMLId($repeatCounter);
+		$displayData->value = $params->get('display_showlabel', true) ? $this->getValue($data, $repeatCounter) : '';
 
-		return '<div class="fabrikSubElementContainer" id="' . $id . '">' . $value . '</div>';
+		return $layout->render($displayData);
 	}
 
 	/**
@@ -136,7 +143,7 @@ class PlgFabrik_ElementDisplay extends PlgFabrik_Element
 
 	protected function getDefaultOnACL($data, $opts)
 	{
-		return JArrayHelper::getValue($opts, 'use_default', true) == false ? '' : $this->getDefaultValue($data);
+		return FArrayHelper::getValue($opts, 'use_default', true) == false ? '' : $this->getDefaultValue($data);
 	}
 
 	/**
@@ -151,14 +158,12 @@ class PlgFabrik_ElementDisplay extends PlgFabrik_Element
 
 	public function getValue($data, $repeatCounter = 0, $opts = array())
 	{
-		$element = $this->getElement();
-		$params = $this->getParams();
 		$value = $this->getDefaultOnACL($data, $opts);
 
 		if ($value === '')
 		{
 			// Query string for joined data
-			$value = JArrayHelper::getValue($data, $value);
+			$value = FArrayHelper::getValue($data, $value);
 		}
 
 		$formModel = $this->getFormModel();

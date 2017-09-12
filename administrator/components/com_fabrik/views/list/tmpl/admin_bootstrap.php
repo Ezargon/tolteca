@@ -4,7 +4,7 @@
  *
  * @package     Joomla.Administrator
  * @subpackage  Fabrik
- * @copyright   Copyright (C) 2005-2013 fabrikar.com - All rights reserved.
+ * @copyright   Copyright (C) 2005-2016  Media A-Team, Inc. - All rights reserved.
  * @license     GNU/GPL http://www.gnu.org/copyleft/gpl.html
  * @since       3.0
  */
@@ -22,17 +22,19 @@ JHtml::_('behavior.keepalive');
 <script type="text/javascript">
 
 	Joomla.submitbutton = function(task) {
-		if (task !== 'list.cancel'  && !Fabrik.controller.canSaveForm()) {
-			alert('Please wait - still loading');
-			return false;
-		}
-		if (task == 'list.cancel' || document.formvalidator.isValid(document.id('adminForm'))) {
-			<?php echo $this->form->getField('introduction')->save(); ?>
-			window.fireEvent('form.save');
-			Joomla.submitform(task, document.getElementById('adminForm'));
-		} else {
-			alert('<?php echo $this->escape(JText::_('JGLOBAL_VALIDATION_FORM_FAILED'));?>');
-		}
+		requirejs(['fab/fabrik'], function (Fabrik) {
+			if (task !== 'list.cancel' && !Fabrik.controller.canSaveForm()) {
+				window.alert('Please wait - still loading');
+				return false;
+			}
+			if (task == 'list.cancel' || document.formvalidator.isValid(document.id('adminForm'))) {
+				<?php echo $this->form->getField('introduction')->save(); ?>
+				window.fireEvent('form.save');
+				Joomla.submitform(task, document.getElementById('adminForm'));
+			} else {
+				window.alert('<?php echo $this->escape(FText::_('JGLOBAL_VALIDATION_FORM_FAILED'));?>');
+			}
+		});
 	}
 </script>
 
@@ -45,27 +47,27 @@ JHtml::_('behavior.keepalive');
 				<ul class="nav nav-list"style="margin-top:40px">
 					<li class="active">
 						<a data-toggle="tab" href="#detailsX">
-							<?php echo JText::_('COM_FABRIK_DETAILS')?>
+							<?php echo FText::_('COM_FABRIK_DETAILS')?>
 						</a>
 					</li>
 					<li>
 						<a data-toggle="tab" href="#data">
-							<?php echo JText::_('COM_FABRIK_DATA')?>
+							<?php echo FText::_('COM_FABRIK_DATA')?>
 						</a>
 					</li>
 					<li>
 						<a data-toggle="tab" href="#publishing">
-							<?php echo JText::_('COM_FABRIK_GROUP_LABEL_PUBLISHING_DETAILS')?>
+							<?php echo FText::_('COM_FABRIK_GROUP_LABEL_PUBLISHING_DETAILS')?>
 						</a>
 					</li>
 					<li>
 						<a data-toggle="tab" href="#access">
-							<?php echo JText::_('COM_FABRIK_GROUP_LABEL_RULES_DETAILS')?>
+							<?php echo FText::_('COM_FABRIK_GROUP_LABEL_RULES_DETAILS')?>
 						</a>
 					</li>
 					<li>
 						<a data-toggle="tab" href="#tabplugins">
-							<?php echo JText::_('COM_FABRIK_GROUP_LABEL_PLUGINS_DETAILS')?>
+							<?php echo FText::_('COM_FABRIK_GROUP_LABEL_PLUGINS_DETAILS')?>
 						</a>
 					</li>
 				</ul>

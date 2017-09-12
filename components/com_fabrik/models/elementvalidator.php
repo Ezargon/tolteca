@@ -4,7 +4,7 @@
  *
  * @package     Joomla
  * @subpackage  Fabrik
- * @copyright   Copyright (C) 2005-2013 fabrikar.com - All rights reserved.
+ * @copyright   Copyright (C) 2005-2016  Media A-Team, Inc. - All rights reserved.
  * @license     GNU/GPL http://www.gnu.org/copyleft/gpl.html
  */
 
@@ -21,8 +21,7 @@ jimport('joomla.application.component.model');
  * @subpackage  Fabrik
  * @since       3.1b2
  */
-
-class FabrikFEModelElementValidator extends JModelLegacy
+class FabrikFEModelElementValidator extends FabModel
 {
 	/**
 	 * Validation objects associated with the element
@@ -52,18 +51,16 @@ class FabrikFEModelElementValidator extends JModelLegacy
 	 *
 	 * @return  void
 	 */
-
 	public function setElementModel(&$elementModel)
 	{
 		$this->elementModel = $elementModel;
 	}
 
 	/**
-	 * Loads in elements published validation objects
+	 * Loads in element's published validation objects
 	 *
-	 * @return  array	validation objects
+	 * @return  PlgFabrik_Validationrule[]	Validation objects
 	 */
-
 	public function findAll()
 	{
 		if (isset($this->validations))
@@ -71,28 +68,28 @@ class FabrikFEModelElementValidator extends JModelLegacy
 			return $this->validations;
 		}
 
-		$element = $this->elementModel->getElement();
 		$params = $this->elementModel->getParams();
 		$validations = (array) $params->get('validations', 'array');
-		$usedPlugins = (array) JArrayHelper::getValue($validations, 'plugin', array());
-		$published = JArrayHelper::getValue($validations, 'plugin_published', array());
-		$showIcon = JArrayHelper::getValue($validations, 'show_icon', array());
-		$validateIn = JArrayHelper::getValue($validations, 'validate_in', array());
-		$validationOn = JArrayHelper::getValue($validations, 'validation_on', array());
+		$usedPlugins = (array) FArrayHelper::getValue($validations, 'plugin', array());
+		$published = FArrayHelper::getValue($validations, 'plugin_published', array());
+		$showIcon = FArrayHelper::getValue($validations, 'show_icon', array());
+		$validateIn = FArrayHelper::getValue($validations, 'validate_in', array());
+		$validationOn = FArrayHelper::getValue($validations, 'validation_on', array());
+		$mustValidate = FArrayHelper::getValue($validations, 'must_validate', array());
 
 		$pluginManager = FabrikWorker::getPluginManager();
 		$pluginManager->getPlugInGroup('validationrule');
 		$c = 0;
 		$this->validations = array();
-		$dispatcher = JDispatcher::getInstance();
-		$ok = JPluginHelper::importPlugin('fabrik_validationrule');
+		$dispatcher = JEventDispatcher::getInstance();
+		JPluginHelper::importPlugin('fabrik_validationrule');
 		$i = 0;
 
 		foreach ($usedPlugins as $usedPlugin)
 		{
 			if ($usedPlugin !== '')
 			{
-				$isPublished = JArrayHelper::getValue($published, $i, true);
+				$isPublished = FArrayHelper::getValue($published, $i, true);
 
 				if ($isPublished)
 				{
@@ -100,18 +97,21 @@ class FabrikFEModelElementValidator extends JModelLegacy
 					$conf = array();
 					$conf['name'] = JString::strtolower($usedPlugin);
 					$conf['type'] = JString::strtolower('fabrik_Validationrule');
+
+					/** @var PlgFabrik_Validationrule $plugIn */
 					$plugIn = new $class($dispatcher, $conf);
-					$oPlugin = JPluginHelper::getPlugin('fabrik_validationrule', $usedPlugin);
+					JPluginHelper::getPlugin('fabrik_validationrule', $usedPlugin);
 					$plugIn->elementModel = $this->elementModel;
 					$this->validations[] = $plugIn;
 
 					// Set params relative to plugin render order
 					$plugIn->setParams($params, $i);
 
-					$plugIn->getParams()->set('show_icon', JArrayHelper::getValue($showIcon, $i, true));
-					$plugIn->getParams()->set('validate_in', JArrayHelper::getValue($validateIn, $i, 'both'));
-					$plugIn->getParams()->set('validation_on', JArrayHelper::getValue($validationOn, $i, 'both'));
-
+					$plugIn->getParams()->set('show_icon', FArrayHelper::getValue($showIcon, $i, true));
+					$plugIn->getParams()->set('validate_in', FArrayHelper::getValue($validateIn, $i, 'both'));
+					$plugIn->getParams()->set('validation_on', FArrayHelper::getValue($validationOn, $i, 'both'));
+					$plugIn->getParams()->set('must_validate', FArrayHelper::getValue($mustValidate, $i, '0'));
+					$plugIn->js();
 					$c++;
 				}
 			}
@@ -127,7 +127,6 @@ class FabrikFEModelElementValidator extends JModelLegacy
 	 *
 	 * @return boolean
 	 */
-
 	private function showIcon()
 	{
 		$validations = $this->findAll();
@@ -160,7 +159,6 @@ class FabrikFEModelElementValidator extends JModelLegacy
 	 *
 	 * @return string
 	 */
-
 	public function getIcon($c = null)
 	{
 		$j3 = FabrikWorker::j3();
@@ -201,7 +199,7 @@ class FabrikFEModelElementValidator extends JModelLegacy
 	 *
 	 * @param   int  $repeatCounter  Repeat group counter
 	 *
-	 * @return multitype:stdClass
+	 * @return array
 	 */
 	public function jsWatchElements($repeatCounter = 0)
 	{
@@ -229,13 +227,12 @@ class FabrikFEModelElementValidator extends JModelLegacy
 	 *
 	 * @return string
 	 */
-
 	public function labelIcons()
 	{
 		$tmpl = $this->elementModel->getFormModel()->getTmpl();
 		$validations = array_unique($this->findAll());
 		$emptyIcon = $this->getIcon();
-		$icon = FabrikHelperHTML::image($emptyIcon, 'form', $tmpl, $this->iconOpts) . ' ';
+		$icon = empty($emptyIcon) && empty($validations) ? "" : FabrikHelperHTML::image($emptyIcon, 'form', $tmpl, $this->iconOpts) . ' ';
 
 		return $icon;
 	}

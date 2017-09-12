@@ -4,34 +4,36 @@
  * Author : Jean-François Questiaux - based on peamak's work (tom@spierckel.net)
  * contact : info@betterliving.be
  *
- * Joomla! 3.2.x
- * sh404SEF version : 4.2.1.1586 - November 2013
- * Fabrik 3.1 RC2
+ * Joomla! 3.6.x
+ * sh404SEF version : 4.8.0.3423 - August 2016
+ * Fabrik 3.5.1
  *
  * This is a sh404SEF native plugin file for Fabrik component (http://fabrikar.com)
- * Plugin version 2.2 - December 2013
+ * Plugin version 3.0 - December 2016
  *
  * @package     Joomla
  * @subpackage  Fabrik
- * @copyright   Copyright (C) 2005-2013 fabrikar.com - All rights reserved.
+ * @copyright   Copyright (C) 2005-2016  Media A-Team, Inc. - All rights reserved.
  * @license     GNU/GPL http://www.gnu.org/copyleft/gpl.html
  */
 
 // No direct access
 defined('_JEXEC') or die('Restricted access');
 
+// use \Joomla\Registry\Registry;
+
 if (!function_exists('shFetchFormName'))
 {
 	/**
 	 * Fetch the form's name
 	 *
-	 * @param   number  $formid  Form id
+	 * @param   number  $formId  Form id
 	 *
-	 * @return NULL|Ambiguous <string, unknown>
+	 * @return NULL|string
 	 */
-	function shFetchFormName($formid)
+	function shFetchFormName($formId)
 	{
-		if (empty($formid))
+		if (empty($formId))
 		{
 			return null;
 		}
@@ -39,40 +41,12 @@ if (!function_exists('shFetchFormName'))
 		$db = JFactory::getDBO();
 		$query = $db->getQuery(true);
 		$query->select('label')
-			->from($query->quoteName('#__fabrik_forms'))
-			->where('id = ' . $db->quote($formid));
-		$db->setQuery($query);
+			->from($query->qn('#__fabrik_forms'))
+			->where('id = ' . $db->q($formId));
+		$db->setQuery($query); 
 		$formName = $db->loadResult();
 
-		return isset($formName) ? JText::_($formName) : '';
-	}
-}
-
-if (!function_exists('shFetchListName'))
-{
-	/**
-	 * Fetch the list's name from the form ID
-	 *
-	 * @param   int  $formid  Form id
-	 *
-	 * @return NULL|Ambiguous <string, unknown>
-	 */
-	function shFetchListName($formid)
-	{
-		if (empty($formid))
-		{
-			return null;
-		}
-
-		$db = JFactory::getDBO();
-		$query = $db->getQuery(true);
-		$query->select('label')
-			->from($query->quoteName('#__fabrik_lists'))
-			->where('form_id = ' . $query->quote($formid));
-		$db->setQuery($query);
-		$listName = $db->loadResult();
-
-		return isset($listName) ? JText::_($listName) : '';
+		return isset($formName) ? $formName : '';
 	}
 }
 
@@ -81,10 +55,10 @@ if (!function_exists('shFetchSlug'))
 	/**
 	 * Fetch slug
 	 *
-	 * @param   string  $rowid   Row id
-	 * @param   number  $formid  Form id
+	 * @param   string  $rowId   Row id
+	 * @param   number  $formId  Form id
 	 *
-	 * @return NULL|Ambiguous <string, NULL, Ambiguous, unknown>
+	 * @return NULL|String
 	 */
 	function shFetchSlug($rowid, $formid)
 	{
@@ -95,22 +69,22 @@ if (!function_exists('shFetchSlug'))
 		else
 		{
 			$slug = shFetchRecordName($rowid, $formid);
-
+			
 			return isset($slug) ? $slug : '';
 		}
 	}
 }
 
-if (!function_exists('shFetchTableName'))
+if (!function_exists('shFetchListName'))
 {
 	/**
-	 * Fetch the table's name
+	 * Fetch the list's name
 	 *
 	 * @param   int  $listid  List id
 	 *
-	 * @return NULL|Ambiguous <string, unknown>
+	 * @return string
 	 */
-	function shFetchTableName($listid)
+	function shFetchListName($listid)
 	{
 		if (empty($listid))
 		{
@@ -120,12 +94,12 @@ if (!function_exists('shFetchTableName'))
 		$db = JFactory::getDbo();
 		$query = $db->getQuery(true);
 		$query->select('label')
-			->from($query->quoteName('#__fabrik_lists'))
-			->where('id = ' . $query->quote($listid));
+		      ->from($query->qn('#__fabrik_lists'))
+		      ->where('id = ' . $query->q($listid));
 		$db->setQuery($query);
-		$tableName = $db->loadResult();
+		$listName = $db->loadResult();
 
-		return isset($tableName) ? $tableName : '';
+		return isset($listName) ? $listName : '';
 	}
 }
 
@@ -134,10 +108,10 @@ if (!function_exists('shFetchRecordName'))
 	/**
 	 * Fetch the record's name
 	 *
-	 * @param   string  $rowid   Rowid
-	 * @param   number  $formid  Form id
+	 * @param   string  $rowId   Row id
+	 * @param   number  $formId  Form id
 	 *
-	 * @return NULL|Ambiguous <string, unknown>
+	 * @return string
 	 */
 	function shFetchRecordName($rowid, $formid)
 	{
@@ -146,13 +120,13 @@ if (!function_exists('shFetchRecordName'))
 			return null;
 		}
 
-		$db = JFactory::getDbo();
+		$db    = JFactory::getDbo();
 		$query = $db->getQuery(true);
 
 		// Get database table's name and slug first
 		$query->select('db_table_name, params')
-			->from($query->quoteName('#__fabrik_lists'))
-			->where('form_id = ' . $query->quote($formid));
+		      ->from($query->qn('#__fabrik_lists'))
+		      ->where('form_id = ' . $query->q($formid));
 		$db->setQuery($query);
 		$result = $db->loadObject();
 
@@ -162,9 +136,9 @@ if (!function_exists('shFetchRecordName'))
 
 		// Get record's name
 		$query = $db->getQuery(true);
-		$query->select($query->quoteName($slug))
-			->from($query->quoteName($listName))
-			->where('id = ' . $query->quote($rowid));
+		$query->select($query->qn($slug))
+		      ->from($query->qn($listName))
+		      ->where('id = ' . $query->q($rowid));
 		$db->setQuery($query);
 		$recordName = $db->loadResult();
 
@@ -179,7 +153,7 @@ if (!function_exists('shFetchVizName'))
 	 *
 	 * @param   int  $id  Id
 	 *
-	 * @return NULL|Ambiguous <string, unknown>
+	 * @return string
 	 */
 	function shFetchVizName($id)
 	{
@@ -191,41 +165,40 @@ if (!function_exists('shFetchVizName'))
 		$db = JFactory::getDbo();
 		$query = $db->getQuery(true);
 		$query->select('label')
-			->from($query->quoteName('#__fabrik_visualizations'))
-			->where('id = ' . $query->quote($id));
+			->from($query->qn('#__fabrik_visualizations'))
+			->where('id = ' . $query->q($id));
 		$db->setQuery($query);
 		$vizName = $db->loadResult();
 
-		return isset($vizName) ? JText::_($vizName) : '';
+		return isset($vizName) ? $vizName : '';
 	}
 }
 
 // ------------------  standard plugin initialize function - don't change ---------------------------
-global $sh_LANG, $sefConfig;
-$shLangName     = '';
-$shLangIso      = '';
-$title          = array();
+global $sh_LANG;
+$sefConfig = & Sh404sefFactory::getConfig();
+$shLangName = '';
+$shLangIso = '';
+$title = array();
 $shItemidString = '';
-$dosef          = shInitializePlugin($lang, $shLangName, $shLangIso, $option);
-
-if ($dosef == false)
-{
-	return;
-}
-
+$dosef = shInitializePlugin( $lang, $shLangName, $shLangIso, $option);
+if ($dosef == false) return;
 // ------------------  standard plugin initialize function - don't change ---------------------------
 
 // ------------------  load language file - adjust as needed ----------------------------------------
-
+//$shLangIso = shLoadPluginLanguage( 'com_XXXXX', $shLangIso, '_SEF_SAMPLE_TEXT_STRING');
 // ------------------  load language file - adjust as needed ----------------------------------------
 
-// $task   = isset($task) ? @$task : null;
-// $Itemid = isset($Itemid) ? @$Itemid : null;
+
+$Itemid = isset($Itemid) ? @$Itemid : null;
 $listid = isset($listid) ? @$listid : null;
 $id     = isset($id) ? @$id : null;
 $view   = isset($view) ? @$view : null;
 $formid = isset($formid) ? @$formid : null;
 $rowid  = isset($rowid) ? @$rowid : null;
+
+// remove extra data from rowid to keep the actual ID
+$rowid = (int)$rowid;
 
 // Get fabrik SEF configuration - used to include/exclude list's names in SEF urls
 $config = JComponentHelper::getParams('com_fabrik');
@@ -233,152 +206,136 @@ $config = JComponentHelper::getParams('com_fabrik');
 switch ($view)
 {
 	case 'form':
-		if (isset($formid) && $rowid != '')
-		{
-			$config->get('fabrik_sef_customtxt_edit') == '' ? $edit = 'edit' : $edit = $config->get('fabrik_sef_customtxt_edit');
-			$title[] = shFetchFormName($formid) . '-' . $rowid . '-' . JText::_($edit);
-		}
-		else
-		{
-			$config->get('fabrik_sef_customtxt_new') == '' ? $new = 'new' : $new = $config->get('fabrik_sef_customtxt_new');
-			$title[] = shFetchFormName($formid) . '-' . JText::_($new);
-		}
-		break;
-
-	case 'details':
-		// Insert menu name if set so in Fabrik's options
-		if ($config->get('fabrik_sef_prepend_menu_title') == 1)
-		{
-			$app     = JFactory::getApplication();
-			$menus   = $app->getMenu();
-			$menusId = $menus->getMenu();
-			$itemId  = $app->input->getInt('Itemid');
-
-			$title[] = $menusId[$itemId]->title;
-		}
 		// Insert table name if set so in Fabrik's options
 		if ($config->get('fabrik_sef_tablename_on_forms') == 1)
 		{
 			if (isset($formid))
 			{
-				$title[] = shFetchListName($formid);
+				$title[] = FText::_(shFetchListName($formid));
 			}
 			else
 			{
 				$title[] = '';
 			}
 		}
+		if (isset($formid) && $rowid != '')
+		{
+			$config->get('fabrik_sef_customtxt_edit') == '' ? $edit = 'edit' : $edit = $config->get('fabrik_sef_customtxt_edit');
+			$title[] = FText::_(shFetchFormName($formid)) . '-' . $rowid . '-' . FText::_($edit);
+		}
+		elseif (isset($formid) && $rowid == -1)
+		{
+			$config->get('fabrik_sef_customtxt_edit') == '' ? $own = 'rowid=-1' : $own = $config->get('fabrik_sef_customtxt_own');
+			$title[] = FText::_(shFetchFormName($formid)) . '-' . FText::_($own);
+		}
+		else
+		{
+			$config->get('fabrik_sef_customtxt_new') == '' ? $new = 'new' : $new = $config->get('fabrik_sef_customtxt_new');
+			$title[] = FText::_(shFetchFormName($formid)) . '-' . FText::_($new);			
+		}
+		break;
 
+	case 'details':
+		// start by inserting the menu element title (can be set in Fabrik options)
+		if ($config->get('fabrik_sef_prepend_menu_title_details') == 1 && $Itemid != '')
+		{
+			$task = isset($task) ? $task : null;
+			$shSampleName = shGetComponentPrefix($option);
+			$shSampleName = empty($shSampleName) ? getMenuTitle($option, $task, $Itemid, null, $shLangName) : $shSampleName;
+			$shSampleName = (empty($shSampleName) || $shSampleName == '/') ? 'Fabrik':$shSampleName;
+			
+			$title[] = $shSampleName;
+		}
+		
 		if (isset($rowid))
 		{
 			switch ($config->get('fabrik_sef_format_records'))
 			{
 				case 'param_id':
-					$title[] = '';
+					$title[] = 'id=' . $rowid;
 					break;
 				case 'id_only':
 					$title[] = $rowid;
-					shRemoveFromGETVarsList('rowid');
 					break;
 				case 'id_slug':
 					$title[] = $rowid . '-' . shFetchSlug($rowid, $formid);
-					shRemoveFromGETVarsList('rowid');
 					break;
 				case 'slug_id':
 					$title[] = shFetchSlug($rowid, $formid) . '-' . $rowid;
-					shRemoveFromGETVarsList('rowid');
+
 					break;
 				case 'slug_only':
 					$title[] = shFetchSlug($rowid, $formid);
-					shRemoveFromGETVarsList('rowid');
 					break;
 			}
-
 			shMustCreatePageId('set', true);
-		}
-		else
-		{
-			// Case of link to details from menu item
-			// First get the Itemid from the menu link URL
-			$pos    = strpos($string, 'Itemid=');
-			$itemId = substr($string, $pos + 7);
-			$pos    = strpos($itemId, '&');
-			$itemId = substr($itemId, 0, $pos);
-
-			$app     = JFactory::getApplication();
-			$menus   = $app->getMenu();
-			$menusId = $menus->getMenu();
-
-			// Get the rowid and formid from the menu object
-			$menu_params = new JParameter($menusId[$itemId]->params);
-			$rowid 	     = $menu_params->get('rowid');
-			$formid      = $menusId[$itemId]->query['formid'];
-
-			if ($formid)
-			{
-				$title[] = shFetchRecordName($rowid, $formid);
-				shMustCreatePageId('set', true);
-			}
 		}
 		break;
 
 	case 'list':
-		if ($config->get('fabrik_sef_prepend_menu_title') == 1)
+		// start by inserting the menu element title (can be set in Fabrik options)
+		if ($config->get('fabrik_sef_prepend_menu_title_lists') == 1 && $Itemid != '')
 		{
-			// When different views are requested to the same list from a menu item
-			// First get the Itemid from the menu link URL
-			$pos    = strpos($string, 'Itemid=');
-			$itemId = substr($string, $pos + 7);
-			$pos    = strpos($itemId, '&');
-			$itemId = substr($itemId, 0, $pos);
+			$task = isset($task) ? $task : null;
+			$shSampleName = shGetComponentPrefix($option);
+			$shSampleName = empty($shSampleName) ? getMenuTitle($option, $task, $Itemid, null, $shLangName) : $shSampleName;
+			$shSampleName = (empty($shSampleName) || $shSampleName == '/') ? 'Fabrik':$shSampleName;
+			
+			$title[] = $shSampleName;
+		}
 
-			$app     = JFactory::getApplication();
-			$menus   = $app->getMenu();
-			$menusId = $menus->getMenu();
-
-			$title[] = $menusId[$itemId]->title;
+		if (isset($listid))
+		{
+			$title[] = FText::_(shFetchListName($listid));
 			shMustCreatePageId('set', true);
 		}
-		else
-		{
-			if (isset($listid))
-			{
-				$title[] = shFetchTableName($listid);
-				shMustCreatePageId('set', true);
-			}
-		}
+		
 		break;
 
 	case 'visualization':
-		if ($config->get('fabrik_sef_prepend_menu_title') == 1)
+		// start by inserting the menu element title (can be set in Fabrik options)
+		if ($config->get('fabrik_sef_prepend_menu_title_viz') == 1 && $Itemid != '')
 		{
-			// When different views are requested to the same list from a menu item
-			// First get the Itemid from the menu link URL
-			$pos    = strpos($string, 'Itemid=');
-			$itemId = substr($string, $pos + 7);
-			$pos    = strpos($itemId, '&');
-			$itemId = substr($itemId, 0, $pos);
-
-			$app     = JFactory::getApplication();
-			$menus   = $app->getMenu();
-			$menusId = $menus->getMenu();
-
-			$title[] = $menusId[$itemId]->title;
-			shRemoveFromGETVarsList('id');
+			$task = isset($task) ? $task : null;
+			$shSampleName = shGetComponentPrefix($option);
+			$shSampleName = empty($shSampleName) ? getMenuTitle($option, $task, $Itemid, null, $shLangName) : $shSampleName;
+			$shSampleName = (empty($shSampleName) || $shSampleName == '/') ? 'Fabrik':$shSampleName;
+			
+			$title[] = $shSampleName;
+		}
+		
+		if (isset($id))
+		{
+			switch ($config->get('fabrik_sef_format_viz'))
+			{
+				case 'param_id':
+					$title[] = 'id=' . $rowid;
+					break;
+				case 'viz-id':
+					$title[] = $rowid;
+					break;
+				case 'id-viz':
+					$title[] = $rowid . '-viz';
+					break;
+				case 'label-id':
+					$title[] = FText::_(shFetchVizName($id)) . '-' . $id;
+					break;
+				case 'id-label':
+					$title[] = $id . '-' . FText::_(shFetchVizName($id));
+					break;
+				case 'label_only':
+					$title[] = FText::_(shFetchVizName($id));
+					break;
+			}
 			shMustCreatePageId('set', true);
 		}
-		else
-		{
-			if (isset($id))
-			{
-				$title[] = shFetchVizName($id);
-				shRemoveFromGETVarsList('id');
-				shMustCreatePageId('set', true);
-			}
-		}
 		break;
+
+		default:
+			$dosef = false;
 }
 
+// remove common URL from GET vars list, so that they don't show up as query string in the URL
 shRemoveFromGETVarsList('option');
 shRemoveFromGETVarsList('calculations');
 shRemoveFromGETVarsList('formid');
@@ -389,15 +346,14 @@ shRemoveFromGETVarsList('Itemid');
 shRemoveFromGETVarsList('lang');
 shRemoveFromGETVarsList('calculations');
 shRemoveFromGETVarsList('random');
+shRemoveFromGETVarsList('rowid');
+shRemoveFromGETVarsList('id');
+     
 
 // ------------------  standard plugin finalize function - don't change ---------------------------
-if ($dosef)
-{
-	$string = shFinalizePlugin(
-		$string, $title, $shAppendString, $shItemidString, (isset($limit) ? @$limit : null),
-		(
-			isset($limitstart) ? @$limitstart : null), (isset($shLangName) ? @$shLangName : null)
-	);
+if ($dosef){
+  $string = shFinalizePlugin( $string, $title, $shAppendString, $shItemidString,
+      (isset($limit) ? @$limit : null), (isset($limitstart) ? @$limitstart : null),
+      (isset($shLangName) ? @$shLangName : null));
 }
-
 // ------------------  standard plugin finalize function - don't change ---------------------------

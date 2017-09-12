@@ -4,7 +4,7 @@
  *
  * @package     Joomla.Administrator
  * @subpackage  Fabrik
- * @copyright   Copyright (C) 2005-2013 fabrikar.com - All rights reserved.
+ * @copyright   Copyright (C) 2005-2016  Media A-Team, Inc. - All rights reserved.
  * @license     GNU/GPL http://www.gnu.org/copyleft/gpl.html
  * @since       3.0
  */
@@ -41,7 +41,7 @@ Joomla.submitform = function(task, form) {
 	<?php endforeach; ?>
 
 	<fieldset class="adminform">
-		<legend><?php echo JText::_('COM_FABRIK_DELETE_FROM');?></legend>
+		<legend><?php echo FText::_('COM_FABRIK_DELETE_FROM');?></legend>
 		<ul class="adminformlist">
 		<?php for ($i = 0; $i < count($this->items); $i++) :?>
   			<li>

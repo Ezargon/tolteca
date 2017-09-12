@@ -4,7 +4,7 @@
  *
  * @package     Joomla.Administrator
  * @subpackage  Fabrik
- * @copyright   Copyright (C) 2005-2013 fabrikar.com - All rights reserved.
+ * @copyright   Copyright (C) 2005-2016  Media A-Team, Inc. - All rights reserved.
  * @license     GNU/GPL http://www.gnu.org/copyleft/gpl.html
  * @since       3.0
  */
@@ -21,7 +21,7 @@ JHtml::_('behavior.keepalive');
 <form action="<?php JRoute::_('index.php?option=com_fabrik'); ?>" method="post" name="adminForm" id="adminForm" class="form-validate">
 	<div class="width-100 fltlft">
 		<fieldset class="adminform">
-			<legend><?php echo JText::_('COM_FABRIK_DETAILS');?></legend>
+			<legend><?php echo FText::_('COM_FABRIK_DETAILS');?></legend>
 			<ul class="adminformlist">
 				<li>
 					<?php echo $this->form->getLabel('description') . $this->form->getInput('description'); ?>
@@ -41,7 +41,7 @@ JHtml::_('behavior.keepalive');
 
 			<?php if ($this->item->host != ""){?>
 				<li>
-					<label><?php echo JText::_('COM_FABRIK_ENTER_PASSWORD_OR_LEAVE_AS_IS'); ?></label>
+					<label><?php echo FText::_('COM_FABRIK_ENTER_PASSWORD_OR_LEAVE_AS_IS'); ?></label>
 				</li>
 			<?php } ?>
 

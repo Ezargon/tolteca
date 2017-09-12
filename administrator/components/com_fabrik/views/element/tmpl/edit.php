@@ -4,7 +4,7 @@
  *
  * @package     Joomla.Administrator
  * @subpackage  Fabrik
- * @copyright   Copyright (C) 2005-2013 fabrikar.com - All rights reserved.
+ * @copyright   Copyright (C) 2005-2016  Media A-Team, Inc. - All rights reserved.
  * @license     GNU/GPL http://www.gnu.org/copyleft/gpl.html
  * @since       3.0
  */
@@ -25,21 +25,23 @@ JText::script('COM_FABRIK_SUBOPTS_VALUES_ERROR');
 <script type="text/javascript">
 
 	Joomla.submitbutton = function(task) {
-		if (task !== 'element.cancel'  && !Fabrik.controller.canSaveForm()) {
-			alert('Please wait - still loading');
-			return false;
-		}
-		var msg = '';
-		var jsEvents = document.getElements('select[name*=action]').get('value');
-		if (jsEvents.length > 0 && jsEvents.contains('')) {
-			msg += '\n ' + Joomla.JText._('COM_FABRIK_ERR_ELEMENT_JS_ACTION_NOT_DEFINED');
-		}
-		if (task == 'element.cancel' || (msg === '' && document.formvalidator.isValid(document.id('adminForm')))) {
-			window.fireEvent('form.save');
-			Joomla.submitform(task, document.getElementById('adminForm'));
-		} else {
-			alert('<?php echo $this->escape(JText::_('JGLOBAL_VALIDATION_FORM_FAILED'));?>' + msg);
-		}
+		requirejs(['fab/fabrik'], function (Fabrik) {
+			if (task !== 'element.cancel' && !Fabrik.controller.canSaveForm()) {
+				window.alert('Please wait - still loading');
+				return false;
+			}
+			var msg = '';
+			var jsEvents = document.getElements('select[name*=action]').get('value');
+			if (jsEvents.length > 0 && jsEvents.contains('')) {
+				msg += '\n ' + Joomla.JText._('COM_FABRIK_ERR_ELEMENT_JS_ACTION_NOT_DEFINED');
+			}
+			if (task == 'element.cancel' || (msg === '' && document.formvalidator.isValid(document.id('adminForm')))) {
+				window.fireEvent('form.save');
+				Joomla.submitform(task, document.getElementById('adminForm'));
+			} else {
+				window.alert('<?php echo $this->escape(FText::_('JGLOBAL_VALIDATION_FORM_FAILED'));?>' + msg);
+			}
+		});
 	}
 </script>
 <form action="<?php JRoute::_('index.php?option=com_fabrik'); ?>" method="post" name="adminForm" id="adminForm" class="form-validate">
@@ -52,13 +54,13 @@ JText::script('COM_FABRIK_SUBOPTS_VALUES_ERROR');
 		<dd class="notice">
 		<ul>
 			<li>
-				<?php echo JText::_('COM_FABRIK_ELEMENT_PROPERTIES_LINKED_TO') ?>:
+				<?php echo FText::_('COM_FABRIK_ELEMENT_PROPERTIES_LINKED_TO') ?>:
 			</li>
 			<li>
 				<a href="#" id="swapToParent" class="element_<?php echo $this->parent->id ?>"><?php echo $this->parent->label ?></a>
 			</li>
 			<li>
-				<label><input id="unlink" name="unlink" id="unlinkFromParent" type="checkbox"> <?php echo JText::_('COM_FABRIK_UNLINK') ?></label>
+				<label><input id="unlink" name="unlink" id="unlinkFromParent" type="checkbox"> <?php echo FText::_('COM_FABRIK_UNLINK') ?></label>
 			</li>
 		</ul>
 		</dd>
@@ -69,7 +71,7 @@ JText::script('COM_FABRIK_SUBOPTS_VALUES_ERROR');
 <div id="elementFormTable">
 	<div class="width-50 fltlft">
 		<fieldset class="adminform">
-			<legend><?php echo JText::_('COM_FABRIK_DETAILS');?></legend>
+			<legend><?php echo FText::_('COM_FABRIK_DETAILS');?></legend>
 			<input type="hidden" id="name_orig" name="name_orig" value="<?php echo $this->item->name; ?>" />
 			<input type="hidden" id="plugin_orig" name="plugin_orig" value="<?php echo $this->item->plugin; ?>" />
 			<ul class="adminformlist">
@@ -100,7 +102,7 @@ JText::script('COM_FABRIK_SUBOPTS_VALUES_ERROR');
 
 		<div style="margin:10px">
 			<?php echo JHtml::_('sliders.start', 'element-sliders-options', array('useCookie' => 1));
-			echo JHtml::_('sliders.panel', JText::_('COM_FABRIK_OPTIONS'), 'options-details');
+			echo JHtml::_('sliders.panel', FText::_('COM_FABRIK_OPTIONS'), 'options-details');
 			echo "<div id=\"plugin-container\">$this->pluginFields</div>";
 			echo JHtml::_('sliders.end'); ?>
 		</div>

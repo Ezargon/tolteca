@@ -4,13 +4,16 @@
  *
  * @package     Joomla.Administrator
  * @subpackage  Fabrik
- * @copyright   Copyright (C) 2005-2013 fabrikar.com - All rights reserved.
+ * @copyright   Copyright (C) 2005-2016  Media A-Team, Inc. - All rights reserved.
  * @license     GNU/GPL http://www.gnu.org/copyleft/gpl.html
  * @since       1.6
  */
 
 // No direct access
 defined('_JEXEC') or die('Restricted access');
+
+use Joomla\Registry\Registry;
+use Joomla\Utilities\ArrayHelper;
 
 require_once 'fabmodellist.php';
 
@@ -21,17 +24,16 @@ require_once 'fabmodellist.php';
  * @subpackage  Fabrik
  * @since       3.0
  */
-
 class FabrikAdminModelElements extends FabModelList
 {
 	/**
 	 * Constructor.
 	 *
-	 * @param   array  $config  An optional associative array of configuration settings.
+	 * @param   array $config An optional associative array of configuration settings.
 	 *
-	 * @see		JController
+	 * @see        JController
 	 *
-	 * @since	1.6
+	 * @since      1.6
 	 */
 
 	public function __construct($config = array())
@@ -39,7 +41,7 @@ class FabrikAdminModelElements extends FabModelList
 		if (empty($config['filter_fields']))
 		{
 			$config['filter_fields'] = array('e.id', 'e.name', 'e.label', 'e.show_in_list_summary', 'e.published', 'e.ordering', 'g.label',
-				'e.plugin');
+				'e.plugin', 'g.name');
 		}
 
 		parent::__construct($config);
@@ -50,12 +52,12 @@ class FabrikAdminModelElements extends FabModelList
 	 *
 	 * @return  JDatabaseQuery
 	 *
-	 * @since	1.6
+	 * @since    1.6
 	 */
 	protected function getListQuery()
 	{
 		// Initialise variables.
-		$db = $this->getDbo();
+		$db    = $this->getDbo();
 		$query = $db->getQuery(true);
 
 		// Select the required fields from the table.
@@ -128,7 +130,7 @@ class FabrikAdminModelElements extends FabModelList
 		$query->join('LEFT', '#__{package}_lists AS l ON l.form_id = fg.form_id');
 
 		// Add the list ordering clause.
-		$orderCol = $this->state->get('list.ordering', 'ordering');
+		$orderCol  = $this->state->get('list.ordering', 'ordering');
 		$orderDirn = $this->state->get('list.direction');
 
 		if ($orderCol == 'ordering' || $orderCol == 'category_title')
@@ -167,7 +169,10 @@ class FabrikAdminModelElements extends FabModelList
 			AND ee.id = e.id AND ee.group_id <> 0 AND ee.id IN (" . implode(',', $elementIds) . ") LIMIT 1)  AS full_element_name";
 
 			$query->select('u.name AS editor, ' . $fullname . ', g.name AS group_name, l.db_table_name');
+			$query->select("(SELECT GROUP_CONCAT(ec.id SEPARATOR ',') FROM #__{package}_elements AS ec WHERE ec.parent_id = e.id) AS child_ids");
 		}
+
+		//$sql = (string)$query;
 
 		return $query;
 	}
@@ -181,7 +186,7 @@ class FabrikAdminModelElements extends FabModelList
 	public function getItems()
 	{
 		$items = parent::getItems();
-		$db = $this->getDbo();
+		$db    = $this->getDbo();
 		$query = $db->getQuery(true);
 		$query->select('id, title')->from('#__viewlevels');
 		$db->setQuery($query);
@@ -196,28 +201,28 @@ class FabrikAdminModelElements extends FabModelList
 			}
 
 			// Add a tip containing the access level information
-			$params = new JRegistry($item->params);
+			$params = new Registry($item->params);
 
-			$addAccessTitle = JArrayHelper::getValue($viewLevels, $item->access);
+			$addAccessTitle = FArrayHelper::getValue($viewLevels, $item->access);
 			$addAccessTitle = is_object($addAccessTitle) ? $addAccessTitle->title : 'n/a';
 
-			$editAccessTitle = JArrayHelper::getValue($viewLevels, $params->get('edit_access', 1));
+			$editAccessTitle = FArrayHelper::getValue($viewLevels, $params->get('edit_access', 1));
 			$editAccessTitle = is_object($editAccessTitle) ? $editAccessTitle->title : 'n/a';
 
-			$viewAccessTitle = JArrayHelper::getValue($viewLevels, $params->get('view_access', 1));
+			$viewAccessTitle = FArrayHelper::getValue($viewLevels, $params->get('view_access', 1));
 			$viewAccessTitle = is_object($viewAccessTitle) ? $viewAccessTitle->title : 'n/a';
 
-			$item->tip = JText::_('COM_FABRIK_ACCESS_EDITABLE_ELEMENT') . ': ' . $addAccessTitle
-				. '<br />' . JText::_('COM_FABRIK_ELEMENT_EDIT_ACCESS_LABEL') . ': ' . $editAccessTitle
-				. '<br />' . JText::_('COM_FABRIK_ACCESS_VIEWABLE_ELEMENT') . ': ' . $viewAccessTitle;
+			$item->tip = FText::_('COM_FABRIK_ACCESS_EDITABLE_ELEMENT') . ': ' . $addAccessTitle
+				. '<br />' . FText::_('COM_FABRIK_ELEMENT_EDIT_ACCESS_LABEL') . ': ' . $editAccessTitle
+				. '<br />' . FText::_('COM_FABRIK_ACCESS_VIEWABLE_ELEMENT') . ': ' . $viewAccessTitle;
 
 			$validations = $params->get('validations');
-			$v = array();
+			$v           = array();
 
 			// $$$ hugh - make sure the element has validations, if not it could return null or 0 length array
 			if (is_object($validations))
 			{
-				for ($i = 0; $i < count($validations->plugin); $i ++)
+				for ($i = 0; $i < count($validations->plugin); $i++)
 				{
 					$pname = $validations->plugin[$i];
 					/*
@@ -226,7 +231,7 @@ class FabrikAdminModelElements extends FabModelList
 					 */
 					if (empty($pname))
 					{
-						$v[] = '&nbsp;&nbsp;<strong>' . JText::_('COM_FABRIK_ELEMENTS_NO_VALIDATION_SELECTED'). '</strong>';
+						$v[] = '&nbsp;&nbsp;<strong>' . FText::_('COM_FABRIK_ELEMENTS_NO_VALIDATION_SELECTED') . '</strong>';
 						continue;
 					}
 
@@ -237,20 +242,20 @@ class FabrikAdminModelElements extends FabModelList
 					 */
 					if (!isset($validations->plugin_published))
 					{
-						$published = JText::_('JPUBLISHED');
+						$published = FText::_('JPUBLISHED');
 					}
 					else
 					{
-						$published = $validations->plugin_published[$i] ? JText::_('JPUBLISHED') : JText::_('JUNPUBLISHED');
+						$published = $validations->plugin_published[$i] ? FText::_('JPUBLISHED') : FText::_('JUNPUBLISHED');
 					}
 
 					$v[] = '&nbsp;&nbsp;<strong>' . $pname . ': <em>' . $published . '</em></strong>'
-						. '<br />&nbsp;&nbsp;&nbsp;&nbsp;' . JText::_('COM_FABRIK_FIELD_ERROR_MSG_LABEL') . ': <em>' . htmlspecialchars(JArrayHelper::getValue($msgs, $i, 'n/a')) . '</em>';
+						. '<br />&nbsp;&nbsp;&nbsp;&nbsp;' . FText::_('COM_FABRIK_FIELD_ERROR_MSG_LABEL') . ': <em>' . htmlspecialchars(FArrayHelper::getValue($msgs, $i, 'n/a')) . '</em>';
 				}
 			}
 
 			$item->numValidations = count($v);
-			$item->validationTip = $v;
+			$item->validationTip  = $v;
 		}
 
 		return $items;
@@ -259,11 +264,11 @@ class FabrikAdminModelElements extends FabModelList
 	/**
 	 * Returns a reference to the a Table object, always creating it.
 	 *
-	 * @param   string  $type    The table type to instantiate
-	 * @param   string  $prefix  A prefix for the table class name. Optional.
-	 * @param   array   $config  Configuration array for model. Optional.
+	 * @param   string $type   The table type to instantiate
+	 * @param   string $prefix A prefix for the table class name. Optional.
+	 * @param   array  $config Configuration array for model. Optional.
 	 *
-	 * @return  JTable	A database object
+	 * @return  JTable    A database object
 	 *
 	 * @since   1.6
 	 */
@@ -280,10 +285,10 @@ class FabrikAdminModelElements extends FabModelList
 	 *
 	 * Note. Calling getState in this method will result in recursion.
 	 *
-	 * @param   string  $ordering   An optional ordering field.
-	 * @param   string  $direction  An optional direction (asc|desc).
+	 * @param   string $ordering  An optional ordering field.
+	 * @param   string $direction An optional direction (asc|desc).
 	 *
-	 * @since	1.6
+	 * @since    1.6
 	 *
 	 * @return  null
 	 */
@@ -331,7 +336,7 @@ class FabrikAdminModelElements extends FabModelList
 
 	public function getShowInListOptions()
 	{
-		return array(JHtml::_('select.option', 0, JText::_('JNO')), JHtml::_('select.option', 1, JText::_('JYES')));
+		return array(JHtml::_('select.option', 0, FText::_('JNO')), JHtml::_('select.option', 1, FText::_('JYES')));
 	}
 
 	/**
@@ -342,10 +347,10 @@ class FabrikAdminModelElements extends FabModelList
 
 	public function getPluginOptions()
 	{
-		$db = FabrikWorker::getDbo(true);
-		$user = JFactory::getUser();
+		$db     = FabrikWorker::getDbo(true);
+		$user   = JFactory::getUser();
 		$levels = implode(',', $user->getAuthorisedViewLevels());
-		$query = $db->getQuery(true);
+		$query  = $db->getQuery(true);
 		$query->select('element AS value, element AS text')->from('#__extensions')->where('enabled >= 1')->where('type =' . $db->quote('plugin'))
 			->where('state >= 0')->where('access IN (' . $levels . ')')->where('folder = ' . $db->quote('fabrik_element'))->order('text');
 		$db->setQuery($query);
@@ -357,8 +362,8 @@ class FabrikAdminModelElements extends FabModelList
 	/**
 	 * Batch process element properties
 	 *
-	 * @param   array  $ids    element ids
-	 * @param   array  $batch  element properties to set to
+	 * @param   array $ids   element ids
+	 * @param   array $batch element properties to set to
 	 *
 	 * @since   3.0.7
 	 *
@@ -367,7 +372,7 @@ class FabrikAdminModelElements extends FabModelList
 
 	public function batch($ids, $batch)
 	{
-		JArrayHelper::toInteger($ids);
+		$ids = ArrayHelper::toInteger($ids);
 
 		foreach ($ids as $id)
 		{
@@ -380,22 +385,21 @@ class FabrikAdminModelElements extends FabModelList
 	/**
 	 * Stops internal id from being unpublished
 	 *
-	 * @param   array  $ids  Ids wanting to be unpublished
+	 * @param   array $ids Ids wanting to be unpublished
 	 *
 	 * @return  array  allowed ids
 	 */
 	public function canUnpublish($ids)
 	{
-		JArrayHelper::toInteger($ids);
+		$ids = ArrayHelper::toInteger($ids);
 		$blocked = array();
-		$allowed = array();
 
 		foreach ($ids as $id)
 		{
 			$item = $this->getTable('Element');
 			$item->load($id);
 
-			if ($item->plugin == 'internalid')
+			if ($item->get('plugin') == 'internalid')
 			{
 				$blocked[] = $id;
 			}
@@ -404,7 +408,7 @@ class FabrikAdminModelElements extends FabModelList
 		if (!empty($blocked))
 		{
 			$app = JFactory::getApplication();
-			$app->enqueueMessage(JText::_('COM_FABRIK_CANT_UNPUBLISHED_PK_ELEMENT'), 'warning');
+			$app->enqueueMessage(FText::_('COM_FABRIK_CANT_UNPUBLISHED_PK_ELEMENT'), 'warning');
 		}
 
 		return array_diff($ids, $blocked);

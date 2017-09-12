@@ -57,7 +57,7 @@ RewriteRule .* index.php [F]
 # Update Your Joomla! Directory (just / for root).
 ##
 
-RewriteBase /adv5/
+RewriteBase /tolteca/
 
 ## Begin - Joomla! core SEF Section.
 #
@@ -86,6 +86,6 @@ allow from 127.0.0.1
 allow from 193.147.170.62
 #allow from 193.147.170.107
 #allow from 172.20.12.210
-#allow from all
+allow from all
 #ErrorDocument 403 http://admisiondoctorado.us.es/
 

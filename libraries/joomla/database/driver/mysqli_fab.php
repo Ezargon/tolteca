@@ -4,7 +4,7 @@
  *
  * @package     Joomla
  * @subpackage  Fabrik
- * @copyright   Copyright (C) 2005-2013 fabrikar.com - All rights reserved.
+ * @copyright   Copyright (C) 2005-2016  Media A-Team, Inc. - All rights reserved.
  * @license     GNU/GPL http://www.gnu.org/copyleft/gpl.html
  */
 
@@ -39,7 +39,7 @@ class JDatabaseDriverMySQLi_Fab extends JDatabaseDriverMySQLi
 	public function replacePrefix($sql, $prefix = '#__')
 	{
 		$app = JFactory::getApplication();
-		$package = $app->getUserStateFromRequest('com_fabrik.package', 'package', 'fabrik');
+		$package = $app->getUserStateFromRequest('com_fabrik.package', 'package', 'fabrik', 'cmd');
 
 		if ($package == '')
 		{

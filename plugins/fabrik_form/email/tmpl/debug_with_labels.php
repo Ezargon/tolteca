@@ -4,7 +4,7 @@
  *
  * @package     Joomla.Plugin
  * @subpackage  Fabrik.form.email
- * @copyright   Copyright (C) 2005-2013 fabrikar.com - All rights reserved.
+ * @copyright   Copyright (C) 2005-2016  Media A-Team, Inc. - All rights reserved.
  * @license     GNU/GPL http://www.gnu.org/copyleft/gpl.html
  */
 
@@ -61,7 +61,7 @@ function tryForLabel($formModel, $key, $raw, $info)
 ?>
 <table>
 <?php
-foreach ($this->data as $key => $val)
+foreach ($this->emailData as $key => $val)
 {
 	// Lets see if we can get the element name:
 	list($label, $thisRaw, $show) = tryForLabel($formModel, $key, $raw, $info);
@@ -86,5 +86,3 @@ foreach ($this->data as $key => $val)
 }
 ?>
 </table>
-
-<?php exit;?>

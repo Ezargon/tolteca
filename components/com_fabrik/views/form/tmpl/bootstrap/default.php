@@ -4,7 +4,7 @@
  *
  * @package     Joomla
  * @subpackage  Fabrik
- * @copyright   Copyright (C) 2005-2013 fabrikar.com - All rights reserved.
+ * @copyright   Copyright (C) 2005-2016  Media A-Team, Inc. - All rights reserved.
  * @license     GNU/GPL http://www.gnu.org/copyleft/gpl.html
  * @since       3.1
  */
@@ -18,9 +18,9 @@ $groupTmpl = $model->editable ? 'group' : 'group_details';
 $active = ($form->error != '') ? '' : ' fabrikHide';
 
 if ($this->params->get('show_page_heading', 1)) : ?>
-	<!-- <div class="componentheading<?php echo $this->params->get('pageclass_sfx')?>">
+	<div class="componentheading<?php echo $this->params->get('pageclass_sfx')?>">
 		<?php echo $this->escape($this->params->get('page_heading')); ?>
-	</div> -->
+	</div>
 <?php
 endif;
 
@@ -44,12 +44,12 @@ echo $this->plugintop;
 </div>
 
 <div class="row-fluid nav">
-	<div class="span6 pull-right">
+	<div class="<?php echo FabrikHelperHTML::getGridSpan(6); ?> pull-right">
 		<?php
 		echo $this->loadTemplate('buttons');
 		?>
 	</div>
-	<div class="span6">
+	<div class="<?php echo FabrikHelperHTML::getGridSpan(6); ?>">
 		<?php
 		echo $this->loadTemplate('relateddata');
 		?>
@@ -62,13 +62,8 @@ foreach ($this->groups as $group) :
 	?>
 
 	<fieldset class="<?php echo $group->class; ?>" id="group<?php echo $group->id;?>" style="<?php echo $group->css;?>">
-	<?php
-		$allHidden = true;
-		foreach ($group->elements as $element)
-		{
-			$allHidden &= $element->hidden;
-		}
-		if ((!$allHidden || !empty($group->intro)) && trim($group->title) !== '') :?>
+		<?php
+		if ($group->showLegend) :?>
 			<legend class="legend"><?php echo $group->title;?></legend>
 		<?php
 		endif;

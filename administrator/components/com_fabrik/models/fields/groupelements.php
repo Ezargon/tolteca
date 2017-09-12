@@ -4,7 +4,7 @@
  *
  * @package     Joomla
  * @subpackage  Form
- * @copyright   Copyright (C) 2005-2013 fabrikar.com - All rights reserved.
+ * @copyright   Copyright (C) 2005-2016  Media A-Team, Inc. - All rights reserved.
  * @license     GNU/GPL http://www.gnu.org/copyleft/gpl.html
  */
 
@@ -20,7 +20,6 @@ JFormHelper::loadFieldClass('groupedlist');
  * @subpackage  Form
  * @since       3.1
  */
-
 class JFormFieldGroupElements extends JFormFieldGroupedList
 {
 	/**
@@ -36,7 +35,6 @@ class JFormFieldGroupElements extends JFormFieldGroupedList
 	 *
 	 * @return  array  The field option objects as a nested array in groups.
 	 */
-
 	protected function getGroups()
 	{
 		$app = JFactory::getApplication();
@@ -54,8 +52,8 @@ class JFormFieldGroupElements extends JFormFieldGroupedList
 		$formModel->setId($formId);
 
 		$rows = array();
-		$rows[JText::_('COM_FABRIK_GROUPS')] = array();
-		$rows[JText::_('COM_FABRIK_ELEMENTS')] = array();
+		$rows[FText::_('COM_FABRIK_GROUPS')] = array();
+		$rows[FText::_('COM_FABRIK_ELEMENTS')] = array();
 
 		// Get available element types
 		$groups = $formModel->getGroupsHiarachy();
@@ -65,19 +63,19 @@ class JFormFieldGroupElements extends JFormFieldGroupedList
 			$group = $groupModel->getGroup();
 			$label = $group->name;
 			$value = 'fabrik_trigger_group_group' . $group->id;
-			$rows[JText::_('COM_FABRIK_GROUPS')][] = JHTML::_('select.option', $value, $label);
+			$rows[FText::_('COM_FABRIK_GROUPS')][] = JHTML::_('select.option', $value, $label);
 			$elementModels = $groupModel->getMyElements();
 
 			foreach ($elementModels as $elementModel)
 			{
 				$label = $elementModel->getFullName(false, false);
 				$value = 'fabrik_trigger_element_' . $elementModel->getFullName(true, false);
-				$rows[JText::_('COM_FABRIK_ELEMENTS')][] = JHTML::_('select.option', $value, $label);
+				$rows[FText::_('COM_FABRIK_ELEMENTS')][] = JHTML::_('select.option', $value, $label);
 			}
 		}
 
 		reset($rows);
-		asort($rows[JText::_('COM_FABRIK_ELEMENTS')]);
+		asort($rows[FText::_('COM_FABRIK_ELEMENTS')]);
 
 		return $rows;
 	}

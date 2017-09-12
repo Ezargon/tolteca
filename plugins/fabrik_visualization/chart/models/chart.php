@@ -4,7 +4,7 @@
  *
  * @package     Joomla.Plugin
  * @subpackage  Fabrik.visualization.chart
- * @copyright   Copyright (C) 2005-2013 fabrikar.com - All rights reserved.
+ * @copyright   Copyright (C) 2005-2016  Media A-Team, Inc. - All rights reserved.
  * @license     GNU/GPL http://www.gnu.org/copyleft/gpl.html
  */
 
@@ -35,11 +35,11 @@ class FabrikModelChart extends FabrikFEModelVisualization
 	/**
 	 * Get min and max values form totals
 	 *
-	 * @param   array  &$totals  Totals
+	 * @param   array  $totals  Totals
 	 *
 	 * @return  array
 	 */
-	private function _getMinMax(&$totals)
+	private function _getMinMax($totals)
 	{
 		// $min will only go lower if data is negative!
 		$max = 0;
@@ -124,7 +124,7 @@ class FabrikModelChart extends FabrikFEModelVisualization
 			$listModel = $tableData['model'];
 			$pref = substr($column, 0, 6);
 
-			$label = JArrayHelper::getValue($x_axis_label, $c, '');
+			$label = FArrayHelper::getValue($x_axis_label, $c, '');
 			$tmpgdata = array();
 			$calcfound = $this->getCalcFound();
 
@@ -297,7 +297,7 @@ class FabrikModelChart extends FabrikFEModelVisualization
 
 		for ($c = 0; $c < count($tableDatas); $c++)
 		{
-			$colour = JArrayHelper::getValue($chartColours, $c, '');
+			$colour = FArrayHelper::getValue($chartColours, $c, '');
 			$colour = str_replace("#", '', $colour);
 
 			if ($fillGraphs)
@@ -332,7 +332,7 @@ class FabrikModelChart extends FabrikFEModelVisualization
 		$chds_override = trim(str_replace('|', ',', $chds_override), '|');
 		$axisLabels = implode("|", $this->getAxisLabels($c));
 		$calcfound = $this->getCalcFound();
-		$measurement_unit = JArrayHelper::getValue($measurement_units, $c, '');
+		$measurement_unit = FArrayHelper::getValue($measurement_units, $c, '');
 		$minmax = $this->getMinMax($gdata, $gsums);
 
 		$chd = implode('|', $gdata);
@@ -378,7 +378,7 @@ class FabrikModelChart extends FabrikFEModelVisualization
 	{
 		$params = $this->getParams();
 		$minmax = $this->getMinMax($gdata, $gsums);
-		$measurement_unit = JArrayHelper::getValue($measurement_units, $c, '');
+		$measurement_unit = FArrayHelper::getValue($measurement_units, $c, '');
 		$chds_override = $params->get('chart_chds', '');
 
 		if (preg_match('#^\d+,$#', $chds_override))
@@ -510,7 +510,7 @@ class FabrikModelChart extends FabrikFEModelVisualization
 			$column = $chartElements[$c];
 			$listModel = $tableData['model'];
 			$pref = substr($column, 0, 6);
-			$label = JArrayHelper::getValue($x_axis_label, $c, '');
+			$label = FArrayHelper::getValue($x_axis_label, $c, '');
 			$tmpglabels = array();
 			$calcfound = $this->getCalcFound();
 

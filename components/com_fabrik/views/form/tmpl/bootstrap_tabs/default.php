@@ -4,7 +4,7 @@
  *
  * @package     Joomla
  * @subpackage  Fabrik
- * @copyright   Copyright (C) 2005-2013 fabrikar.com - All rights reserved.
+ * @copyright   Copyright (C) 2005-2016  Media A-Team, Inc. - All rights reserved.
  * @license     GNU/GPL http://www.gnu.org/copyleft/gpl.html
  * @since       3.1
  */
@@ -16,6 +16,12 @@ $form = $this->form;
 $model = $this->getModel();
 $groupTmpl = $model->editable ? 'group' : 'group_details';
 $active = ($form->error != '') ? '' : ' fabrikHide';
+
+if ($model->isMultiPage() && FabrikHelperHTML::isDebug())
+{
+	$app = JFactory::getApplication();
+	$app->enqueueMessage(FText::_('COM_FABRIK_ERR_TAB_FORM_TEMPLATE_INCOMPATIBLE_WITH_MULTIPAGE_FORMS'), 'error');
+}
 
 if ($this->params->get('show_page_heading', 1)) : ?>
 	<div class="componentheading<?php echo $this->params->get('pageclass_sfx')?>">
@@ -32,12 +38,9 @@ if ($this->params->get('show-title', 1)) :?>
 endif;
 
 echo $form->intro;
-
-if ($model->editable) :
-		echo '<form method="post" action="' . $form->action . '" ' . $form->attribs . '>';
-	else:
-		echo '<div class="fabrikForm fabrikDetails" id="' . $form->formid . '">';
-endif;
+?>
+<form method="post" <?php echo $form->attribs?>>
+<?php
 echo $this->plugintop;
 ?>
 
@@ -58,58 +61,59 @@ echo $this->plugintop;
 		?>
 	</div>
 </div>
-<ul class="nav nav-tabs">
-	<?php
-	$i = 0;
-	foreach ($this->groups as $group) :
-		// If this ismultipage then groups are consolidated until a group with a page break
-		// So we should only show a tab if: it is first tab, or if it is a page break
-		if (!$model->isMultiPage() || $i == 0 || $group->splitPage) :
-			?>
-				<li <?php if ($i == 0) echo 'class="active"'?>>
-					<a href="#group-tab<?php echo $i;?>" data-toggle="tab">
-						<?php
-							if (!empty($group->title))
-							{
-								echo $group->title;
-							}
-							else
-							{
-								echo $group->name;
-							}
-						?>
-					</a>
-				</li>
-			<?php
-			$i ++;
-		endif;
-	endforeach;
-	?>
-</ul>
+
+
+<?php
+$i = 0;
+$tabs = array();
+$is_err = false;
+
+foreach ($this->groups as $group) :
+	foreach ($group->elements as $element) {
+		if ($element->error != '') {
+			$is_err = true;
+			break;
+		}
+	}
+	$err_class = $is_err ? 'fabrikErrorGroup' : '';
+	$tabId = $this->form->id . '_' . (int)$this->rowid . '_' . $i;
+	// If this is multi-page then groups are consolidated until a group with a page break
+	// So we should only show a tab if: it is first tab, or if it is a page break
+	if (!$model->isMultiPage() || $i === 0 || $group->splitPage) :
+		$is_err = false;
+		$tab = new stdClass;
+		$tab->class = $i === 0 ? 'active ' . $err_class : $err_class;
+		$tab->css = $group->css;
+		$tab->href = 'group-tab' . $tabId;
+		$tab->id = 'group' . $group->id . '_tab';
+		$tab->label = !empty($group->title) ? $group->title : $group->name;;
+		$tabs[] = $tab;
+		$i ++;
+	endif;
+endforeach;
+
+echo FabrikHelperHTML::getLayout('fabrik-tabs')->render((object) array('tabs' => $tabs));
+?>
+
 <div class="tab-content">
 	<?php
 
 	$i = 0;
 	foreach ($this->groups as $group) :
 		$this->group = $group;
+		$tabId = $this->form->id . '_' . (int)$this->rowid . '_' . $i;
 		if ($i == 0 || !$model->isMultiPage() || $group->splitPage) :
-			if ($i != 0)
-			{
+			if ($i != 0) :
 				echo '</div>';
-			}
+			endif;
 			?>
-			<div class="tab-pane<?php if ($i == 0) echo " active"?>" id="group-tab<?php echo $i;?>">
+			<div role="tabpanel" class="tab-pane<?php if ($i == 0) echo " active"?>" id="group-tab<?php echo $tabId;?>">
 			<?php
 			$i++;
 		endif; ?>
 			<fieldset class="<?php echo $group->class; ?>" id="group<?php echo $group->id;?>" style="<?php echo $group->css;?>">
 				<?php
-				$allHidden = true;
-				foreach ($group->elements as $element)
-				{
-					$allHidden &= $element->hidden;
-				}
-				if ((!$allHidden || !empty($group->intro)) && trim($group->title) !== '') :?>
+				if ($group->showLegend) : ?>
 					<legend class="legend"><?php echo $group->title;?></legend>
 				<?php
 				endif;
@@ -151,11 +155,7 @@ echo $this->loadTemplate('actions');
 ?>
 </form>
 <?php
-if ($model->editable) :
-		echo '</form>';
-	else:
-		echo '</div>';
-endif;
 echo $form->outro;
 echo $this->pluginend;
 echo FabrikHelperHTML::keepalive();
+?>

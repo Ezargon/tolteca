@@ -5,7 +5,7 @@
  *
  * @package     Joomla
  * @subpackage  Form
- * @copyright   Copyright (C) 2005-2013 fabrikar.com - All rights reserved.
+ * @copyright   Copyright (C) 2005-2016  Media A-Team, Inc. - All rights reserved.
  * @license     GNU/GPL http://www.gnu.org/copyleft/gpl.html
  */
 
@@ -76,7 +76,7 @@ class JFormFieldSpecificordering extends JFormFieldList
 		}
 		else
 		{
-			$text = JText::_('COM_FABRIK_NEW_ITEMS_LAST');
+			$text = FText::_('COM_FABRIK_NEW_ITEMS_LAST');
 			$ordering = '<input type="text" size="40" readonly="readonly" class="readonly" name="' . $this->name . '" value="' . $this->value . $text
 				. '" />';
 		}

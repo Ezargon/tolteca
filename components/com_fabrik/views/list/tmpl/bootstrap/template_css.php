@@ -4,7 +4,7 @@
  *
  * @package     Joomla
  * @subpackage  Fabrik
- * @copyright   Copyright (C) 2005-2013 fabrikar.com - All rights reserved.
+ * @copyright   Copyright (C) 2005-2016  Media A-Team, Inc. - All rights reserved.
  * @license     GNU/GPL http://www.gnu.org/copyleft/gpl.html
  */
 
@@ -48,8 +48,15 @@ list-style: none;
 
 .filtertable_horiz {
 	display: inline-block;
-	padding: 25px;
 	vertical-align: top;
 }
 
+.fabrikListFilterCheckbox {
+	text-align: left;
+}
+
+.fabrikDateListFilterRange {
+	text-align: left;
+	display: inline-block;
+}
 ";?>

@@ -4,7 +4,7 @@
  *
  * @package     Joomla.Plugin
  * @subpackage  Fabrik.list.copy
- * @copyright   Copyright (C) 2005-2013 fabrikar.com - All rights reserved.
+ * @copyright   Copyright (C) 2005-2016  Media A-Team, Inc. - All rights reserved.
  * @license     GNU/GPL http://www.gnu.org/copyleft/gpl.html
  */
 
@@ -21,7 +21,6 @@ require_once COM_FABRIK_FRONTEND . '/models/plugin-list.php';
  * @subpackage  Fabrik.list.copy
  * @since       3.0
  */
-
 class PlgFabrik_ListCopy extends PlgFabrik_List
 {
 	/**
@@ -38,7 +37,6 @@ class PlgFabrik_ListCopy extends PlgFabrik_List
 	 *
 	 * @return  bool;
 	 */
-
 	public function button(&$args)
 	{
 		parent::button($args);
@@ -47,11 +45,40 @@ class PlgFabrik_ListCopy extends PlgFabrik_List
 	}
 
 	/**
+	 * Get the button label
+	 *
+	 * @return  string
+	 */
+	protected function buttonLabel()
+	{
+		return $this->getParams()->get('copytable_button_label', parent::buttonLabel());
+	}
+
+	/**
+	 * Get button image
+	 *
+	 * @since   3.1b
+	 *
+	 * @return   string  image
+	 */
+
+	protected function getImageName()
+	{
+		$img = parent::getImageName();
+
+		if (FabrikWorker::j3() && $img === 'copy.png')
+		{
+			$img = 'copy';
+		}
+
+		return $img;
+	}
+
+	/**
 	 * Get the parameter name that defines the plugins acl access
 	 *
 	 * @return  string
 	 */
-
 	protected function getAclParam()
 	{
 		return 'copytable_access';
@@ -62,7 +89,6 @@ class PlgFabrik_ListCopy extends PlgFabrik_List
 	 *
 	 * @return  bool
 	 */
-
 	public function canSelectRows()
 	{
 		return true;
@@ -75,13 +101,10 @@ class PlgFabrik_ListCopy extends PlgFabrik_List
 	 *
 	 * @return  bool
 	 */
-
 	public function process($opts = array())
 	{
-		$params = $this->getParams();
-		$app = JFactory::getApplication();
 		$model = $this->getModel();
-		$ids = $app->input->get('ids', array(), 'array');
+		$ids = $this->app->input->get('ids', array(), 'array');
 		$formModel = $model->getFormModel();
 
 		return $model->copyRows($ids);
@@ -94,11 +117,9 @@ class PlgFabrik_ListCopy extends PlgFabrik_List
 	 *
 	 * @return  string
 	 */
-
 	public function process_result($c)
 	{
-		$app = JFactory::getApplication();
-		$ids = $app->input->get('ids', array(), 'array');
+		$ids = $this->app->input->get('ids', array(), 'array');
 
 		return JText::sprintf('PLG_LIST_ROWS_COPIED', count($ids));
 	}
@@ -110,7 +131,6 @@ class PlgFabrik_ListCopy extends PlgFabrik_List
 	 *
 	 * @return bool
 	 */
-
 	public function onLoadJavascriptInstance($args)
 	{
 		parent::onLoadJavascriptInstance($args);
@@ -119,5 +139,15 @@ class PlgFabrik_ListCopy extends PlgFabrik_List
 		$this->jsInstance = "new FbListCopy($opts)";
 
 		return true;
+	}
+
+	/**
+	 * Load the AMD module class name
+	 *
+	 * @return string
+	 */
+	public function loadJavascriptClassName_result()
+	{
+		return 'FbListCopy';
 	}
 }

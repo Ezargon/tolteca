@@ -4,7 +4,7 @@
  *
  * @package     Joomla.Administrator
  * @subpackage  Fabrik
- * @copyright   Copyright (C) 2005-2013 fabrikar.com - All rights reserved.
+ * @copyright   Copyright (C) 2005-2016  Media A-Team, Inc. - All rights reserved.
  * @license     GNU/GPL http://www.gnu.org/copyleft/gpl.html
  * @since       3.0
  */
@@ -72,7 +72,7 @@ class FabrikAdminViewConnection extends JViewLegacy
 		FabrikAdminHelper::setViewLayout($this);
 
 		$srcs = FabrikHelperHTML::framework();
-		$srcs[] = 'media/com_fabrik/js/fabrik.js';
+		$srcs['Fabrik'] = 'media/com_fabrik/js/fabrik.js';
 
 		FabrikHelperHTML::iniRequireJS();
 		FabrikHelperHTML::script($srcs);
@@ -95,8 +95,8 @@ class FabrikAdminViewConnection extends JViewLegacy
 		$isNew = ($this->item->id == 0);
 		$checkedOut	= !($this->item->checked_out == 0 || $this->item->checked_out == $user->get('id'));
 		$canDo = FabrikAdminHelper::getActions($this->state->get('filter.category_id'));
-		$title = $isNew ? JText::_('COM_FABRIK_MANAGER_CONNECTION_NEW') : JText::_('COM_FABRIK_MANAGER_CONNECTION_EDIT') . ' "' . $this->item->description . '"';
-		JToolBarHelper::title($title, 'connection.png');
+		$title = $isNew ? FText::_('COM_FABRIK_MANAGER_CONNECTION_NEW') : FText::_('COM_FABRIK_MANAGER_CONNECTION_EDIT') . ' "' . $this->item->description . '"';
+		JToolBarHelper::title($title, 'tree-2');
 
 		if ($isNew)
 		{
@@ -138,6 +138,6 @@ class FabrikAdminViewConnection extends JViewLegacy
 		}
 
 		JToolBarHelper::divider();
-		JToolBarHelper::help('JHELP_COMPONENTS_FABRIK_CONNECTIONS_EDIT', false, JText::_('JHELP_COMPONENTS_FABRIK_CONNECTIONS_EDIT'));
+		JToolBarHelper::help('JHELP_COMPONENTS_FABRIK_CONNECTIONS_EDIT', false, FText::_('JHELP_COMPONENTS_FABRIK_CONNECTIONS_EDIT'));
 	}
 }

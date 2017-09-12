@@ -4,13 +4,15 @@
  *
  * @package     Joomla.Administrator
  * @subpackage  Fabrik
- * @copyright   Copyright (C) 2005-2013 fabrikar.com - All rights reserved.
+ * @copyright   Copyright (C) 2005-2016  Media A-Team, Inc. - All rights reserved.
  * @license     GNU/GPL http://www.gnu.org/copyleft/gpl.html
  * @since       1.6
  */
 
 // No direct access
 defined('_JEXEC') or die('Restricted access');
+
+use Joomla\Utilities\ArrayHelper;
 
 require_once 'fabcontrolleradmin.php';
 
@@ -21,7 +23,6 @@ require_once 'fabcontrolleradmin.php';
  * @subpackage  Fabrik
  * @since       3.0
  */
-
 class FabrikAdminControllerElements extends FabControllerAdmin
 {
 	/**
@@ -46,7 +47,6 @@ class FabrikAdminControllerElements extends FabControllerAdmin
 	 * @see		JController
 	 * @since	1.6
 	 */
-
 	public function __construct($config = array())
 	{
 		parent::__construct($config);
@@ -63,7 +63,6 @@ class FabrikAdminControllerElements extends FabControllerAdmin
 	 *
 	 * @return  J model
 	 */
-
 	public function getModel($name = 'Element', $prefix = 'FabrikAdminModel', $config = array())
 	{
 		$config = array();
@@ -78,11 +77,10 @@ class FabrikAdminControllerElements extends FabControllerAdmin
 	 *
 	 * @return null
 	 */
-
 	public function toggleInList()
 	{
 		// Check for request forgeries
-		JSession::checkToken() or die(JText::_('JINVALID_TOKEN'));
+		JSession::checkToken() or die(FText::_('JINVALID_TOKEN'));
 
 		// Get items to publish from the request.
 		$app = JFactory::getApplication();
@@ -90,11 +88,11 @@ class FabrikAdminControllerElements extends FabControllerAdmin
 		$cid = $input->get('cid', array(), 'array');
 		$data = array('showInListView' => 1, 'hideFromListView' => 0);
 		$task = $this->getTask();
-		$value = JArrayHelper::getValue($data, $task, 0, 'int');
+		$value = FArrayHelper::getValue($data, $task, 0, 'int');
 
 		if (empty($cid))
 		{
-			JError::raiseWarning(500, JText::_($this->text_prefix . '_NO_ITEM_SELECTED'));
+			JError::raiseWarning(500, FText::_($this->text_prefix . '_NO_ITEM_SELECTED'));
 		}
 		else
 		{
@@ -102,7 +100,7 @@ class FabrikAdminControllerElements extends FabControllerAdmin
 			$model = $this->getModel();
 
 			// Make sure the item ids are integers
-			JArrayHelper::toInteger($cid);
+			$cid = ArrayHelper::toInteger($cid);
 
 			// Publish the items.
 			if (!$model->addToListView($cid, $value))
@@ -113,14 +111,14 @@ class FabrikAdminControllerElements extends FabControllerAdmin
 			{
 				if ($value == 1)
 				{
-					$ntext = $this->text_prefix . '_N_ITEMS_ADDED_TO_LIST_VIEW';
+					$nText = $this->text_prefix . '_N_ITEMS_ADDED_TO_LIST_VIEW';
 				}
 				else
 				{
-					$ntext = $this->text_prefix . '_N_ITEMS_REMOVED_FROM_LIST_VIEW';
+					$nText = $this->text_prefix . '_N_ITEMS_REMOVED_FROM_LIST_VIEW';
 				}
 
-				$this->setMessage(JText::plural($ntext, count($cid)));
+				$this->setMessage(JText::plural($nText, count($cid)));
 			}
 		}
 
@@ -134,7 +132,6 @@ class FabrikAdminControllerElements extends FabControllerAdmin
 	 *
 	 * @return null
 	 */
-
 	public function delete()
 	{
 		$viewType = JFactory::getDocument()->getType();
@@ -157,7 +154,6 @@ class FabrikAdminControllerElements extends FabControllerAdmin
 	 *
 	 * @return  null
 	 */
-
 	public function cancel()
 	{
 		$this->setRedirect('index.php?option=com_fabrik&view=elements');
@@ -168,7 +164,6 @@ class FabrikAdminControllerElements extends FabControllerAdmin
 	 *
 	 * @return  null
 	 */
-
 	public function copySelectGroup()
 	{
 		JSession::checkToken() or die('Invalid Token');
@@ -193,7 +188,6 @@ class FabrikAdminControllerElements extends FabControllerAdmin
 	 *
 	 * @return  void
 	 */
-
 	public function batch()
 	{
 		JSession::checkToken() or die('Invalid Token');
@@ -203,7 +197,7 @@ class FabrikAdminControllerElements extends FabControllerAdmin
 		$cid = $input->get('cid', array(), 'array');
 		$opts = $input->get('batch', array(), 'array');
 		$model->batch($cid, $opts);
-		$this->setRedirect('index.php?option=com_fabrik&view=elements', JText::_('COM_FABRIK_MSG_BATCH_DONE'));
+		$this->setRedirect('index.php?option=com_fabrik&view=elements', FText::_('COM_FABRIK_MSG_BATCH_DONE'));
 	}
 
 	/**
@@ -213,15 +207,14 @@ class FabrikAdminControllerElements extends FabControllerAdmin
 	 *
 	 * @since   3.1rc1
 	 */
-
 	public function saveOrderAjax()
 	{
 		$pks = $this->input->post->get('cid', array(), 'array');
 		$order = $this->input->post->get('order', array(), 'array');
 
 		// Sanitize the input
-		JArrayHelper::toInteger($pks);
-		JArrayHelper::toInteger($order);
+		$pks = ArrayHelper::toInteger($pks);
+		$order = ArrayHelper::toInteger($order);
 
 		// Get the model
 		$model = $this->getModel();
@@ -243,7 +236,6 @@ class FabrikAdminControllerElements extends FabControllerAdmin
 	 *
 	 * @return  null
 	 */
-
 	public function publish()
 	{
 		$app = JFactory::getApplication();

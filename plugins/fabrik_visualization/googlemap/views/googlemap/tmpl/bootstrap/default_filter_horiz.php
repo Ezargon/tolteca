@@ -4,7 +4,7 @@
  *
  * @package      Joomla.Plugin
  * @subpackage   Fabrik.visualization.googlemap
- * @copyright    Copyright (C) 2005-2013 fabrikar.com - All rights reserved.
+ * @copyright    Copyright (C) 2005-2016  Media A-Team, Inc. - All rights reserved.
  * @license      GNU/GPL http://www.gnu.org/copyleft/gpl.html
  */
 
@@ -38,11 +38,11 @@ if ($this->showFilters) :
 	  	<tr>
 	  		<th colspan="<?php echo count($filters) - 1; ?>" style="text-align:right">
 	  			<a href="#" class="clearFilters">
-	  				<?php echo JText::_('CLEAR'); ?>
+	  				<?php echo FText::_('CLEAR'); ?>
 	  			</a>
 	  		</th>
 	  		<th style="text-align:right;">
-	  			<input type="submit" class="btn btn-primary" value="<?php echo JText::_('GO') ?>" />
+	  			<input type="submit" class="btn btn-primary" value="<?php echo FText::_('GO') ?>" />
 	  		</th>
 	  	</tr>
 	  </tfoot>

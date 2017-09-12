@@ -4,7 +4,7 @@
  *
  * @package     Joomla.Administrator
  * @subpackage  Fabrik
- * @copyright   Copyright (C) 2005-2013 fabrikar.com - All rights reserved.
+ * @copyright   Copyright (C) 2005-2016  Media A-Team, Inc. - All rights reserved.
  * @license     GNU/GPL http://www.gnu.org/copyleft/gpl.html
  */
 
@@ -22,7 +22,6 @@ require_once 'fabcontrollerform.php';
  * @subpackage  Fabrik
  * @since       1.6
  */
-
 class FabrikAdminControllerConnection extends FabControllerForm
 {
 	/**
@@ -33,11 +32,10 @@ class FabrikAdminControllerConnection extends FabControllerForm
 	protected $text_prefix = 'COM_FABRIK_CONNECTION';
 
 	/**
-	 * Trys to connection to the database
+	 * Tries to connection to the database
 	 *
 	 * @return string connection message
 	 */
-
 	public function test()
 	{
 		JSession::checkToken() or die('Invalid Token');
@@ -54,13 +52,13 @@ class FabrikAdminControllerConnection extends FabControllerForm
 
 			if ($model->testConnection() == false)
 			{
-				JError::raiseWarning(500, JText::_('COM_FABRIK_UNABLE_TO_CONNECT'));
+				JError::raiseWarning(500, FText::_('COM_FABRIK_UNABLE_TO_CONNECT'));
 				$this->setRedirect($link);
 
 				return;
 			}
 		}
 
-		$this->setRedirect($link, JText::_('COM_FABRIK_CONNECTION_SUCESSFUL'));
+		$this->setRedirect($link, FText::_('COM_FABRIK_CONNECTION_SUCESSFUL'));
 	}
 }

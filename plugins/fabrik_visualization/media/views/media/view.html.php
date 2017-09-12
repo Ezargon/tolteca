@@ -4,7 +4,7 @@
  *
  * @package     Joomla.Plugin
  * @subpackage  Fabrik.visualization.media
- * @copyright   Copyright (C) 2005-2013 fabrikar.com - All rights reserved.
+ * @copyright   Copyright (C) 2005-2016  Media A-Team, Inc. - All rights reserved.
  * @license     GNU/GPL http://www.gnu.org/copyleft/gpl.html
  */
 
@@ -43,30 +43,31 @@ class FabrikViewMedia extends JViewLegacy
 		$params = $model->getParams();
 		$js = $model->getJs();
 		$srcs = FabrikHelperHTML::framework();
-		$srcs[] = 'media/com_fabrik/js/listfilter.js';
-		$srcs[] = 'plugins/fabrik_visualization/media/media.js';
+		$srcs['FbListFilter'] = 'media/com_fabrik/js/listfilter.js';
+		$srcs['Media'] = 'plugins/fabrik_visualization/media/media.js';
 
 		if ($params->get('media_which_player', 'jw') == 'jw')
 		{
-			$srcs[] = 'plugins/fabrik_visualization/media/libs/jw/jwplayer.js';
+			$srcs['JWPlayer'] = 'plugins/fabrik_visualization/media/libs/jw/jwplayer.js';
 		}
 
 		FabrikHelperHTML::iniRequireJs($model->getShim());
 		FabrikHelperHTML::script($srcs, $js);
 
-		if ($this->row->published == 0)
+		if (!$model->canView())
 		{
-			JError::raiseWarning(500, JText::_('JERROR_ALERTNOAUTHOR'));
+			echo FText::_('JERROR_ALERTNOAUTHOR');
 
-			return '';
+			return false;
 		}
 
 		$media = $model->getRow();
 		$this->media = $model->getMedia();
 		$this->params = $params;
 		$viewName = $this->getName();
-		$this->containerId = $this->get('ContainerId');
+		$this->containerId = $model->getContainerId();
 		$this->showFilters = $model->showFilters();
+		$this->filterFormURL = $model->getFilterFormURL();
 		$this->filters = $this->get('Filters');
 		$this->params = $model->getParams();
 		$tpl = $j3 ? 'bootstrap' : 'default';

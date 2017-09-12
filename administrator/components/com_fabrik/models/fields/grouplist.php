@@ -4,7 +4,7 @@
  *
  * @package     Joomla
  * @subpackage  Form
- * @copyright   Copyright (C) 2005-2013 fabrikar.com - All rights reserved.
+ * @copyright   Copyright (C) 2005-2016  Media A-Team, Inc. - All rights reserved.
  * @license     GNU/GPL http://www.gnu.org/copyleft/gpl.html
  */
 
@@ -71,7 +71,7 @@ class JFormFieldGroupList extends JFormFieldGroupedList
 		$sel = new stdClass;
 		$sel->value = '';
 		$sel->form = '';
-		$sel->text = JText::_('COM_FABRIK_PLEASE_SELECT');
+		$sel->text = FText::_('COM_FABRIK_PLEASE_SELECT');
 		array_unshift($options, $sel);
 
 		foreach ($options as $option)

@@ -4,7 +4,7 @@
  *
  * @package		Joomla.Plugin
  * @subpackage	Fabrik.visualization.slideshow
- * @copyright	Copyright (C) 2005-2013 fabrikar.com - All rights reserved.
+ * @copyright	Copyright (C) 2005-2016  Media A-Team, Inc. - All rights reserved.
  * @license		GNU/GPL http://www.gnu.org/copyleft/gpl.html
  */
 
@@ -23,9 +23,9 @@ $row = $this->row;
 	<div>
 		<?php echo $row->intro_text;?>
 	</div>
-	<div class="slideshow" id="slideshow_viz">
+	<div class="slideshow" id="slideshow_viz_<?php echo $row->id; ?>">
 		<div class="slideshow-images">
-			<a><img /> </a>
+			<a rel="lightbox"><img /> </a>
 			<div class="slideshow-loader"></div>
 		</div>
 		<div class="slideshow-captions"></div>

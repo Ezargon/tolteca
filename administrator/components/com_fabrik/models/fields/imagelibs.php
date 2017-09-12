@@ -4,7 +4,7 @@
  *
  * @package     Joomla
  * @subpackage  Form
- * @copyright   Copyright (C) 2005-2013 fabrikar.com - All rights reserved.
+ * @copyright   Copyright (C) 2005-2016  Media A-Team, Inc. - All rights reserved.
  * @license     GNU/GPL http://www.gnu.org/copyleft/gpl.html
  */
 
@@ -43,7 +43,7 @@ class JFormFieldImagelibs extends JFormFieldList
 
 		if (empty($imageLibs))
 		{
-			return JHTML::_('select.option', JText::_('COM_FABRIK_IMAGELIBS_NOT_FOUND'));
+			return JHTML::_('select.option', FText::_('COM_FABRIK_IMAGELIBS_NOT_FOUND'));
 		}
 
 		return $imageLibs;

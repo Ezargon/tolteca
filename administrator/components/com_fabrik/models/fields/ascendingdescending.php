@@ -4,7 +4,7 @@
  *
  * @package     Joomla
  * @subpackage  Form
- * @copyright   Copyright (C) 2005-2013 fabrikar.com - All rights reserved.
+ * @copyright   Copyright (C) 2005-2016  Media A-Team, Inc. - All rights reserved.
  * @license     GNU/GPL http://www.gnu.org/copyleft/gpl.html
  */
 
@@ -37,8 +37,8 @@ class JFormFieldAscendingdescending extends JFormFieldList
 
 	protected function getOptions()
 	{
-		$opts[] = JHTML::_('select.option', 'ASC', JText::_('COM_FABRIK_ASCENDING'));
-		$opts[] = JHTML::_('select.option', 'DESC', JText::_('COM_FABRIK_DESCENDING'));
+		$opts[] = JHTML::_('select.option', 'ASC', FText::_('COM_FABRIK_ASCENDING'));
+		$opts[] = JHTML::_('select.option', 'DESC', FText::_('COM_FABRIK_DESCENDING'));
 
 		return $opts;
 	}

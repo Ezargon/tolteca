@@ -4,7 +4,7 @@
  *
  * @package     Joomla
  * @subpackage  Fabrik
- * @copyright   Copyright (C) 2005-2013 fabrikar.com - All rights reserved.
+ * @copyright   Copyright (C) 2005-2016  Media A-Team, Inc. - All rights reserved.
  * @license     GNU/GPL http://www.gnu.org/copyleft/gpl.html
  * @since       1.6
  */
@@ -60,7 +60,7 @@ class JFormFieldPopupforms extends JFormFieldList
 
 		if (empty($options))
 		{
-			$options[] = JHTML::_('select.option', '', JText::_('COM_FABRIK_NO_POPUP_FORMS_AVAILABLE'));
+			$options[] = JHTML::_('select.option', '', FText::_('COM_FABRIK_NO_POPUP_FORMS_AVAILABLE'));
 		}
 
 		return $options;

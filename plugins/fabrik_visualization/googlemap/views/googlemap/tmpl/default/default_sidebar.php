@@ -4,7 +4,7 @@
  *
  * @package     Joomla.Plugin
  * @subpackage  Fabrik.visualization.googlemap
- * @copyright   Copyright (C) 2005-2013 fabrikar.com - All rights reserved.
+ * @copyright   Copyright (C) 2005-2016  Media A-Team, Inc. - All rights reserved.
  * @license     GNU/GPL http://www.gnu.org/copyleft/gpl.html
  */
 
@@ -28,7 +28,7 @@ if ($this->showSidebar) :
 				?>
 				</ul>
 			<?php endif; ?>
-			<button class="clear-grouped" class="btn button"><?php echo JText::_('COM_FABRIK_CLEAR')?></button>
+			<button class="clear-grouped" class="btn button"><?php echo FText::_('COM_FABRIK_CLEAR')?></button>
 			<div class="grouped_sidebar">
 			</div>
 		</div>

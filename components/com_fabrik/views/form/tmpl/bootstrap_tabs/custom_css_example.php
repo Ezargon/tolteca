@@ -4,7 +4,7 @@
  *
  * @package     Joomla
  * @subpackage  Fabrik
- * @copyright   Copyright (C) 2005-2013 fabrikar.com - All rights reserved.
+ * @copyright   Copyright (C) 2005-2016  Media A-Team, Inc. - All rights reserved.
  * @license     GNU/GPL http://www.gnu.org/copyleft/gpl.html
  * @since       3.0
  */
@@ -38,11 +38,17 @@
 header('Content-type: text/css');
 $c = (int) $_REQUEST['c'];
 $view = isset($_REQUEST['view']) ? $_REQUEST['view'] : 'form';
+$rowid = isset($_REQUEST['rowid']) ? $_REQUEST['rowid'] : '';
+$form = $view . '_' . $c;
+if ($rowid !== '')
+{
+	$form .= '_' . $rowid;
+}
 echo "
 
 /* BEGIN - Your CSS styling starts here */
 
-#{$view}_$c .foobar {
+#{$form} .foobar {
 	display: none;
 }
 

@@ -4,7 +4,7 @@
  *
  * @package     Joomla
  * @subpackage  Fabrik
- * @copyright   Copyright (C) 2005-2013 fabrikar.com - All rights reserved.
+ * @copyright   Copyright (C) 2005-2016  Media A-Team, Inc. - All rights reserved.
  * @license     GNU/GPL http://www.gnu.org/copyleft/gpl.html
  * @since       3.0.7
  */
@@ -24,14 +24,14 @@ $group = $this->group;
 		$style = $el->hidden ? 'style="display:none"' : '';
 		?>
 		<th <?php echo $style; ?> class="<?php echo $el->containerClass?>">
-			<?php echo $el->label?>
+			<?php echo $el->label_raw?>
 		</th>
 		<?php
 	endforeach;
 
 	// This column will contain the add/delete buttons
 	if ($group->editable) : ?>
-	<th></th>
+	<th data-role="fabrik-group-repeaters"></th>
 	<?php
 	endif;
 	?>

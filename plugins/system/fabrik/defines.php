@@ -1,11 +1,11 @@
 <?php
 /**
  * Any of these defines can be overwritten by copying this file to
- * components/com_fabrik/user_defines.php
+ * plugins/system/fabrik/user_defines.php
  *
  * @package     Joomla
  * @subpackage  Fabrik
- * @copyright   Copyright (C) 2005-2013 fabrikar.com - All rights reserved.
+ * @copyright   Copyright (C) 2005-2016  Media A-Team, Inc. - All rights reserved.
  * @license     GNU/GPL http://www.gnu.org/copyleft/gpl.html
  */
 
@@ -22,6 +22,8 @@ if (!JFolder::exists(JPATH_SITE . '/components/com_fabrik/'))
 
 define("COM_FABRIK_BASE", JPATH_SITE . DIRECTORY_SEPARATOR);
 define("COM_FABRIK_FRONTEND", COM_FABRIK_BASE . 'components/com_fabrik');
+define("COM_FABRIK_BACKEND", COM_FABRIK_BASE . 'administrator/components/com_fabrik');
+define("COM_FABRIK_LIBRARY", COM_FABRIK_BASE . 'libraries/fabrik');
 define("COM_FABRIK_LIVESITE", JURI::root());
 define("COM_FABRIK_LIVESITE_ROOT", JURI::getInstance()->toString(array('scheme', 'host', 'port')));
 define("FABRIKFILTER_TEXT", 0);
@@ -62,7 +64,9 @@ require_once COM_FABRIK_FRONTEND . '/helpers/parent.php';
 require_once COM_FABRIK_FRONTEND . '/helpers/string.php';
 require_once COM_FABRIK_FRONTEND . '/models/plugin.php';
 require_once COM_FABRIK_FRONTEND . '/models/element.php';
+require_once COM_FABRIK_FRONTEND . '/models/plugin-form.php';
 require_once COM_FABRIK_FRONTEND . '/models/elementlist.php';
+require_once COM_FABRIK_FRONTEND . '/views/FabrikView.php';
 
 if ($app->isAdmin())
 {
@@ -71,6 +75,6 @@ if ($app->isAdmin())
 	{
 		JModelLegacy::addIncludePath(COM_FABRIK_FRONTEND . '/models', 'FabrikFEModel');
 	}
-
+	JModelLegacy::addIncludePath(COM_FABRIK_BACKEND . '/models', 'FabrikAdminModel');
 	require_once JPATH_ADMINISTRATOR . '/components/com_fabrik/helpers/fabrik.php';
 }

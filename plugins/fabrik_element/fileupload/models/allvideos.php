@@ -4,7 +4,7 @@
  *
  * @package     Joomla.Plugin
  * @subpackage  Fabrik.element.fileupload
- * @copyright   Copyright (C) 2005-2013 fabrikar.com - All rights reserved.
+ * @copyright   Copyright (C) 2005-2016  Media A-Team, Inc. - All rights reserved.
  * @license     GNU/GPL http://www.gnu.org/copyleft/gpl.html
  */
 
@@ -19,7 +19,7 @@ defined('_JEXEC') or die('Restricted access');
  * @since       3.0
  */
 
-class AllVideosRender
+class AllVideosRenderModel
 {
 	/**
 	 * Render output
@@ -60,12 +60,12 @@ class AllVideosRender
 
 	public function render(&$model, &$params, $file, $thisRow = null)
 	{
-		$src = str_replace("\\", "/", COM_FABRIK_LIVESITE . $file);
+		$src = $model->getStorage()->getFileUrl($file);
 		$ext = JString::strtolower(JFile::getExt($file));
 
 		if (!JPluginHelper::isEnabled('content', 'jw_allvideos'))
 		{
-			$this->output = JText::_('PLG_ELEMENT_FILEUPLOAD_INSTALL_ALL_VIDEOS');
+			$this->output = FText::_('PLG_ELEMENT_FILEUPLOAD_INSTALL_ALL_VIDEOS');
 			return;
 		}
 

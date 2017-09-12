@@ -4,7 +4,7 @@
  *
  * @package     Joomla
  * @subpackage  Fabrik
- * @copyright   Copyright (C) 2005-2013 fabrikar.com - All rights reserved.
+ * @copyright   Copyright (C) 2005-2016  Media A-Team, Inc. - All rights reserved.
  * @license     GNU/GPL http://www.gnu.org/copyleft/gpl.html
  */
 
@@ -26,19 +26,32 @@ class Filesystemstorage extends FabrikStorageAdaptor
 	/**
 	 * Does a file exist
 	 *
-	 * @param   string  $filepath  File path to test
+	 * @param   string  $filepath     File path to test
+	 * @param   bool    $prependRoot  also test with root prepended
 	 *
 	 * @return bool
 	 */
 
-	public function exists($filepath)
+	public function exists($filepath, $prependRoot = true)
 	{
-		if ($filepath == '\\')
+		if (empty($filepath) || $filepath == '\\')
 		{
 			return false;
 		}
 
-		return JFile::exists($filepath);
+		if (JFile::exists($filepath))
+		{
+		    return true;
+		}
+
+		if ($prependRoot)
+		{
+			$filepath = COM_FABRIK_BASE . '/' . FabrikString::ltrimword($filepath, COM_FABRIK_BASE . '/');
+
+			return JFile::exists($filepath);
+		}
+
+		return false;
 	}
 
 	/**
@@ -64,11 +77,17 @@ class Filesystemstorage extends FabrikStorageAdaptor
 
 	public function createIndexFile($path)
 	{
+		// Don't write a index.html in root
+		if ($path === '')
+		{
+			return true;
+		}
+
 		$index_file = $path . '/index.html';
 
 		if (!$this->exists($index_file))
 		{
-			$content = JText::_('PLG_ELEMENT_FILEUPLOAD_INDEX_FILE_CONTENT');
+			$content = FText::_('PLG_ELEMENT_FILEUPLOAD_INDEX_FILE_CONTENT');
 
 			return JFile::write($index_file, $content);
 		}
@@ -200,7 +219,10 @@ class Filesystemstorage extends FabrikStorageAdaptor
 	{
 		$this->uploadedFilePath = $filepath;
 
-		if (JFile::upload($tmpFile, $filepath))
+		$params = $this->getParams();
+		$allowUnsafe = $params->get('allow_unsafe', '0') === '1';
+
+		if (JFile::upload($tmpFile, $filepath, false, $allowUnsafe))
 		{
 			return $this->createIndexFile(dirname($filepath));
 		}
@@ -404,13 +426,7 @@ class Filesystemstorage extends FabrikStorageAdaptor
 
 	public function getFileInfo($filepath)
 	{
-		// Suppress notice if open base_dir in effect
-		if (!@$this->exists($filepath))
-		{
-			$filepath = $this->getFullPath($filepath);
-		}
-
-		$filepath = JPath::clean($filepath);
+	    $filepath = $this->getFullPath($filepath);
 
 		if ($this->exists($filepath))
 		{
@@ -439,17 +455,19 @@ class Filesystemstorage extends FabrikStorageAdaptor
 	/**
 	 * Get the complete folder path, including the server root
 	 *
-	 * @param   string  $filepath  the file path
+	 * @param   string  $filepath  The file path
 	 *
-	 * @return  string
+	 * @return  string   The cleaned full file path
 	 */
 
 	public function getFullPath($filepath)
 	{
 		if (!(preg_match('#^' . preg_quote(COM_FABRIK_BASE, '#') . '#', $filepath)))
 		{
-			return COM_FABRIK_BASE . '/' . $filepath;
+			$filepath = COM_FABRIK_BASE . '/' . $filepath;
 		}
+
+		$filepath = JPath::clean($filepath);
 
 		return $filepath;
 	}

@@ -2,7 +2,7 @@
 /**
  * @package     Joomla.Administrator
  * @subpackage  Fabrik
- * @copyright   Copyright (C) 2005-2013 fabrikar.com - All rights reserved.
+ * @copyright   Copyright (C) 2005-2016  Media A-Team, Inc. - All rights reserved.
  * @license     GNU/GPL http://www.gnu.org/copyleft/gpl.html
  * @since       3.0.5
  */
@@ -20,7 +20,6 @@ require_once COM_FABRIK_FRONTEND . '/views/list/view.base.php';
  * @subpackage  Fabrik
  * @since       3.0.5
  */
-
 class FabrikViewList extends FabrikViewListBase
 {
 	/**
@@ -30,29 +29,23 @@ class FabrikViewList extends FabrikViewListBase
 	 *
 	 * @return  void
 	 */
-
 	public function display($tpl = null)
 	{
-		if (!JFolder::exists(COM_FABRIK_BASE . '/libraries/dompdf'))
-		{
-			throw new RuntimeException('Please install the dompdf library', 404);
-
-			return;
-		}
+		FabrikWorker::canPdf(true);
 
 		if (parent::display($tpl) !== false)
 		{
-			$document = JFactory::getDocument();
+			FabrikhelperHTML::loadBootstrapCSS(true);
 			$model = $this->getModel();
 			$params = $model->getParams();
-			$size = $params->get('pdf_size', 'A4');
-			$orientation = $params->get('pdf_orientation', 'portrait');
-			$document->setPaper($size, $orientation);
+			$size        = $this->app->input->get('pdf_size', $params->get('pdf_size', 'A4'));
+			$orientation = $this->app->input->get('pdf_orientation', $params->get('pdf_orientation', 'portrait'));
+			$this->doc->setPaper($size, $orientation);
 			$this->nav = '';
 			$this->showPDF = false;
 			$this->showRSS = false;
 			$this->emptyLink = false;
-			$this->filters = array();
+			//$this->filters = array();
 			$this->showFilters = false;
 			$this->hasButtons = false;
 			$this->output();
@@ -64,7 +57,6 @@ class FabrikViewList extends FabrikViewListBase
 	 *
 	 * @return  void
 	 */
-
 	protected function buttons()
 	{
 		// Don't add buttons as pdf is not interactive
@@ -80,13 +72,38 @@ class FabrikViewList extends FabrikViewListBase
 	 *
 	 * @return  void
 	 */
-
 	protected function setTitle($w, &$params, $model)
 	{
 		parent::setTitle($w, $params, $model);
 
 		// Set the download file name based on the document title
-		$document = JFactory::getDocument();
-		$document->setName($document->getTitle());
+		$this->doc->setName($this->doc->getTitle());
+	}
+		/**
+	 * Render the group by heading as a JLayout list.fabrik-group-by-heading
+
+	 *
+	 * @param   string  $groupedBy  Group by key for $this->grouptemplates
+	 * @param   array   $group      Group data
+
+
+
+	 *
+	 * @return string
+	 */
+	public function layoutGroupHeading($groupedBy, $group)
+
+	{
+		$displayData = new stdClass;
+		$displayData->emptyDataMessage = $this->emptyDataMessage;
+		$displayData->tmpl = $this->tmpl;
+		$displayData->title = $this->grouptemplates[$groupedBy];
+		$displayData->count = count($group);
+		$layout = $this->getModel()->getLayout('list.fabrik-group-by-heading');
+
+
+		return $layout->render($displayData);
+
+
 	}
 }

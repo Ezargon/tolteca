@@ -4,7 +4,7 @@
  *
  * @package     Joomla.Plugin
  * @subpackage  Fabrik.visualization.calendar
- * @copyright   Copyright (C) 2005-2013 fabrikar.com - All rights reserved.
+ * @copyright   Copyright (C) 2005-2016  Media A-Team, Inc. - All rights reserved.
  * @license     GNU/GPL http://www.gnu.org/copyleft/gpl.html
  */
 
@@ -43,6 +43,14 @@ class FabrikViewCalendar extends JViewLegacy
 		$id = $input->get('id', $usersConfig->get('visualizationid', $input->get('visualizationid', 0)));
 		$model->setId($id);
 		$this->row = $model->getVisualization();
+
+		if (!$model->canView())
+		{
+			echo FText::_('JERROR_ALERTNOAUTHOR');
+
+			return false;
+		}
+
 		$params = $model->getParams();
 		$this->params = $params;
 		$this->containerId = $model->getJSRenderContext();
@@ -58,7 +66,7 @@ class FabrikViewCalendar extends JViewLegacy
 
 		if ($params->get('calendar_show_messages', '1') == '1' && $this->canAdd && $this->requiredFiltersFound)
 		{
-			$msg = JText::_('PLG_VISUALIZATION_CALENDAR_DOUBLE_CLICK_TO_ADD');
+			$msg = FText::_('PLG_VISUALIZATION_CALENDAR_DOUBLE_CLICK_TO_ADD');
 			$msg .= $model->getDateLimitsMsg();
 			$app->enqueueMessage($msg);
 		}
@@ -109,15 +117,15 @@ class FabrikViewCalendar extends JViewLegacy
 		$options->Itemid = $Itemid;
 		$options->show_day = (bool) $params->get('show_day', true);
 		$options->show_week = (bool) $params->get('show_week', true);
-		$options->days = array(JText::_('SUNDAY'), JText::_('MONDAY'), JText::_('TUESDAY'), JText::_('WEDNESDAY'), JText::_('THURSDAY'),
-			JText::_('FRIDAY'), JText::_('SATURDAY'));
-		$options->shortDays = array(JText::_('SUN'), JText::_('MON'), JText::_('TUE'), JText::_('WED'), JText::_('THU'), JText::_('FRI'),
-			JText::_('SAT'));
-		$options->months = array(JText::_('JANUARY'), JText::_('FEBRUARY'), JText::_('MARCH'), JText::_('APRIL'), JText::_('MAY'), JText::_('JUNE'),
-			JText::_('JULY'), JText::_('AUGUST'), JText::_('SEPTEMBER'), JText::_('OCTOBER'), JText::_('NOVEMBER'), JText::_('DECEMBER'));
-		$options->shortMonths = array(JText::_('JANUARY_SHORT'), JText::_('FEBRUARY_SHORT'), JText::_('MARCH_SHORT'), JText::_('APRIL_SHORT'),
-			JText::_('MAY_SHORT'), JText::_('JUNE_SHORT'), JText::_('JULY_SHORT'), JText::_('AUGUST_SHORT'), JText::_('SEPTEMBER_SHORT'),
-			JText::_('OCTOBER_SHORT'), JText::_('NOVEMBER_SHORT'), JText::_('DECEMBER_SHORT'));
+		$options->days = array(FText::_('SUNDAY'), FText::_('MONDAY'), FText::_('TUESDAY'), FText::_('WEDNESDAY'), FText::_('THURSDAY'),
+			FText::_('FRIDAY'), FText::_('SATURDAY'));
+		$options->shortDays = array(FText::_('SUN'), FText::_('MON'), FText::_('TUE'), FText::_('WED'), FText::_('THU'), FText::_('FRI'),
+			FText::_('SAT'));
+		$options->months = array(FText::_('JANUARY'), FText::_('FEBRUARY'), FText::_('MARCH'), FText::_('APRIL'), FText::_('MAY'), FText::_('JUNE'),
+			FText::_('JULY'), FText::_('AUGUST'), FText::_('SEPTEMBER'), FText::_('OCTOBER'), FText::_('NOVEMBER'), FText::_('DECEMBER'));
+		$options->shortMonths = array(FText::_('JANUARY_SHORT'), FText::_('FEBRUARY_SHORT'), FText::_('MARCH_SHORT'), FText::_('APRIL_SHORT'),
+			FText::_('MAY_SHORT'), FText::_('JUNE_SHORT'), FText::_('JULY_SHORT'), FText::_('AUGUST_SHORT'), FText::_('SEPTEMBER_SHORT'),
+			FText::_('OCTOBER_SHORT'), FText::_('NOVEMBER_SHORT'), FText::_('DECEMBER_SHORT'));
 		$options->first_week_day = (int) $params->get('first_week_day', 0);
 
 		$options->monthday = new stdClass;
@@ -140,15 +148,15 @@ class FabrikViewCalendar extends JViewLegacy
 		if (FabrikWorker::j3())
 		{
 			$options->buttons = new stdClass;
-			$options->buttons->del = '<button class="btn popupDelete" data-task="deleteCalEvent"><i class="icon-delete"></i></button>';
-			$options->buttons->edit = '<button class="btn popupEdit" data-task="editCalEvent"><i class="icon-edit"></i></button>';
-			$options->buttons->view = '<button class="btn popupView" data-task="viewCalEvent"><i class="icon-eye"></i></button>';
+			$options->buttons->del = '<button class="btn popupDelete" data-task="deleteCalEvent">' . FabrikHelperHTML::icon('icon-delete') . '</button>';
+			$options->buttons->edit = '<button class="btn popupEdit" data-task="editCalEvent">' . FabrikHelperHTML::icon('icon-edit') . '</button>';
+			$options->buttons->view = '<button class="btn popupView" data-task="viewCalEvent">' . FabrikHelperHTML::icon('icon-eye') . '</button>';
 		}
 		else
 		{
 			$src = COM_FABRIK_LIVESITE . 'plugins/fabrik_visualization/calendar/views/calendar/tmpl/' . $tpl . '/images/minus-sign.png';
 			$options->buttons = '<img src="' . $src . '"
-				alt = "del" class="fabrikDeleteEvent" />' . JText::_('PLG_VISUALIZATION_CALENDAR_DELETE');
+				alt = "del" class="fabrikDeleteEvent" />' . FText::_('PLG_VISUALIZATION_CALENDAR_DELETE');
 		}
 
 		$json = json_encode($options);
@@ -181,8 +189,8 @@ class FabrikViewCalendar extends JViewLegacy
 		$js = implode("\n", $js);
 
 		$srcs = FabrikHelperHTML::framework();
-		$srcs[] = 'media/com_fabrik/js/listfilter.js';
-		$srcs[] = 'plugins/fabrik_visualization/calendar/calendar.js';
+		$srcs['FbListFilter'] = 'media/com_fabrik/js/listfilter.js';
+		$srcs['Calendar'] = 'plugins/fabrik_visualization/calendar/calendar.js';
 
 		FabrikHelperHTML::iniRequireJs($model->getShim());
 		FabrikHelperHTML::script($srcs, $js);
@@ -218,12 +226,12 @@ class FabrikViewCalendar extends JViewLegacy
 		$o = $model->getAddStandardEventFormInfo();
 		$calendar = $model->getVisualization();
 		$options = array();
-		$options[] = JHTML::_('select.option', '', JText::_('PLG_VISUALIZATION_CALENDAR_PLEASE_SELECT'));
+		$options[] = JHTML::_('select.option', '', FText::_('PLG_VISUALIZATION_CALENDAR_PLEASE_SELECT'));
 
 		if ($o != null)
 		{
 			$listid = $o->id;
-			$options[] = JHTML::_('select.option', $listid, JText::_('PLG_VISUALIZATION_CALENDAR_STANDARD_EVENT'));
+			$options[] = JHTML::_('select.option', $listid, FText::_('PLG_VISUALIZATION_CALENDAR_STANDARD_EVENT'));
 		}
 
 		$model->getEvents();
@@ -240,7 +248,7 @@ class FabrikViewCalendar extends JViewLegacy
 		 */
 		$ref = $model->getJSRenderContext();
 		$script = array();
-		$script[] = "window.addEvent('fabrik.loaded', function() {";
+		//$script[] = "window.addEvent('fabrik.loaded', function() {";
 		$script[] = "document.id('fabrik_event_type').addEvent('change', function(e) {";
 		$script[] = "var fid = e.target.get('value');";
 		$script[] = "var o = ({'d':'','listid':fid,'rowid':0});";
@@ -248,7 +256,7 @@ class FabrikViewCalendar extends JViewLegacy
 		$script[] = "o.datefield2 = '{$prefix}fabrik_calendar_events___end_date';";
 		$script[] = "o.labelfield = '{$prefix}fabrik_calendar_events___label';";
 
-		foreach ($model->_events as $tid => $arr)
+		foreach ($model->events as $tid => $arr)
 		{
 			foreach ($arr as $ar)
 			{
@@ -263,9 +271,9 @@ class FabrikViewCalendar extends JViewLegacy
 		$script[] = "Fabrik.blocks['" . $ref . "'].addEvForm(o);";
 		$script[] = "Fabrik.Windows.chooseeventwin.close();";
 		$script[] = "});";
-		$script[] = "});";
+		//$script[] = "});";
 
-		echo '<h2>' . JText::_('PLG_VISUALIZATION_CALENDAR_PLEASE_CHOOSE_AN_EVENT_TYPE') . ':</h2>';
+		echo '<h2>' . FText::_('PLG_VISUALIZATION_CALENDAR_PLEASE_CHOOSE_AN_EVENT_TYPE') . ':</h2>';
 		echo $this->_eventTypeDd;
 		FabrikHelperHTML::addScriptDeclaration(implode("\n", $script));
 	}

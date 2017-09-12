@@ -4,7 +4,7 @@
  *
  * @package     Joomla
  * @subpackage  Fabrik
- * @copyright   Copyright (C) 2005-2013 fabrikar.com - All rights reserved.
+ * @copyright   Copyright (C) 2005-2016  Media A-Team, Inc. - All rights reserved.
  * @license     GNU/GPL http://www.gnu.org/copyleft/gpl.html
  * @since       3.1
  */
@@ -19,7 +19,7 @@ if ($pageClass !== '') :
 endif;
 
 if ($this->tablePicker != '') : ?>
-	<div style="text-align:right"><?php echo JText::_('COM_FABRIK_LIST') ?>: <?php echo $this->tablePicker; ?></div>
+	<div style="text-align:right"><?php echo FText::_('COM_FABRIK_LIST') ?>: <?php echo $this->tablePicker; ?></div>
 <?php
 endif;
 
@@ -27,7 +27,7 @@ if ($this->params->get('show_page_heading')) :
 	echo '<h1>' . $this->params->get('page_heading') . '</h1>';
 endif;
 
-if ($this->params->get('show-title', 1)) : ?>
+if ($this->showTitle == 1) : ?>
 	<div class="page-header">
 		<h1><?php echo $this->table->label;?></h1>
 	</div>
@@ -46,10 +46,10 @@ if ($this->hasButtons):
 endif;
 
 if ($this->showFilters && $this->bootShowFilters) :
-	echo $this->loadTemplate('filter');
+	echo $this->layoutFilters();
 endif;
 //for some really ODD reason loading the headings template inside the group
-//template causes an error as $this->_path['template'] doesnt cotain the correct
+//template causes an error as $this->_path['template'] doesn't contain the correct
 // path to this template - go figure!
 $headingsHtml = $this->loadTemplate('headings');
 echo $this->loadTemplate('tabs');
@@ -85,19 +85,12 @@ endforeach;
 			<?php
 		endif;
 		$gCounter = 0;
-		foreach ($this->rows as $groupedby => $group) :
+		foreach ($this->rows as $groupedBy => $group) :
 			if ($this->isGrouped) : ?>
 			<tbody>
 				<tr class="fabrik_groupheading info">
 					<td colspan="<?php echo $this->colCount;?>">
-					<?php if ($this->emptyDataMessage != '') : ?>
-					<a href="#" class="toggle">
-					<?php else: ?>
-						<a href="#" class="toggle fabrikTip" title="<?php echo $this->emptyDataMessage?>" opts='{trigger: "hover"}'>
-					<?php endif;?>
-							<?php echo FabrikHelperHTML::image('arrow-down.png', 'list', $this->tmpl, JText::_('COM_FABRIK_TOGGLE'));?>
-							<?php echo $this->grouptemplates[$groupedby]; ?> ( <?php echo count($group)?> )
-						</a>
+						<?php echo $this->layoutGroupHeading($groupedBy, $group); ?>
 					</td>
 				</tr>
 			</tbody>
@@ -115,19 +108,28 @@ endforeach;
 				echo $this->loadTemplate('row');
 		 	endforeach
 		 	?>
+		 	</tbody>
 			<?php if ($this->hasCalculations) : ?>
+			<tfoot>
 				<tr class="fabrik_calculations">
+
 				<?php
-				foreach ($this->calculations as $cal) :
-					echo "<td>";
-					echo array_key_exists($groupedby, $cal->grouped) ? $cal->grouped[$groupedby] : $cal->calc;
-					echo  "</td>";
+				foreach ($this->headings as $key => $heading) :
+					$h = $this->headingClass[$key];
+					$style = empty($h['style']) ? '' : 'style="' . $h['style'] . '"';?>
+					<td class="<?php echo $h['class']?>" <?php echo $style?>>
+						<?php
+						$cal = $this->calculations[$key];
+						echo array_key_exists($groupedBy, $cal->grouped) ? $cal->grouped[$groupedBy] : $cal->calc;
+						?>
+					</td>
+				<?php
 				endforeach;
 				?>
-				</tr>
 
+				</tr>
+			</tfoot>
 			<?php endif ?>
-			</tbody>
 		<?php
 		$gCounter++;
 		endforeach?>

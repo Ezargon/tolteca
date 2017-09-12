@@ -4,7 +4,7 @@
  *
  * @package     Joomla.Administrator
  * @subpackage  Fabrik
- * @copyright   Copyright (C) 2005-2013 fabrikar.com - All rights reserved.
+ * @copyright   Copyright (C) 2005-2016  Media A-Team, Inc. - All rights reserved.
  * @license     GNU/GPL http://www.gnu.org/copyleft/gpl.html
  * @since       3.0
  */
@@ -25,7 +25,7 @@ JHtml::_('behavior.keepalive');
 
 		<div class="span6">
 			<fieldset class="form-horizontal">
-				<legend><?php echo JText::_('COM_FABRIK_DETAILS'); ?></legend>
+				<legend><?php echo FText::_('COM_FABRIK_DETAILS'); ?></legend>
 				<?php foreach ($this->form->getFieldset('details') as $this->field) :
 					echo $this->loadTemplate('control_group');
 				endforeach;
@@ -37,7 +37,7 @@ JHtml::_('behavior.keepalive');
 			<div class="offset2">
 				<fieldset class="form-horizontal">
 						<legend>
-							<?php echo JText::_('COM_FABRIK_GROUP_LABEL_PUBLISHING_DETAILS');?>
+							<?php echo FText::_('COM_FABRIK_GROUP_LABEL_PUBLISHING_DETAILS');?>
 						</legend>
 					<?php foreach ($this->form->getFieldset('publishing') as $this->field) :
 						echo $this->loadTemplate('control_group');
@@ -47,7 +47,7 @@ JHtml::_('behavior.keepalive');
 
 				<fieldset class="form-horizontal">
 						<legend>
-							<?php echo JText::_('COM_FABRIK_VISUALIZATION_LABEL_VISUALIZATION_DETAILS');?>
+							<?php echo FText::_('COM_FABRIK_VISUALIZATION_LABEL_VISUALIZATION_DETAILS');?>
 						</legend>
 					<?php foreach ($this->form->getFieldset('more') as $this->field) :
 						echo $this->loadTemplate('control_group');
@@ -62,7 +62,7 @@ JHtml::_('behavior.keepalive');
 		<div class="span12">
 		<fieldset class="form-horizontal">
 		    	<legend>
-		    		<?php echo JText::_('COM_FABRIK_OPTIONS');?>
+		    		<?php echo FText::_('COM_FABRIK_OPTIONS');?>
 		    	</legend>
 			</fieldset>
 			<div id="plugin-container">

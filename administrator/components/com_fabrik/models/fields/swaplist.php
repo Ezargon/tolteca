@@ -4,12 +4,14 @@
  *
  * @package     Joomla
  * @subpackage  Form
- * @copyright   Copyright (C) 2005-2013 fabrikar.com - All rights reserved.
+ * @copyright   Copyright (C) 2005-2016  Media A-Team, Inc. - All rights reserved.
  * @license     GNU/GPL http://www.gnu.org/copyleft/gpl.html
  */
 
 // No direct access
 defined('_JEXEC') or die('Restricted access');
+
+use Joomla\Utilities\ArrayHelper;
 
 require_once JPATH_ADMINISTRATOR . '/components/com_fabrik/helpers/element.php';
 
@@ -20,7 +22,6 @@ require_once JPATH_ADMINISTRATOR . '/components/com_fabrik/helpers/element.php';
  * @subpackage  Form
  * @since       1.6
  */
-
 class JFormFieldSwapList extends JFormFieldList
 {
 	/**
@@ -35,7 +36,6 @@ class JFormFieldSwapList extends JFormFieldList
 	 *
 	 * @return  string	The field input markup.
 	 */
-
 	protected function getInput()
 	{
 		$j3 = FabrikWorker::j3();
@@ -60,38 +60,38 @@ class JFormFieldSwapList extends JFormFieldList
 
 		if (empty($this->groups) && empty($this->currentGroups))
 		{
-			return JText::_('COM_FABRIK_NO_GROUPS_AVAILABLE');
+			return FText::_('COM_FABRIK_NO_GROUPS_AVAILABLE');
 		}
 		else
 		{
 			if ($j3)
 			{
-				$str =	JText::_('COM_FABRIK_AVAILABLE_GROUPS');
+				$str =	FText::_('COM_FABRIK_AVAILABLE_GROUPS');
 				$str .= '<br />' . $this->groupList;
 				$str .= '<button class="button btn btn-success btn-small" type="button" id="' . $this->id . '-add">';
-				$str .= '<i class="icon-new"></i>' . JText::_('COM_FABRIK_ADD') . '</button>';
-				$str .= '<br />' . JText::_('COM_FABRIK_CURRENT_GROUPS');
+				$str .= '<i class="icon-new"></i>' . FText::_('COM_FABRIK_ADD') . '</button>';
+				$str .= '<br />' . FText::_('COM_FABRIK_CURRENT_GROUPS');
 				$str .= '<br />' . $this->currentGroupList;
 				$str .= '<button class="button btn btn-small" type="button" id="' . $this->id . '-up" >';
-				$str .= '<i class="icon-arrow-up"></i> ' . JText::_('COM_FABRIK_UP') . '</button> ';
+				$str .= '<i class="icon-arrow-up"></i> ' . FText::_('COM_FABRIK_UP') . '</button> ';
 				$str .= '<button class="button btn btn-small" type="button" id="' . $this->id . '-down" >';
-				$str .= '<i class="icon-arrow-down"></i> ' . JText::_('COM_FABRIK_DOWN') . '</button> ';
+				$str .= '<i class="icon-arrow-down"></i> ' . FText::_('COM_FABRIK_DOWN') . '</button> ';
 				$str .= '<button class="button btn btn-danger btn-small" type="button" id="' . $this->id . '-remove">';
-				$str .= '<i class="icon-delete"></i> ' . JText::_('COM_FABRIK_REMOVE');
+				$str .= '<i class="icon-delete"></i> ' . FText::_('COM_FABRIK_REMOVE');
 				$str .= '</button>';
 			}
 			else
 			{
 				$str .= '<input type="text" readonly="readonly" class="readonly" style="clear:left" size="44" value="'
-					. JText::_('COM_FABRIK_AVAILABLE_GROUPS') . ':" />';
+					. FText::_('COM_FABRIK_AVAILABLE_GROUPS') . ':" />';
 				$str .= $this->groupList;
-				$str .= '<input class="button btn" type="button" id="' . $this->id . '-add" value="' . JText::_('COM_FABRIK_ADD') . '" />';
+				$str .= '<input class="button btn" type="button" id="' . $this->id . '-add" value="' . FText::_('COM_FABRIK_ADD') . '" />';
 				$str .= '<input type="text" readonly="readonly" class="readonly" style="clear:left" size="44" value="'
-					. JText::_('COM_FABRIK_CURRENT_GROUPS') . ':" />';
+					. FText::_('COM_FABRIK_CURRENT_GROUPS') . ':" />';
 				$str .= $this->currentGroupList;
-				$str .= '<input class="button" type="button" value="' . JText::_('COM_FABRIK_UP') . '" id="' . $this->id . '-up" />';
-				$str .= '<input class="button" type="button" value="' . JText::_('COM_FABRIK_DOWN') . '" id="' . $this->id . '-down" />';
-				$str .= '<input class="button" type="button" value="' . JText::_('COM_FABRIK_REMOVE') . '" id="' . $this->id . '-remove"/>';
+				$str .= '<input class="button" type="button" value="' . FText::_('COM_FABRIK_UP') . '" id="' . $this->id . '-up" />';
+				$str .= '<input class="button" type="button" value="' . FText::_('COM_FABRIK_DOWN') . '" id="' . $this->id . '-down" />';
+				$str .= '<input class="button" type="button" value="' . FText::_('COM_FABRIK_REMOVE') . '" id="' . $this->id . '-remove"/>';
 			}
 
 			return $str;
@@ -103,7 +103,6 @@ class JFormFieldSwapList extends JFormFieldList
 	 *
 	 * @return  string  The field label markup.
 	 */
-
 	protected function getLabel()
 	{
 		return '';
@@ -114,7 +113,6 @@ class JFormFieldSwapList extends JFormFieldList
 	 *
 	 * @return  array	list of groups, html list of groups
 	 */
-
 	public function getGroupList()
 	{
 		$db = FabrikWorker::getDbo(true);
@@ -122,7 +120,7 @@ class JFormFieldSwapList extends JFormFieldList
 		$query->select('DISTINCT(group_id)')->from('#__{package}_formgroup');
 		$db->setQuery($query);
 		$usedgroups = $db->loadColumn();
-		JArrayHelper::toInteger($usedgroups);
+		$usedgroups = ArrayHelper::toInteger($usedgroups);
 		$query = $db->getQuery(true);
 		$query->select('id AS value, name AS text')->from('#__{package}_groups');
 
@@ -136,7 +134,7 @@ class JFormFieldSwapList extends JFormFieldList
 		$db->setQuery($query);
 		$groups = $db->loadObjectList();
 		$style = FabrikWorker::j3() ? '' : 'style="width:100%;"';
-		$list = JHTML::_('select.genericlist', $groups, 'jform[groups]', 'class="inputbox" size="10" ' . $style, 'value', 'text', null,
+		$list = JHTML::_('select.genericlist', $groups, 'jform[groups]', 'class="inputbox input-xxlarge" size="10" ' . $style, 'value', 'text', null,
 			$this->id . '-from');
 
 		return array($groups, $list);
@@ -147,7 +145,6 @@ class JFormFieldSwapList extends JFormFieldList
 	 *
 	 * @return  array  list of groups, html list of groups
 	 */
-
 	public function getCurrentGroupList()
 	{
 		$db = FabrikWorker::getDbo(true);
@@ -161,7 +158,7 @@ class JFormFieldSwapList extends JFormFieldList
 		$db->setQuery($query);
 		$currentGroups = $db->loadObjectList();
 		$style = FabrikWorker::j3() ? '' : 'style="width:100%;"';
-		$attribs = 'class="inputbox" multiple="multiple" ' . $style . ' size="10" ';
+		$attribs = 'class="inputbox input-xxlarge" multiple="multiple" ' . $style . ' size="10" ';
 		$list = JHTML::_('select.genericlist', $currentGroups, $this->name, $attribs, 'value', 'text', '/', $this->id);
 
 		return array($currentGroups, $list);

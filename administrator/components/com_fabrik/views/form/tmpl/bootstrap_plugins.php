@@ -4,7 +4,7 @@
  *
  * @package     Joomla.Administrator
  * @subpackage  Fabrik
- * @copyright   Copyright (C) 2005-2013 fabrikar.com - All rights reserved.
+ * @copyright   Copyright (C) 2005-2016  Media A-Team, Inc. - All rights reserved.
  * @license     GNU/GPL http://www.gnu.org/copyleft/gpl.html
  * @since       3.0
  */
@@ -18,6 +18,6 @@ defined('_JEXEC') or die('Restricted access');
 	    <fieldset class="form-horizontal">
 			<div id="plugins"></div>
 			<a href="#" class="btn" id="addPlugin">
-				<i class="icon-plus"></i> <?php echo JText::_('COM_FABRIK_ADD'); ?></a>
+				<i class="icon-plus"></i> <?php echo FText::_('COM_FABRIK_ADD'); ?></a>
 		</fieldset>
 </div>
