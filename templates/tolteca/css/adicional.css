@@ -1,14 +1,87 @@
 @CHARSET "ISO-8859-1";
+.navigation {
+    padding: 0px;
+    border-top: 1px solid rgba(0, 0, 0, 0.075);
+    border-left: 1px solid rgba(0, 0, 0, 0.075);
+    border-right: 1px solid rgba(0, 0, 0, 0.075);
+    border-bottom: 2px solid #BE9D56;
+    margin-bottom: 0px;
+}
+.navigation .nav-pills {
+    margin-bottom: 0;
+}
+.nav-pills {
+    background-color: #EFEFEF;
+    background-image: -moz-linear-gradient(top, #FFFFFF, #E5E5E5);
+    background-image: -webkit-gradient(linear, 0 0, 0 100%, from(#E5E5E5), to(#EAEAEA) );
+    background-image: -webkit-linear-gradient(top, #FFFFFF, #E5E5E5);
+    background-image: -o-linear-gradient(top, #FFFFFF, #E5E5E5);
+    background-image: linear-gradient(to bottom, #FFFFFF, #E5E5E5);
+    background-repeat: repeat-x;
+    filter: progid : DXImageTransform.Microsoft.gradient ( startColorstr = '#E5E5E5', endColorstr = '#EAEAEA', GradientType = 0 );
+}
+.nav {
+    margin-left: 0;
+    margin-bottom: 18px;
+    list-style: none;
+}
+.nav > li > a {
+    float: none;
+    padding: 11px 12px 11px;
+    color: #555;
+    text-decoration: none;
+    border-left: 1px solid transparent;
+    border-right: 1px solid transparent;
+}
+.nav-tabs > li > a, .nav-pills > li > a {
+    padding-top: 15px;
+    padding-bottom: 15px;
+    padding-right: 15px;
+    padding-left: 15px;
+    margin-top: 0px;
+    margin-bottom: 0px;
+    color: #666666;
+    background-image: url("../img/bkmenu.png");
+    background-repeat: repeat-x;
+    background-position: left top;
+    line-height: 14px;
+    letter-spacing: 1px;
+    border-radius:0px;
+}
+/*****************************/
+.chzn-container-single .chzn-single
+{
+	color:#555 !important;
+	font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
+	border: 1px solid #ccc;
+	background:#fff;
+	padding: 4px 6px;
+	height: 18px;
+    line-height: 18px;
+    box-shadow: 0 1px 1px rgba(0, 0, 0, 0.075) inset;
+    transition: border 0.2s linear 0s, box-shadow 0.2s linear 0s;
+}
+.chzn-results li.highlighted
+{
+    background-color: #C40722 !important;
+    background-image: none !important;
+    color: #fff;
+}
+#form-login-remember
+{
+	display:none;
+}
+	
 .download-archive{
 	margin-left:10px;
 }
 .fabrikDataContainer{
 	margin-top:10px;
 }
-table.estados td{
-	padding: 3px 10px;
-	border:1px solid #ccc;
-	font-size:10px;
+
+#list_5_com_fabrik_5 tr.bloqueado1
+{
+	color:#ccc;
 }
 .fabrik_groupheading.info > td
 {
@@ -17,619 +90,17 @@ table.estados td{
     background-repeat: repeat-x;
 	padding:8px;
 }
-tr.fabrik_row.estado9 td {border-top:1px solid white;}
-/********* COLOREAR PROGRAMAS SIN PLAZAS ****************/
-.plazas0{
-	background-color:#eee;
-}
-.denominacion_programa{
-	width:30%;	
-}
-
-
-/********* COLOREAR ESTADOS DE LA RESPUESTA y SOLICITUDES ****************/
-.estados{
-	margin:10px 0px;
-}
-/***GRIS OSCURO****/
-.estado6 , .estado6:hover > td{
-	background-color:#CCC !important;
-}
-/***GRIS CLARO****/
-.estado3 , .estado8, .estado3:hover , .estado8:hover  > td{
-	background-color:#eee !important;
-}
-/***VERDE****/
-.estado11.admision3, .estado2{
-	background-color:#D2F5B0 !important;
-}
-.estado11.admision3:hover, .estado2:hover> td{
-	background-color:#C9EAA8 !important;
-}
-.estado11.bloqueada0 > td:first-child {
-	background-image: url('../images/unlocked.png');
-	/*background-color: yellow;*/
-	background-position: right;
-	background-repeat: no-repeat;
-}
-/***AZUL****/
-.estado11.admision2{
-	background-color:#D4E7FC !important;
-}
-.estado11.admision2:hover > td{
-	background-color:#CDDFF2 !important;
-}
-/****GRIS****/
-.estado11.admision1{
-	background-color:#eee !important;
-}
-.estado9.admision1:hover > td{
-	background-color:#e6e6e6 !important;
-}
-
-/****AMARILLO****/
-.estado10, .estado5{
-	background-color: #FFF494 !important;
-}  
-.estado10:hover >td, .estado5:hover >td{
-	background-color: #F7EC99 !important;
-}
-/****NARANJA****/
-.estado9,.estado4{
-	background-color: #F9D5A2 !important;
-}
-.estado9:hover > td,.estado4:hover > td{
-	background-color: #FFCD85 !important;
-}
-/****VIOLETA***/
-.estado11.admision1,.estado6{
-	background-color: #F2DEF7 !important;
-}
-.estado11.admision1:hover > td,.estado6:hover > td{
-	background-color: #EAD2EF !important;
-}
-.pais_univ003.revisada0,
-.pais_univ004.revisada0,
-.pais_univ008.revisada0,
-.pais_univ010.revisada0,
-.pais_univ012.revisada0,
-.pais_univ014.revisada0,
-.pais_univ016.revisada0,
-.pais_univ020.revisada0,
-.pais_univ024.revisada0,
-.pais_univ028.revisada0,
-.pais_univ032.revisada0,
-.pais_univ036.revisada0,
-.pais_univ040.revisada0,
-.pais_univ042.revisada0,
-.pais_univ044.revisada0,
-.pais_univ048.revisada0,
-.pais_univ050.revisada0,
-.pais_univ051.revisada0,
-.pais_univ052.revisada0,
-.pais_univ056.revisada0,
-.pais_univ060.revisada0,
-.pais_univ064.revisada0,
-.pais_univ068.revisada0,
-.pais_univ072.revisada0,
-.pais_univ074.revisada0,
-.pais_univ076.revisada0,
-.pais_univ084.revisada0,
-.pais_univ086.revisada0,
-.pais_univ090.revisada0,
-.pais_univ092.revisada0,
-.pais_univ096.revisada0,
-.pais_univ100.revisada0,
-.pais_univ104.revisada0,
-.pais_univ108.revisada0,
-.pais_univ112.revisada0,
-.pais_univ114.revisada0,
-.pais_univ116.revisada0,
-.pais_univ120.revisada0,
-.pais_univ124.revisada0,
-.pais_univ128.revisada0,
-.pais_univ132.revisada0,
-.pais_univ136.revisada0,
-.pais_univ140.revisada0,
-.pais_univ144.revisada0,
-.pais_univ146.revisada0,
-.pais_univ148.revisada0,
-.pais_univ152.revisada0,
-.pais_univ156.revisada0,
-.pais_univ158.revisada0,
-.pais_univ162.revisada0,
-.pais_univ166.revisada0,
-.pais_univ170.revisada0,
-.pais_univ174.revisada0,
-.pais_univ178.revisada0,
-.pais_univ180.revisada0,
-.pais_univ184.revisada0,
-.pais_univ188.revisada0,
-.pais_univ190.revisada0,
-.pais_univ192.revisada0,
-.pais_univ196.revisada0,
-.pais_univ200.revisada0,
-.pais_univ202.revisada0,
-.pais_univ203.revisada0,
-.pais_univ204.revisada0,
-.pais_univ208.revisada0,
-.pais_univ212.revisada0,
-.pais_univ214.revisada0,
-.pais_univ216.revisada0,
-.pais_univ218.revisada0,
-.pais_univ222.revisada0,
-.pais_univ226.revisada0,
-.pais_univ227.revisada0,
-.pais_univ228.revisada0,
-.pais_univ229.revisada0,
-.pais_univ230.revisada0,
-.pais_univ232.revisada0,
-.pais_univ234.revisada0,
-.pais_univ238.revisada0,
-.pais_univ242.revisada0,
-.pais_univ246.revisada0,
-.pais_univ250.revisada0,
-.pais_univ254.revisada0,
-.pais_univ258.revisada0,
-.pais_univ262.revisada0,
-.pais_univ266.revisada0,
-.pais_univ270.revisada0,
-.pais_univ272.revisada0,
-.pais_univ274.revisada0,
-.pais_univ276.revisada0,
-.pais_univ280.revisada0,
-.pais_univ288.revisada0,
-.pais_univ292.revisada0,
-.pais_univ294.revisada0,
-.pais_univ296.revisada0,
-.pais_univ300.revisada0,
-.pais_univ304.revisada0,
-.pais_univ308.revisada0,
-.pais_univ312.revisada0,
-.pais_univ316.revisada0,
-.pais_univ320.revisada0,
-.pais_univ324.revisada0,
-.pais_univ328.revisada0,
-.pais_univ332.revisada0,
-.pais_univ334.revisada0,
-.pais_univ336.revisada0,
-.pais_univ340.revisada0,
-.pais_univ344.revisada0,
-.pais_univ348.revisada0,
-.pais_univ352.revisada0,
-.pais_univ356.revisada0,
-.pais_univ360.revisada0,
-.pais_univ364.revisada0,
-.pais_univ368.revisada0,
-.pais_univ372.revisada0,
-.pais_univ376.revisada0,
-.pais_univ380.revisada0,
-.pais_univ384.revisada0,
-.pais_univ388.revisada0,
-.pais_univ390.revisada0,
-.pais_univ392.revisada0,
-.pais_univ396.revisada0,
-.pais_univ400.revisada0,
-.pais_univ402.revisada0,
-.pais_univ404.revisada0,
-.pais_univ406.revisada0,
-.pais_univ408.revisada0,
-.pais_univ410.revisada0,
-.pais_univ414.revisada0,
-.pais_univ418.revisada0,
-.pais_univ422.revisada0,
-.pais_univ426.revisada0,
-.pais_univ428.revisada0,
-.pais_univ430.revisada0,
-.pais_univ434.revisada0,
-.pais_univ438.revisada0,
-.pais_univ440.revisada0,
-.pais_univ442.revisada0,
-.pais_univ446.revisada0,
-.pais_univ450.revisada0,
-.pais_univ454.revisada0,
-.pais_univ458.revisada0,
-.pais_univ462.revisada0,
-.pais_univ466.revisada0,
-.pais_univ470.revisada0,
-.pais_univ474.revisada0,
-.pais_univ478.revisada0,
-.pais_univ480.revisada0,
-.pais_univ484.revisada0,
-.pais_univ488.revisada0,
-.pais_univ492.revisada0,
-.pais_univ494.revisada0,
-.pais_univ496.revisada0,
-.pais_univ498.revisada0,
-.pais_univ499.revisada0,
-.pais_univ500.revisada0,
-.pais_univ504.revisada0,
-.pais_univ508.revisada0,
-.pais_univ512.revisada0,
-.pais_univ516.revisada0,
-.pais_univ520.revisada0,
-.pais_univ524.revisada0,
-.pais_univ528.revisada0,
-.pais_univ532.revisada0,
-.pais_univ536.revisada0,
-.pais_univ540.revisada0,
-.pais_univ548.revisada0,
-.pais_univ554.revisada0,
-.pais_univ558.revisada0,
-.pais_univ562.revisada0,
-.pais_univ566.revisada0,
-.pais_univ570.revisada0,
-.pais_univ574.revisada0,
-.pais_univ578.revisada0,
-.pais_univ582.revisada0,
-.pais_univ583.revisada0,
-.pais_univ584.revisada0,
-.pais_univ585.revisada0,
-.pais_univ586.revisada0,
-.pais_univ590.revisada0,
-.pais_univ591.revisada0,
-.pais_univ598.revisada0,
-.pais_univ600.revisada0,
-.pais_univ604.revisada0,
-.pais_univ608.revisada0,
-.pais_univ612.revisada0,
-.pais_univ616.revisada0,
-.pais_univ620.revisada0,
-.pais_univ624.revisada0,
-.pais_univ626.revisada0,
-.pais_univ630.revisada0,
-.pais_univ634.revisada0,
-.pais_univ638.revisada0,
-.pais_univ642.revisada0,
-.pais_univ643.revisada0,
-.pais_univ646.revisada0,
-.pais_univ654.revisada0,
-.pais_univ658.revisada0,
-.pais_univ662.revisada0,
-.pais_univ666.revisada0,
-.pais_univ670.revisada0,
-.pais_univ674.revisada0,
-.pais_univ678.revisada0,
-.pais_univ682.revisada0,
-.pais_univ686.revisada0,
-.pais_univ688.revisada0,
-.pais_univ690.revisada0,
-.pais_univ694.revisada0,
-.pais_univ698.revisada0,
-.pais_univ702.revisada0,
-.pais_univ704.revisada0,
-.pais_univ706.revisada0,
-.pais_univ710.revisada0,
-.pais_univ716.revisada0,
-.pais_univ720.revisada0,
-/*españa: .pais_univ724.revisada0,*/
-.pais_univ732.revisada0,
-.pais_univ736.revisada0,
-.pais_univ740.revisada0,
-.pais_univ744.revisada0,
-.pais_univ748.revisada0,
-.pais_univ752.revisada0,
-.pais_univ756.revisada0,
-.pais_univ760.revisada0,
-.pais_univ762.revisada0,
-.pais_univ764.revisada0,
-.pais_univ768.revisada0,
-.pais_univ772.revisada0,
-.pais_univ776.revisada0,
-.pais_univ780.revisada0,
-.pais_univ784.revisada0,
-.pais_univ788.revisada0,
-.pais_univ792.revisada0,
-.pais_univ794.revisada0,
-.pais_univ796.revisada0,
-.pais_univ798.revisada0,
-.pais_univ800.revisada0,
-.pais_univ804.revisada0,
-.pais_univ807.revisada0,
-.pais_univ810.revisada0,
-.pais_univ812.revisada0,
-.pais_univ818.revisada0,
-.pais_univ826.revisada0,
-.pais_univ834.revisada0,
-.pais_univ840.revisada0,
-.pais_univ849.revisada0,
-.pais_univ850.revisada0,
-.pais_univ851.revisada0,
-.pais_univ854.revisada0,
-.pais_univ858.revisada0,
-.pais_univ862.revisada0,
-.pais_univ872.revisada0,
-.pais_univ876.revisada0,
-.pais_univ882.revisada0,
-.pais_univ886.revisada0,
-.pais_univ890.revisada0,
-.pais_univ894.revisada0,
-.pais_univ991.revisada0,
-.pais_univ992.revisada0,
-.pais_univ999.revisada0
-{
-	background-color:white !important;
-	color:#666;
-}
-.pais_univ003.validada0,
-.pais_univ004.validada0,
-.pais_univ008.validada0,
-.pais_univ010.validada0,
-.pais_univ012.validada0,
-.pais_univ014.validada0,
-.pais_univ016.validada0,
-.pais_univ020.validada0,
-.pais_univ024.validada0,
-.pais_univ028.validada0,
-.pais_univ032.validada0,
-.pais_univ036.validada0,
-.pais_univ040.validada0,
-.pais_univ042.validada0,
-.pais_univ044.validada0,
-.pais_univ048.validada0,
-.pais_univ050.validada0,
-.pais_univ051.validada0,
-.pais_univ052.validada0,
-.pais_univ056.validada0,
-.pais_univ060.validada0,
-.pais_univ064.validada0,
-.pais_univ068.validada0,
-.pais_univ072.validada0,
-.pais_univ074.validada0,
-.pais_univ076.validada0,
-.pais_univ084.validada0,
-.pais_univ086.validada0,
-.pais_univ090.validada0,
-.pais_univ092.validada0,
-.pais_univ096.validada0,
-.pais_univ100.validada0,
-.pais_univ104.validada0,
-.pais_univ108.validada0,
-.pais_univ112.validada0,
-.pais_univ114.validada0,
-.pais_univ116.validada0,
-.pais_univ120.validada0,
-.pais_univ124.validada0,
-.pais_univ128.validada0,
-.pais_univ132.validada0,
-.pais_univ136.validada0,
-.pais_univ140.validada0,
-.pais_univ144.validada0,
-.pais_univ146.validada0,
-.pais_univ148.validada0,
-.pais_univ152.validada0,
-.pais_univ156.validada0,
-.pais_univ158.validada0,
-.pais_univ162.validada0,
-.pais_univ166.validada0,
-.pais_univ170.validada0,
-.pais_univ174.validada0,
-.pais_univ178.validada0,
-.pais_univ180.validada0,
-.pais_univ184.validada0,
-.pais_univ188.validada0,
-.pais_univ190.validada0,
-.pais_univ192.validada0,
-.pais_univ196.validada0,
-.pais_univ200.validada0,
-.pais_univ202.validada0,
-.pais_univ203.validada0,
-.pais_univ204.validada0,
-.pais_univ208.validada0,
-.pais_univ212.validada0,
-.pais_univ214.validada0,
-.pais_univ216.validada0,
-.pais_univ218.validada0,
-.pais_univ222.validada0,
-.pais_univ226.validada0,
-.pais_univ227.validada0,
-.pais_univ228.validada0,
-.pais_univ229.validada0,
-.pais_univ230.validada0,
-.pais_univ232.validada0,
-.pais_univ234.validada0,
-.pais_univ238.validada0,
-.pais_univ242.validada0,
-.pais_univ246.validada0,
-.pais_univ250.validada0,
-.pais_univ254.validada0,
-.pais_univ258.validada0,
-.pais_univ262.validada0,
-.pais_univ266.validada0,
-.pais_univ270.validada0,
-.pais_univ272.validada0,
-.pais_univ274.validada0,
-.pais_univ276.validada0,
-.pais_univ280.validada0,
-.pais_univ288.validada0,
-.pais_univ292.validada0,
-.pais_univ294.validada0,
-.pais_univ296.validada0,
-.pais_univ300.validada0,
-.pais_univ304.validada0,
-.pais_univ308.validada0,
-.pais_univ312.validada0,
-.pais_univ316.validada0,
-.pais_univ320.validada0,
-.pais_univ324.validada0,
-.pais_univ328.validada0,
-.pais_univ332.validada0,
-.pais_univ334.validada0,
-.pais_univ336.validada0,
-.pais_univ340.validada0,
-.pais_univ344.validada0,
-.pais_univ348.validada0,
-.pais_univ352.validada0,
-.pais_univ356.validada0,
-.pais_univ360.validada0,
-.pais_univ364.validada0,
-.pais_univ368.validada0,
-.pais_univ372.validada0,
-.pais_univ376.validada0,
-.pais_univ380.validada0,
-.pais_univ384.validada0,
-.pais_univ388.validada0,
-.pais_univ390.validada0,
-.pais_univ392.validada0,
-.pais_univ396.validada0,
-.pais_univ400.validada0,
-.pais_univ402.validada0,
-.pais_univ404.validada0,
-.pais_univ406.validada0,
-.pais_univ408.validada0,
-.pais_univ410.validada0,
-.pais_univ414.validada0,
-.pais_univ418.validada0,
-.pais_univ422.validada0,
-.pais_univ426.validada0,
-.pais_univ428.validada0,
-.pais_univ430.validada0,
-.pais_univ434.validada0,
-.pais_univ438.validada0,
-.pais_univ440.validada0,
-.pais_univ442.validada0,
-.pais_univ446.validada0,
-.pais_univ450.validada0,
-.pais_univ454.validada0,
-.pais_univ458.validada0,
-.pais_univ462.validada0,
-.pais_univ466.validada0,
-.pais_univ470.validada0,
-.pais_univ474.validada0,
-.pais_univ478.validada0,
-.pais_univ480.validada0,
-.pais_univ484.validada0,
-.pais_univ488.validada0,
-.pais_univ492.validada0,
-.pais_univ494.validada0,
-.pais_univ496.validada0,
-.pais_univ498.validada0,
-.pais_univ499.validada0,
-.pais_univ500.validada0,
-.pais_univ504.validada0,
-.pais_univ508.validada0,
-.pais_univ512.validada0,
-.pais_univ516.validada0,
-.pais_univ520.validada0,
-.pais_univ524.validada0,
-.pais_univ528.validada0,
-.pais_univ532.validada0,
-.pais_univ536.validada0,
-.pais_univ540.validada0,
-.pais_univ548.validada0,
-.pais_univ554.validada0,
-.pais_univ558.validada0,
-.pais_univ562.validada0,
-.pais_univ566.validada0,
-.pais_univ570.validada0,
-.pais_univ574.validada0,
-.pais_univ578.validada0,
-.pais_univ582.validada0,
-.pais_univ583.validada0,
-.pais_univ584.validada0,
-.pais_univ585.validada0,
-.pais_univ586.validada0,
-.pais_univ590.validada0,
-.pais_univ591.validada0,
-.pais_univ598.validada0,
-.pais_univ600.validada0,
-.pais_univ604.validada0,
-.pais_univ608.validada0,
-.pais_univ612.validada0,
-.pais_univ616.validada0,
-.pais_univ620.validada0,
-.pais_univ624.validada0,
-.pais_univ626.validada0,
-.pais_univ630.validada0,
-.pais_univ634.validada0,
-.pais_univ638.validada0,
-.pais_univ642.validada0,
-.pais_univ643.validada0,
-.pais_univ646.validada0,
-.pais_univ654.validada0,
-.pais_univ658.validada0,
-.pais_univ662.validada0,
-.pais_univ666.validada0,
-.pais_univ670.validada0,
-.pais_univ674.validada0,
-.pais_univ678.validada0,
-.pais_univ682.validada0,
-.pais_univ686.validada0,
-.pais_univ688.validada0,
-.pais_univ690.validada0,
-.pais_univ694.validada0,
-.pais_univ698.validada0,
-.pais_univ702.validada0,
-.pais_univ704.validada0,
-.pais_univ706.validada0,
-.pais_univ710.validada0,
-.pais_univ716.validada0,
-.pais_univ720.validada0,
-/*españa: .pais_univ724.validada0,*/
-.pais_univ732.validada0,
-.pais_univ736.validada0,
-.pais_univ740.validada0,
-.pais_univ744.validada0,
-.pais_univ748.validada0,
-.pais_univ752.validada0,
-.pais_univ756.validada0,
-.pais_univ760.validada0,
-.pais_univ762.validada0,
-.pais_univ764.validada0,
-.pais_univ768.validada0,
-.pais_univ772.validada0,
-.pais_univ776.validada0,
-.pais_univ780.validada0,
-.pais_univ784.validada0,
-.pais_univ788.validada0,
-.pais_univ792.validada0,
-.pais_univ794.validada0,
-.pais_univ796.validada0,
-.pais_univ798.validada0,
-.pais_univ800.validada0,
-.pais_univ804.validada0,
-.pais_univ807.validada0,
-.pais_univ810.validada0,
-.pais_univ812.validada0,
-.pais_univ818.validada0,
-.pais_univ826.validada0,
-.pais_univ834.validada0,
-.pais_univ840.validada0,
-.pais_univ849.validada0,
-.pais_univ850.validada0,
-.pais_univ851.validada0,
-.pais_univ854.validada0,
-.pais_univ858.validada0,
-.pais_univ862.validada0,
-.pais_univ872.validada0,
-.pais_univ876.validada0,
-.pais_univ882.validada0,
-.pais_univ886.validada0,
-.pais_univ890.validada0,
-.pais_univ894.validada0,
-.pais_univ991.validada0,
-.pais_univ992.validada0,
-.pais_univ999.validada0
-{
-	background-color:white !important;
-	color:#666;
-}
 /*********************************************************************/
 /* NUEVOS ESTILOS AÑADIDOS POR EAG*/
 .container-fluid
 {
-	padding:0px;
+	padding:20px;
 }
 .footer
 {
 	padding:0px 10px;
 }
-.header, .row-fluid
-{
-	padding-left:20px;
-	padding-right:20px;
-	width: auto;
-}
+
 div.contact dt
 {
 	display:none;
@@ -653,9 +124,12 @@ div.contact dt
 }
 header.header
 {
-	background-image:url('../images/encabezado.jpg');
+
+	background-image:url('../img/us.png');
 	background-repeat:no-repeat;
-	background-position:top right;
+	background-position:bottom right;
+	padding-bottom: 15px;
+	margin-bottom: 5px;
 }
 
 .header-logo
@@ -674,6 +148,7 @@ header.header
 {
 	float:left;
 	margin-right:10px;
+	padding-right:10px;
 	height:auto;
 	border-right:1px solid #ccc;
 }
@@ -683,23 +158,21 @@ header.header
 }
 .site-title, .site-description
 {
- 	text-align:left;
+	font-family: "Open Sans Condensed", sans-serif;
+	text-align:left;
  	color: #952434;
- 	font-size:14px;
- 	font-family: Times New Roman,Arial,sans-serif;
  	font-size:15px;
- 	letter-spacing:1px;
+ 	letter-spacing:2px;
 }
 .site-title
 {
-	
-	font-family: Times New Roman,Arial,sans-serif;
+	letter-spacing:2px;
+	font-family: "Open Sans Condensed", sans-serif;
 	font-size:20px;
-	letter-spacing:1px;
-	color:#952434;
+	color:#be9d56;
 	font-weight:normal;
 	line-height: 25px;
-    margin-top: 37px;
+    margin-top: 25px;
 }
 .brand
 {
@@ -770,44 +243,7 @@ a:focus {
 	color: #EBAC00;
 	text-decoration: underline;
 }
-.nav{
-	margin-bottom:0px;
-}
-.navigation {
-    border:0px;
-    margin-bottom:5px;
-    padding:0px;
-    /*desarrollo*/
-    	/*background:#27629E;*/
-    /*prepro*/
-    	/*background:#333;*/
-    /*produccion*/
-    	background:#a71026;
 
-}
-nav .nav-pills > li > a
-{
-	border:0px;
-	margin:0px;
-	border-radius:0px;
-	color:#fff;
-}
-.nav-pills > li > a:focus, .nav-pills > li > a:hover
-{
-	color:#333;
-}
-.nav-pills > .active > a, .nav-pills > .active > a:hover
-{
-	background-color:#FFC114 !important;
-	border-radius:0px;
-	margin:0px;
-	color:#333;
-}
-.nav .dropdown-toggle .caret
-{
-    border-bottom-color: #B60C25;
-    border-top-color: #B60C25
-}
 .input-small {
 	width: 125px;
 }
@@ -840,18 +276,7 @@ input[type="search"]
 {
 	float:right;
 }
-.alert
-{
-	margin-top:10px;
-	color:#966A30;
-	/*background-color:#FFF5C6;*/
-	/*border-color:#966A30;*/
-}
-.alert-message {
-  background-color: #dff0d8;
-  border-color: #d6e9c6;
-  color: #468847;
-}
+
 h4.alert-heading {color:#468847}
 .col-icono
 {
@@ -889,16 +314,12 @@ div.documentacion-entregar
 {
 	font-size:11px;
 }
-.consejo
+div.controls > span, .consejo
 {
+	margin-left:20px;
 	font-style:italic;
 	color:#666;
 	font-size:11px;
-}
-#list_6_com_fabrik_6 tr.estado4
-{
-	color:#666;
-	font-style:italic;
 }
 div.plg-fileupload > label
 {
@@ -908,4 +329,3 @@ div.plg-fileupload > div
 {
 	margin-left:0px !important;
 }
-.fb_el_t_solicitudes___revisada_ro,.fb_el_t_solicitudes___validada_ro{display:none !important;}

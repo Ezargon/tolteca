@@ -19,9 +19,11 @@ JHtml::_('behavior.keepalive');
 	} else : {
 		echo JText::sprintf('MOD_LOGIN_HINAME', htmlspecialchars($user->get('username')));
 	} endif; ?>
+	[<a href="salir">Salir</a>]
 	</div>
 <?php endif; ?>
-	<div class="logout-button">
+     
+	<div style="display:none;" class="logout-button">
 		<input type="submit" name="Submit" class="btn btn-primary" value="<?php echo JText::_('JLOGOUT'); ?>" />
 		<input type="hidden" name="option" value="com_users" />
 		<input type="hidden" name="task" value="user.logout" />

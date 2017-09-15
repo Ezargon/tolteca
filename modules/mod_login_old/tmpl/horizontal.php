@@ -2,7 +2,7 @@
 /**
  * @package     Joomla.Site
  * @subpackage  mod_login
- *
+ 
  * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
@@ -21,7 +21,7 @@ JHtml::_('bootstrap.tooltip');
 			<p><?php echo $params->get('pretext'); ?></p>
 		</div>
 	<?php endif; ?>
-	<div class="userdata">
+	<div class="userdata-horizontal">
 		<div id="form-login-username" class="control-group">
 			<div class="controls">
 				<?php if (!$params->get('usetext')) : ?>
@@ -56,6 +56,11 @@ JHtml::_('bootstrap.tooltip');
 				<?php endif; ?>
 			</div>
 		</div>
+		<div id="form-login-submit" class="control-group">
+				<div class="controls">
+					<button type="submit" tabindex="0" name="Submit" class="btn btn-primary">Entrar</button>
+				</div>
+		</div>		
 		<?php if (count($twofactormethods) > 1): ?>
 		<div id="form-login-secretkey" class="control-group">
 			<div class="controls">
@@ -88,29 +93,28 @@ JHtml::_('bootstrap.tooltip');
 			<label for="modlgn-remember" class="control-label"><?php echo JText::_('MOD_LOGIN_REMEMBER_ME') ?></label> <input id="modlgn-remember" type="checkbox" name="remember" class="inputbox" value="yes"/>
 		</div>
 		<?php endif; ?>
-		<div id="form-login-submit" class="control-group">
-			<div class="controls">
-				<button type="submit" tabindex="0" name="Submit" class="btn btn-primary"><?php echo JText::_('JLOGIN') ?></button>
-			</div>
-		</div>
 		<?php
-			$usersConfig = JComponentHelper::getParams('com_users'); ?>
-			<ul class="unstyled">
-			<?php if ($usersConfig->get('allowUserRegistration')) : ?>
-				<li>
-					<a href="<?php echo JRoute::_('index.php?option=com_users&view=registration&Itemid='.UsersHelperRoute::getRegistrationRoute()); ?>">
-					<?php echo JText::_('MOD_LOGIN_REGISTER'); ?> <span class="icon-arrow-right"></span></a>
-				</li>
-			<?php endif; ?>
-				<li>
+			$usersConfig = JComponentHelper::getParams('com_users'); 
+?>
+			<div id="form-login-actions">
+				<div>
 					<a href="<?php echo JRoute::_('index.php?option=com_users&view=remind&Itemid='.UsersHelperRoute::getRemindRoute()); ?>">
-					<?php echo JText::_('MOD_LOGIN_FORGOT_YOUR_USERNAME'); ?></a>
-				</li>
-				<li>
+					<?php echo JText::_('MOD_LOGIN_FORGOT_YOUR_USERNAME'); ?></a> 
+				</div>
+				<div>
 					<a href="<?php echo JRoute::_('index.php?option=com_users&view=reset&Itemid='.UsersHelperRoute::getResetRoute()); ?>">
-					<?php echo JText::_('MOD_LOGIN_FORGOT_YOUR_PASSWORD'); ?></a>
-				</li>
-			</ul>
+					<?php echo JText::_('MOD_LOGIN_FORGOT_YOUR_PASSWORD'); ?></a>&nbsp|&nbsp
+				</div>
+			<?php 
+					if ($usersConfig->get('allowUserRegistration')) : ?>
+					<div>
+						<a href="<?php echo JRoute::_('index.php?option=com_users&view=registration&Itemid='.UsersHelperRoute::getRegistrationRoute()); ?>">
+						<?php echo JText::_('MOD_LOGIN_REGISTER'); ?></a> &nbsp|&nbsp
+					</div>
+					<?php endif;
+			 ?>
+				
+			</div>
 		<input type="hidden" name="option" value="com_users" />
 		<input type="hidden" name="task" value="user.login" />
 		<input type="hidden" name="return" value="<?php echo $return; ?>" />
