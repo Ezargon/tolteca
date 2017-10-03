@@ -82,10 +82,4 @@ RewriteRule .* index.php [L]
 Options  -Indexes
 #allow some, deny everyone else
 order allow,deny
-allow from 127.0.0.1
-allow from 193.147.170.62
-#allow from 193.147.170.107
-#allow from 172.20.12.210
 allow from all
-#ErrorDocument 403 http://admisiondoctorado.us.es/
-
