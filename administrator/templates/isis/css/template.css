@@ -2322,14 +2322,14 @@ input[type="button"].btn-block {
 	box-shadow: 0 1px 2px rgba(0,0,0,0.05);
 }
 .btn-primary {
-	border: 1px solid #15497c;
+	border: 1px solid #881435;
 	border: 1px solid rgba(0,0,0,0.2);
 	color: #fff;
-	background-color: #2384d3;
+	background-color: #881435;
 }
 .btn-primary:hover,
 .btn-primary:focus {
-	background-color: #185b91;
+	background-color: #881435;
 	color: #fff;
 	text-decoration: none;
 }
@@ -7660,7 +7660,7 @@ textarea.noResize {
 	}
 }
 .view-login {
-	background-color: #17568c;
+	background-color: #881435;
 	padding-top: 0;
 }
 .view-login .container {

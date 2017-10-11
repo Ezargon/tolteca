@@ -365,3 +365,37 @@ tr.fabrikSubGroupElements td
 	border-top:0px !important;
 	padding:3px !important;
 }
+.fabrikinput.button
+{
+	padding:15px;
+
+}
+.fabrikinput.button{
+	color: #fff;
+	text-shadow: 0 -1px 0 rgba(0,0,0,0.25);
+	background-color: #a71026 !important;
+	background-image: -moz-linear-gradient(top,#a71026,#a71026);
+	background-image: -webkit-gradient(linear,0 0,0 100%,from(#a71026),to(#a71026));
+	background-image: -webkit-linear-gradient(top,#a71026,#a71026);
+	background-image: -o-linear-gradient(top,#a71026,#a71026);
+	background-image: linear-gradient(to bottom,#a71026,#a71026);
+	background-repeat: repeat-x;
+	filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#a71026', endColorstr='#a71026', GradientType=0);
+	border-color: #a71026 #a71026 #a71026;
+	*background-color: #a71026;
+	filter: progid:DXImageTransform.Microsoft.gradient(enabled = false);
+}
+.fabrikinput.button:hover,
+.fabrikinput.button:focus,
+.fabrikinput.button:active,
+.fabrikinput.button.active,
+.fabrikinput.button.disabled,
+.fabrikinput.button[disabled] {
+	color: #fff;
+	background-color: #bd362f;
+	*background-color: #bd362f;
+}
+.fabrikinput.button:active,
+.fabrikinput.button.active {
+	background-color: #bd362f \9;
+}

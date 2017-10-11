@@ -117,6 +117,7 @@ if (JPluginHelper::isEnabled('system', 'debug') && ($app->get('debug_lang', 0) |
 				<?php else: ?>
 					<img src="<?php echo $this->baseurl; ?>/templates/<?php echo $this->template; ?>/images/joomla.png" alt="<?php echo $sitename; ?>" />
 				<?php endif; ?>
+				<center><h2>Tolteca</h2></center>
 				<hr />
 				<jdoc:include type="message" />
 				<jdoc:include type="component" />
