@@ -252,7 +252,7 @@ define(['jquery', 'fab/fabrik', 'fullcalendar'], function (jQuery, Fabrik, fc) {
         },
 
         processEvents: function (json, callback) {
-            json = $H(JSON.decode(json));
+            json = $H(JSON.parse(json));
             var events = [], dispStartTime, dispEndTime, buttons, width, bDelete, bEdit, bView,
                 dispStartDate, dispEndDate, popup, id, body, mStartDate, mEndDate;
             json.each(function (e) {
@@ -417,6 +417,13 @@ define(['jquery', 'fab/fabrik', 'fullcalendar'], function (jQuery, Fabrik, fc) {
         deleteEntry: function (calEvent) {
             if (window.confirm(Joomla.JText._('PLG_VISUALIZATION_FULLCALENDAR_CONF_DELETE'))) {
                 this.ajax.deleteEvent.options.data = {'id': calEvent.rowid, 'listid': calEvent.listid};
+                var result = Fabrik.fireEvent('fabrik.viz.fullcalendar.deleteentry', [this, calEvent]).eventResults;
+                for (i = 0; i < result.length; i++) {
+                    if (typeOf(result[i] === 'object'))
+                    {
+                        jQuery.extend(this.ajax.deleteEvent.options.data, result[i]);
+                    }
+                }
                 this.ajax.deleteEvent.send();
             }
         },

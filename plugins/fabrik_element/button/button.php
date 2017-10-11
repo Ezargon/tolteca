@@ -34,7 +34,7 @@ class PlgFabrik_ElementButton extends PlgFabrik_Element
 		$id = $this->getHTMLId($repeatCounter);
 		$element = $this->getElement();
 		$params = $this->getParams();
-		$class = $params->get('bootstrap_class', '') . ' fabrikinput button btn btn-primary';
+		$class = $params->get('bootstrap_class', '') . ' fabrikinput button btn';
 		$icon = $params->get('bootstrap_icon', '');
 		$type = $params->get('button_type', 'button');
 
