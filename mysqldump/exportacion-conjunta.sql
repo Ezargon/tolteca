@@ -494,7 +494,7 @@ CREATE TABLE IF NOT EXISTS `tltc_extensions` (
   KEY `extension` (`type`,`element`,`folder`,`client_id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=10060 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
--- Volcando datos para la tabla tolteca.tltc_extensions: ~223 rows (aproximadamente)
+-- Volcando datos para la tabla tolteca.tltc_extensions: ~222 rows (aproximadamente)
 /*!40000 ALTER TABLE `tltc_extensions` DISABLE KEYS */;
 INSERT INTO `tltc_extensions` (`extension_id`, `package_id`, `name`, `type`, `element`, `folder`, `client_id`, `enabled`, `access`, `protected`, `manifest_cache`, `params`, `custom_data`, `system_data`, `checked_out`, `checked_out_time`, `ordering`, `state`) VALUES
 	(1, 0, 'com_mailto', 'component', 'com_mailto', '', 0, 1, 1, 1, '{"name":"com_mailto","type":"component","creationDate":"April 2006","author":"Joomla! Project","copyright":"(C) 2005 - 2017 Open Source Matters. All rights reserved.\\t","authorEmail":"admin@joomla.org","authorUrl":"www.joomla.org","version":"3.0.0","description":"COM_MAILTO_XML_DESCRIPTION","group":"","filename":"mailto"}', '', '', '', 0, '0000-00-00 00:00:00', 0, 0),
@@ -804,9 +804,9 @@ CREATE TABLE IF NOT EXISTS `tltc_fabrik_elements` (
   `parent_id` mediumint(6) NOT NULL,
   `params` mediumtext NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=182 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=192 DEFAULT CHARSET=utf8;
 
--- Volcando datos para la tabla tolteca.tltc_fabrik_elements: ~149 rows (aproximadamente)
+-- Volcando datos para la tabla tolteca.tltc_fabrik_elements: ~136 rows (aproximadamente)
 /*!40000 ALTER TABLE `tltc_fabrik_elements` DISABLE KEYS */;
 INSERT INTO `tltc_fabrik_elements` (`id`, `name`, `group_id`, `plugin`, `label`, `checked_out`, `checked_out_time`, `created`, `created_by`, `created_by_alias`, `modified`, `modified_by`, `width`, `height`, `default`, `hidden`, `eval`, `ordering`, `show_in_list_summary`, `filter_type`, `filter_exact_match`, `published`, `link_to_detail`, `primary_key`, `auto_increment`, `access`, `use_in_page_title`, `parent_id`, `params`) VALUES
 	(1, 'id', 1, 'internalid', 'id', 0, '0000-00-00 00:00:00', '2016-01-10 08:53:39', 678, 'ezequiel', '0000-00-00 00:00:00', 0, 3, 0, '', 1, 0, 2, 1, '', 0, 1, 1, 1, 1, 1, 0, 0, '{"edit_access":"1","view_access":"1","list_view_access":"1","filter_access":"1","sum_access":"1","avg_access":"1","median_access":"1","count_access":"1","custom_calc_access":"1"}'),
@@ -978,9 +978,9 @@ CREATE TABLE IF NOT EXISTS `tltc_fabrik_formgroup` (
   `group_id` int(4) NOT NULL,
   `ordering` int(4) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=25 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=26 DEFAULT CHARSET=utf8;
 
--- Volcando datos para la tabla tolteca.tltc_fabrik_formgroup: ~19 rows (aproximadamente)
+-- Volcando datos para la tabla tolteca.tltc_fabrik_formgroup: ~20 rows (aproximadamente)
 /*!40000 ALTER TABLE `tltc_fabrik_formgroup` DISABLE KEYS */;
 INSERT INTO `tltc_fabrik_formgroup` (`id`, `form_id`, `group_id`, `ordering`) VALUES
 	(1, 1, 1, 1),
@@ -1061,7 +1061,7 @@ CREATE TABLE IF NOT EXISTS `tltc_fabrik_form_sessions` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8;
 
--- Volcando datos para la tabla tolteca.tltc_fabrik_form_sessions: ~1 rows (aproximadamente)
+-- Volcando datos para la tabla tolteca.tltc_fabrik_form_sessions: ~0 rows (aproximadamente)
 /*!40000 ALTER TABLE `tltc_fabrik_form_sessions` DISABLE KEYS */;
 INSERT INTO `tltc_fabrik_form_sessions` (`id`, `hash`, `user_id`, `form_id`, `row_id`, `last_page`, `referring_url`, `data`, `time_date`) VALUES
 	(8, '59ca970ee7402:2:0', 0, 2, 0, 0, 'http://doctorado.us.es/tolteca/cursos/form/2?solicitudes_cursos___curso_raw=1', 'a:43:{s:26:"solicitudes_cursos___curso";a:1:{i:0;s:1:"1";}s:30:"solicitudes_cursos___date_time";s:19:"2017-09-26 18:04:30";s:23:"solicitudes_cursos___id";s:0:"";s:27:"solicitudes_cursos___nombre";s:3:"Tao";s:30:"solicitudes_cursos___apellidos";s:4:"Yang";s:27:"solicitudes_cursos___perfil";a:1:{i:0;s:11:"PhD student";}s:26:"solicitudes_cursos___email";s:18:"ytdomingo@sina.com";s:33:"solicitudes_cursos___departamento";s:7:"Cirugia";s:26:"solicitudes_cursos___grupo";s:0:"";s:27:"solicitudes_cursos___centro";s:0:"";s:31:"solicitudes_cursos___motivacion";s:0:"";s:31:"solicitudes_cursos___organismos";s:0:"";s:6:"listid";s:1:"2";s:7:"listref";s:1:"2";s:5:"rowid";s:0:"";s:6:"Itemid";s:3:"114";s:6:"option";s:10:"com_fabrik";s:4:"task";s:12:"form.process";s:8:"isMambot";s:0:"";s:6:"formid";s:1:"2";s:12:"returntoform";s:1:"0";s:15:"fabrik_referrer";s:49:"http://doctorado.us.es/tolteca/cursos/details/1/1";s:11:"fabrik_ajax";s:1:"0";s:7:"package";s:6:"fabrik";s:9:"packageId";s:0:"";s:32:"e4ddffa05ddfa8bdfd0a0ce18701c41a";s:1:"1";s:6:"format";s:4:"html";s:19:"fabrik_repeat_group";a:1:{i:2;s:1:"1";}s:6:"Submit";s:0:"";s:30:"solicitudes_cursos___curso_raw";a:1:{i:0;s:1:"1";}s:34:"solicitudes_cursos___date_time_raw";s:19:"2017-09-26 18:04:30";s:27:"solicitudes_cursos___id_raw";s:0:"";s:31:"solicitudes_cursos___nombre_raw";s:3:"Tao";s:34:"solicitudes_cursos___apellidos_raw";s:4:"Yang";s:31:"solicitudes_cursos___perfil_raw";a:1:{i:0;s:11:"PhD student";}s:30:"solicitudes_cursos___email_raw";s:18:"ytdomingo@sina.com";s:37:"solicitudes_cursos___departamento_raw";s:7:"Cirugia";s:30:"solicitudes_cursos___grupo_raw";s:0:"";s:31:"solicitudes_cursos___centro_raw";s:0:"";s:35:"solicitudes_cursos___motivacion_raw";s:0:"";s:35:"solicitudes_cursos___organismos_raw";s:0:"";s:8:"__pk_val";s:0:"";s:4:"view";s:4:"form";}', '2017-09-25 07:37:49');
@@ -1086,7 +1086,7 @@ CREATE TABLE IF NOT EXISTS `tltc_fabrik_groups` (
   `private` tinyint(1) NOT NULL DEFAULT '0',
   `params` text NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=25 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=27 DEFAULT CHARSET=utf8;
 
 -- Volcando datos para la tabla tolteca.tltc_fabrik_groups: ~19 rows (aproximadamente)
 /*!40000 ALTER TABLE `tltc_fabrik_groups` DISABLE KEYS */;
@@ -1174,9 +1174,9 @@ CREATE TABLE IF NOT EXISTS `tltc_fabrik_jsactions` (
   `code` text NOT NULL,
   `params` text NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=76 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=120 DEFAULT CHARSET=utf8;
 
--- Volcando datos para la tabla tolteca.tltc_fabrik_jsactions: ~2 rows (aproximadamente)
+-- Volcando datos para la tabla tolteca.tltc_fabrik_jsactions: ~7 rows (aproximadamente)
 /*!40000 ALTER TABLE `tltc_fabrik_jsactions` DISABLE KEYS */;
 INSERT INTO `tltc_fabrik_jsactions` (`id`, `element_id`, `action`, `code`, `params`) VALUES
 	(74, 115, 'load', '', '{"js_e_event":"hide","js_e_trigger":"fabrik_trigger_element_actividades___inscripcion","js_e_condition":"==","js_e_value":"cerrado","js_published":"1"}'),
@@ -1735,7 +1735,7 @@ CREATE TABLE IF NOT EXISTS `tltc_finder_taxonomy` (
   KEY `idx_parent_published` (`parent_id`,`state`,`access`)
 ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4;
 
--- Volcando datos para la tabla tolteca.tltc_finder_taxonomy: ~1 rows (aproximadamente)
+-- Volcando datos para la tabla tolteca.tltc_finder_taxonomy: ~0 rows (aproximadamente)
 /*!40000 ALTER TABLE `tltc_finder_taxonomy` DISABLE KEYS */;
 INSERT INTO `tltc_finder_taxonomy` (`id`, `parent_id`, `title`, `state`, `access`, `ordering`) VALUES
 	(1, 0, 'ROOT', 0, 0, 0);
@@ -2090,7 +2090,7 @@ CREATE TABLE IF NOT EXISTS `tltc_menu_types` (
   UNIQUE KEY `idx_menutype` (`menutype`)
 ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
--- Volcando datos para la tabla tolteca.tltc_menu_types: ~1 rows (aproximadamente)
+-- Volcando datos para la tabla tolteca.tltc_menu_types: ~0 rows (aproximadamente)
 /*!40000 ALTER TABLE `tltc_menu_types` DISABLE KEYS */;
 INSERT INTO `tltc_menu_types` (`id`, `asset_id`, `menutype`, `title`, `description`, `client_id`) VALUES
 	(1, 0, 'mainmenu', 'Main Menu', 'The main menu for the site', 0);
@@ -2423,7 +2423,7 @@ CREATE TABLE IF NOT EXISTS `tltc_tags` (
   KEY `idx_language` (`language`)
 ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
--- Volcando datos para la tabla tolteca.tltc_tags: ~1 rows (aproximadamente)
+-- Volcando datos para la tabla tolteca.tltc_tags: ~0 rows (aproximadamente)
 /*!40000 ALTER TABLE `tltc_tags` DISABLE KEYS */;
 INSERT INTO `tltc_tags` (`id`, `parent_id`, `lft`, `rgt`, `level`, `path`, `title`, `alias`, `note`, `description`, `published`, `checked_out`, `checked_out_time`, `access`, `params`, `metadesc`, `metakey`, `metadata`, `created_user_id`, `created_time`, `created_by_alias`, `modified_user_id`, `modified_time`, `images`, `urls`, `hits`, `language`, `version`, `publish_up`, `publish_down`) VALUES
 	(1, 0, 0, 1, 0, '', 'ROOT', 'root', '', '', 1, 0, '0000-00-00 00:00:00', 1, '', '', '', '', 678, '2017-09-12 09:07:43', '', 0, '0000-00-00 00:00:00', '', '', 0, '*', 1, '0000-00-00 00:00:00', '0000-00-00 00:00:00');
@@ -2573,9 +2573,9 @@ CREATE TABLE IF NOT EXISTS `tltc_updates` (
   `infourl` text COLLATE utf8mb4_unicode_ci NOT NULL,
   `extra_query` varchar(1000) COLLATE utf8mb4_unicode_ci DEFAULT '',
   PRIMARY KEY (`update_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=139 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='Available Updates';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='Available Updates';
 
--- Volcando datos para la tabla tolteca.tltc_updates: ~94 rows (aproximadamente)
+-- Volcando datos para la tabla tolteca.tltc_updates: ~0 rows (aproximadamente)
 /*!40000 ALTER TABLE `tltc_updates` DISABLE KEYS */;
 /*!40000 ALTER TABLE `tltc_updates` ENABLE KEYS */;
 
@@ -2779,7 +2779,7 @@ CREATE TABLE IF NOT EXISTS `tltc_utf8_conversion` (
   `converted` tinyint(4) NOT NULL DEFAULT '0'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
--- Volcando datos para la tabla tolteca.tltc_utf8_conversion: ~1 rows (aproximadamente)
+-- Volcando datos para la tabla tolteca.tltc_utf8_conversion: ~0 rows (aproximadamente)
 /*!40000 ALTER TABLE `tltc_utf8_conversion` DISABLE KEYS */;
 INSERT INTO `tltc_utf8_conversion` (`converted`) VALUES
 	(2);
@@ -2855,12 +2855,22 @@ CREATE TABLE IF NOT EXISTS `actividades` (
   `fecha_fin` datetime DEFAULT NULL,
   `horas` decimal(5,2) DEFAULT NULL,
   `documentacion` text,
-  `organizador` int(11) DEFAULT NULL,
+  `gestor` int(11) DEFAULT NULL,
   `horario` varchar(255) DEFAULT NULL,
   `lugar` varchar(255) DEFAULT NULL,
   `plazas` int(11) DEFAULT NULL,
   `plazo_inscripcion` text,
   `inscripcion` varchar(255) DEFAULT NULL,
+  `gestion` text,
+  `modalidad` text,
+  `codigo_solicitud` varchar(255) DEFAULT NULL,
+  `codigo_ice` varchar(255) DEFAULT NULL,
+  `formador` varchar(255) DEFAULT NULL,
+  `financiacion` text,
+  `contacto` varchar(255) DEFAULT NULL,
+  `impartido` int(1) DEFAULT NULL,
+  `bloque` varchar(255) DEFAULT NULL,
+  `observaciones` text,
   PRIMARY KEY (`id`),
   KEY `fb_groupby_titulo_INDEX` (`titulo`(10))
 ) ENGINE=MyISAM AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
@@ -2980,7 +2990,7 @@ CREATE TABLE IF NOT EXISTS `expedientes_directores` (
   KEY `fb_parent_fk_parent_id_INDEX` (`parent_id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
 
--- Volcando datos para la tabla tolteca-fabrik.expedientes_directores: ~1 rows (aproximadamente)
+-- Volcando datos para la tabla tolteca-fabrik.expedientes_directores: ~0 rows (aproximadamente)
 /*!40000 ALTER TABLE `expedientes_directores` DISABLE KEYS */;
 INSERT INTO `expedientes_directores` (`id`, `parent_id`, `tipo`, `profesor`) VALUES
 	(1, 1, 'T', 0);
@@ -2999,7 +3009,7 @@ CREATE TABLE IF NOT EXISTS `expedientes_evaluaciones` (
   KEY `fb_parent_fk_parent_id_INDEX` (`parent_id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
 
--- Volcando datos para la tabla tolteca-fabrik.expedientes_evaluaciones: ~1 rows (aproximadamente)
+-- Volcando datos para la tabla tolteca-fabrik.expedientes_evaluaciones: ~0 rows (aproximadamente)
 /*!40000 ALTER TABLE `expedientes_evaluaciones` DISABLE KEYS */;
 INSERT INTO `expedientes_evaluaciones` (`id`, `parent_id`, `curso`, `evaluacion1`, `evaluacion2`, `cf_superacion`) VALUES
 	(1, 1, NULL, '', '', '');
@@ -3016,7 +3026,7 @@ CREATE TABLE IF NOT EXISTS `expedientes_incidencias` (
   KEY `fb_parent_fk_parent_id_INDEX` (`parent_id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
 
--- Volcando datos para la tabla tolteca-fabrik.expedientes_incidencias: ~1 rows (aproximadamente)
+-- Volcando datos para la tabla tolteca-fabrik.expedientes_incidencias: ~0 rows (aproximadamente)
 /*!40000 ALTER TABLE `expedientes_incidencias` DISABLE KEYS */;
 INSERT INTO `expedientes_incidencias` (`id`, `parent_id`, `fec_incidencia`, `incidencia`) VALUES
 	(1, 1, '0000-00-00 00:00:00', '1');
@@ -3036,7 +3046,7 @@ CREATE TABLE IF NOT EXISTS `expedientes_matriculas` (
   KEY `fb_parent_fk_parent_id_INDEX` (`parent_id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
 
--- Volcando datos para la tabla tolteca-fabrik.expedientes_matriculas: ~1 rows (aproximadamente)
+-- Volcando datos para la tabla tolteca-fabrik.expedientes_matriculas: ~0 rows (aproximadamente)
 /*!40000 ALTER TABLE `expedientes_matriculas` DISABLE KEYS */;
 INSERT INTO `expedientes_matriculas` (`id`, `parent_id`, `matricula`, `curso`, `complementos_formativos`, `abonada`, `anulada`) VALUES
 	(1, 1, '', NULL, 0, 1, 0);
@@ -3056,7 +3066,7 @@ CREATE TABLE IF NOT EXISTS `expedientes_permanencia` (
   KEY `fb_parent_fk_parent_id_INDEX` (`parent_id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
 
--- Volcando datos para la tabla tolteca-fabrik.expedientes_permanencia: ~1 rows (aproximadamente)
+-- Volcando datos para la tabla tolteca-fabrik.expedientes_permanencia: ~0 rows (aproximadamente)
 /*!40000 ALTER TABLE `expedientes_permanencia` DISABLE KEYS */;
 INSERT INTO `expedientes_permanencia` (`id`, `parent_id`, `curso`, `modalidad`, `tipo_baja`, `fec_ini_baja`, `fec_fin_baja`) VALUES
 	(1, 1, NULL, 'TC', 'E', '0000-00-00 00:00:00', '0000-00-00 00:00:00');
@@ -3423,7 +3433,7 @@ CREATE TABLE IF NOT EXISTS `programas_plazas` (
   KEY `fb_parent_fk_parent_id_INDEX` (`parent_id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
 
--- Volcando datos para la tabla tolteca-fabrik.programas_plazas: ~1 rows (aproximadamente)
+-- Volcando datos para la tabla tolteca-fabrik.programas_plazas: ~0 rows (aproximadamente)
 /*!40000 ALTER TABLE `programas_plazas` DISABLE KEYS */;
 INSERT INTO `programas_plazas` (`id`, `parent_id`, `curso`, `numero`) VALUES
 	(1, 1, NULL, 0);
