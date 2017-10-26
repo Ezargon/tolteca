@@ -1,1 +1,3 @@
 configuration.php
+.settings/*
+administrator/cache/*
