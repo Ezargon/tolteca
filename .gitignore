@@ -1,1 +1,7 @@
 configuration.php
+/.settings/*
+/tmp/*
+*.txt
+.buildpath
+.project
+.gitignore
