@@ -1,3 +1,5 @@
-configuration.php
-.settings/*
-administrator/cache/*
+/configuration.php
+/.gitignore
+/.htaccess
+/.settings/*
+/administrator/cache/*
