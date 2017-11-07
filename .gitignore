@@ -1,4 +1,5 @@
 configuration.php
+/administrator/cache/*
 /.settings/*
 /tmp/*
 *.txt
