@@ -19,7 +19,7 @@ JHtml::_('behavior.keepalive');
 	} else : {
 		echo JText::sprintf('MOD_LOGIN_HINAME', htmlspecialchars($user->get('username')));
 	} endif; ?>
-	[<a href="salir">Salir</a>]
+	[<a href="intranet/salir">Salir</a>]
 	</div>
 <?php endif; ?>
      
