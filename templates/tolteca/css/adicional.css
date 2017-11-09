@@ -343,7 +343,12 @@ div.plg-fileupload > div
 .fabrikgrid_no_presentado.btn-success:focus,
 .fabrikgrid_no_presentado.btn-success:active,
 .fabrikgrid_no_presentado.btn-success.active,
-.fabrikgrid_no_presentado.btn-success.disabled
+.fabrikgrid_no_presentado.btn-success.disabled,
+.fabrikgrid_no_apto.btn-success:hover,
+.fabrikgrid_no_apto.btn-success:focus,
+.fabrikgrid_no_apto.btn-success:active,
+.fabrikgrid_no_apto.btn-success.active,
+.fabrikgrid_no_apto.btn-success.disabled
 {
 	color: #fff;
 	background-color: #bd362f !important;
@@ -356,9 +361,9 @@ div.plg-fileupload > div
 	margin-bottom:8px;
 
 }
-.fabrikGroup
+.fabrikElement
 {
-
+	margin-right:10px;
 }
 tr.fabrikSubGroupElements td
 {
