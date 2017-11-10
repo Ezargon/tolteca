@@ -7,3 +7,4 @@
 2017-09-13T10:25:51+00:00	INFO 127.0.0.1	joomlafailure	El usuario y contraseña no coinciden o usted aún no tiene una cuenta.
 2017-09-13T10:25:55+00:00	INFO 127.0.0.1	joomlafailure	El usuario y contraseña no coinciden o usted aún no tiene una cuenta.
 2017-10-11T11:25:04+00:00	INFO 127.0.0.1	joomlafailure	El usuario y contraseña no coinciden o usted aún no tiene una cuenta.
+2017-10-27T11:58:10+00:00	INFO 193.147.170.157	joomlafailure	El usuario y contraseña no coinciden o usted aún no tiene una cuenta.
