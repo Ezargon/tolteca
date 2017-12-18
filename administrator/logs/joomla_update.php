@@ -33,3 +33,11 @@
 2017-11-08T12:02:51+00:00	INFO 127.0.0.1	update	Borrando los archivos y carpetas que han sido eliminados.
 2017-11-08T12:02:52+00:00	INFO 127.0.0.1	update	Limpieza posterior a la instalación.
 2017-11-08T12:02:52+00:00	INFO 127.0.0.1	update	La actualización a la versión 3.8.2 se ha completado.
+2017-12-18T11:56:04+00:00	INFO 127.0.0.1	update	Actualización inciciadoa por el usuario Ezequiel (1). La versión antigua es la 3.8.2.
+2017-12-18T11:56:09+00:00	INFO 127.0.0.1	update	Descargando el archivo desde https://s3-us-west-2.amazonaws.com/joomla-official-downloads/joomladownloads/joomla3/Joomla_3.8.3-Stable-Update_Package.zip?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=AKIAIZ6S3Q3YQHG57ZRA%2F20171218%2Fus-west-2%2Fs3%2Faws4_request&X-Amz-Date=20171218T115816Z&X-Amz-Expires=60&X-Amz-SignedHeaders=host&X-Amz-Signature=609b59e8da691eff06f273aae97964c6d8c678b68b20bbe6a4f8f282054ac6a0.
+2017-12-18T11:56:21+00:00	INFO 127.0.0.1	update	El archivoe Joomla_3.8.3-Stable-Update_Package.zip se ha descargado.
+2017-12-18T11:56:21+00:00	INFO 127.0.0.1	update	Iniciando la instalación de la versión nueva.
+2017-12-18T11:56:53+00:00	INFO 127.0.0.1	update	Finalizando la instalación.
+2017-12-18T11:56:53+00:00	INFO 127.0.0.1	update	Borrando los archivos y carpetas que han sido eliminados.
+2017-12-18T11:56:55+00:00	INFO 127.0.0.1	update	Limpieza posterior a la instalación.
+2017-12-18T11:56:55+00:00	INFO 127.0.0.1	update	La actualización a la versión 3.8.3 se ha completado.
