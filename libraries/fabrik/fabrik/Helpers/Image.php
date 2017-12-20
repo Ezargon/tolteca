@@ -34,7 +34,6 @@ class Image
 	public static function getLibs()
 	{
 		$libs = array();
-
 		$gds  = self::testGD();
 
 		foreach ($gds as $key => $val)
@@ -59,16 +58,11 @@ class Image
 	 *
 	 * @throws RuntimeException
 	 *
-	 * @return  \Fabrik\Helpers\Image\Image  image lib
+	 * @return  \Fabrik\Image\Image  image lib
 	 */
 	public static function loadLib($lib)
 	{
-		if ($lib === 'value')
-		{
-			throw new RuntimeException("Fabrik: No image image processing library is available, make sure GD is installed in PHP and check your upload element settings!");
-		}
-
-		$className = '\Fabrik\Helpers\Image\Image' . strtolower($lib);
+		$className = '\Fabrik\Helpers\Image\Image' . $lib;
 
 		try {
             $class = new $className;

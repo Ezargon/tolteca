@@ -348,14 +348,11 @@ class FabrikFEModelPluginmanager extends FabModel
 		$langFile = 'plg_' . $folder . '_' . $className;
 		$langPath = $client->path . '/plugins/' . $folder . '/' . $className;
 
-		// load both default and current, so untranslated strings fall back to default
-		$lang->load($langFile, $langPath, $lang->getDefault(), false, false);
-		$lang->load($langFile, $langPath, null, false, false);
+		$lang->load($langFile, $langPath, null, false, false) || $lang->load($langFile, $langPath, $lang->getDefault(), false, false);
 
 		// Load system ini file
 		$langFile .= '.sys';
-		$lang->load($langFile, $langPath, $lang->getDefault(), false, false);
-		$lang->load($langFile, $langPath, null, false, false);
+		$lang->load($langFile, $langPath, null, false, false) || $lang->load($langFile, $langPath, $lang->getDefault(), false, false);
 
 		if (!is_object($plugIn))
 		{
@@ -485,10 +482,7 @@ class FabrikFEModelPluginmanager extends FabModel
 
 				$langFile = 'plg_' . $folder . '_' . $element->plugin;
 				$langPath = $client->path . '/plugins/' . $folder . '/' . $element->plugin;
-
-				// load both default and current, so untranslated strings fall back to default
-				$lang->load($langFile, $langPath, $lang->getDefault(), false, false);
-				$lang->load($langFile, $langPath, null, false, false);
+				$lang->load($langFile, $langPath, null, false, false) || $lang->load($langFile, $langPath, $lang->getDefault(), false, false);
 
 				$listModel = $form->getListModel();
 				$pluginModel->setContext($groupModel, $form, $listModel);

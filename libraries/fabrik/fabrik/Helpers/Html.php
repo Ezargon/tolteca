@@ -2017,20 +2017,14 @@ EOD;
 		if (!array_key_exists('minTriggerChars', $opts))
 		{
 			$usersConfig           = JComponentHelper::getParams('com_fabrik');
-			$json->minTriggerChars = (int) $usersConfig->get('autocomplete_min_trigger_chars', '3');
+			$json->minTriggerChars = (int) $usersConfig->get('autocomplete_min_trigger_chars', '1');
 		}
 
         if (!array_key_exists('max', $opts))
         {
             $usersConfig = JComponentHelper::getParams('com_fabrik');
-            $json->max   = (int) $usersConfig->get('autocomplete_max_rows', '10');
+            $json->max   = (int) $usersConfig->get('autocomplete_max_rows', '1');
         }
-
-		if (!array_key_exists('autoLoadSingleResult', $opts))
-		{
-			$usersConfig           = JComponentHelper::getParams('com_fabrik');
-			$json->autoLoadSingleResult = (int) $usersConfig->get('autocomplete_autoload_single', '0');
-		}
 
 		$app       = JFactory::getApplication();
 		$package   = $app->getUserState('com_fabrik.package', 'fabrik');
@@ -3072,20 +3066,14 @@ EOD;
 	 * @param   string $icon       Icon class name
 	 * @param   string $label      Label
 	 * @param   string $properties Additional html properties
-     * @param   bool   $nameOnly   Return just the icon name
 	 *
 	 * @return string
 	 */
-	public static function icon($icon, $label = '', $properties = '', $nameOnly = false)
+	public static function icon($icon, $label = '', $properties = '')
 	{
-		$icon = Html::getLayout('fabrik-icon')
-            ->render((object) array(
-                    'icon' => $icon,
-                    'properties' => $properties,
-                    'nameOnly' => $nameOnly
-            ));
+		$icon = Html::getLayout('fabrik-icon')->render((object) array('icon' => $icon, 'properties' => $properties));
 
-		if ($label != '' && !$nameOnly)
+		if ($label != '')
 		{
 			$icon .= ' ' . $label;
 		}

@@ -17,8 +17,6 @@ define(['jquery', 'fab/element'], function (jQuery, FbElement) {
         options: {
             'dateTimeFormat': '',
             'locale'        : 'en-GB',
-            'allowedDates'  : [],
-            'allowedClasses': [],
             'calendarSetup' : {
                 'eventName'   : 'click',
                 'ifFormat'    : '%Y/%m/%d',
@@ -32,7 +30,8 @@ define(['jquery', 'fab/element'], function (jQuery, FbElement) {
                 'step'        : 2,
                 'cache'       : false,
                 'showOthers'  : false,
-                'advanced'    : false
+                'advanced'    : false,
+                'allowedDates': []
             }
         },
 
@@ -57,14 +56,6 @@ define(['jquery', 'fab/element'], function (jQuery, FbElement) {
          */
         convertAllowedDates: function () {
             for (var i = 0; i < this.options.allowedDates.length; i++) {
-                var parts = this.options.allowedDates[i].split('|');
-                if (parts.length > 1) {
-                    this.options.allowedClasses[i] = parts[1];
-                    this.options.allowedDates[i] = parts[0];
-                }
-                else {
-                    this.options.allowedClasses[i] = false;
-                }
                 this.options.allowedDates[i] = new Date(this.options.allowedDates[i]);
                 // apply the TZ offset, otherwise if (say) GMT -6, 2017-02-15 will become 2017-01-14 18:00:00
 	            this.options.allowedDates[i].setTime(
@@ -199,14 +190,10 @@ define(['jquery', 'fab/element'], function (jQuery, FbElement) {
                 for (var i = 0; i < allowed.length; i++) {
                     if (allowed[i].format('%Y%m%d') === date.format('%Y%m%d')) {
                         matched = true;
-                        break;
                     }
                 }
                 if (!matched) {
                     return true;
-                }
-                else {
-                    return this.options.allowedClasses[i];
                 }
             }
 
@@ -556,7 +543,11 @@ define(['jquery', 'fab/element'], function (jQuery, FbElement) {
             var date;
 
             if (typeOf(val) === 'string') {
-                if (val === '') {
+                // $$$ hugh - if val is empty string, like from a clearForm(), the Date.parse() is
+                // going to return null, swhich will then blow up in a few lines.
+                date = Date.parse(val);
+
+                if (date === null) {
                     // Yes, but we still need to clear the fields! (e.g. from reset())
                     this._getSubElements().each(function (subEl) {
                         subEl.value = '';
@@ -577,14 +568,6 @@ define(['jquery', 'fab/element'], function (jQuery, FbElement) {
                     }
 
                     return;
-                }
-                else {
-                    /*
-                     * need to use parseDate() with a format string instead of just parse(), otherwise if advanced
-                     * formats is enabled, parse() will overridden and use the "culture" specific parsing, and if
-                     * language is en-GB, that will switch day and month round.
-                     */
-                    date = Date.parseDate(val, '%Y-%m-%d %H:%M');
                 }
             } else {
                 date = val;
