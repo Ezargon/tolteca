@@ -16,18 +16,5 @@ echo "
 .fabrikGroup {
 clear: left;
 }
-
-/* missing from some bootstrap templates (like JoomlArt) */
-
-.row-fluid:before,
-.row-fluid:after {
-	display: table;
-	content: \"\";
-	line-height: 0;
-}
-
-.row-fluid:after {
-	clear: both;
-}
 ";
 ?>

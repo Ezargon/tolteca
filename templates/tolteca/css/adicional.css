@@ -404,7 +404,3 @@ tr.fabrikSubGroupElements td
 .fabrikinput.button.active {
 	background-color: #bd362f \9;
 }
-form.fabrikForm label.fabrikLabel
-{
-	font-weight:bold;
-}
